@@ -22,6 +22,64 @@
   <!-- Nepcha Analytics (nepcha.com) -->
   <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
   <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+  <style>
+
+    .upload-container {
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    input[type="file"] {
+        display: none;
+    }
+
+    label {
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    label:hover {
+        background-color: transparent;
+    }
+
+    #file-label {
+        font-size: 1.2rem;
+    }
+
+    #selected-files {
+        margin-top: 10px;
+        text-align: left;
+    }
+
+    .image-container {
+        display: inline-block;
+        margin-right: 10px;
+        position: relative;
+    }
+
+    img {
+        width: 250px; /* Adjust the width to make the images a little bit larger */
+        height: 250px; /* Adjust the height accordingly */
+        margin-bottom: 10px;
+        cursor: pointer;
+    }
+
+    .delete-button {
+        border-radius: 5px;
+        padding: 3px 6px;
+        cursor: pointer;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        display: none;
+        font-size: 0.8rem;
+    }
+
+    .image-container:hover .delete-button {
+        display: block;
+    }
+</style>
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
@@ -332,29 +390,12 @@
     <!-- End Navbar -->
     <div class="container-fluid py-4">
 <!-- Body Starts here -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    <h3 class="ps-4 ms-2 font-weight-bolder opacity-6">Media Library</h3>
+    <div class="upload-container">
+        <label for="file-upload" id="file-label" class="btn bg-gradient-primary">Add New</label>
+        <input type="file" id="file-upload" accept="image/*" multiple onchange="displaySelectedFiles()">
+        <div id="selected-files"></div>
+    </div>
 
 
 <!-- Body Ends Here -->
@@ -659,6 +700,47 @@ function refreshTime() {
   setInterval(refreshTime, 1000);
 
     </script>
+        <script>
+          function displaySelectedFiles() {
+              const fileInput = document.getElementById('file-upload');
+              const selectedFilesContainer = document.getElementById('selected-files');
+  
+              for (let i = 0; i < fileInput.files.length; i++) {
+                  const file = fileInput.files[i];
+                  const fileName = file.name;
+  
+                  // Create a container for the image and delete button
+                  const imageContainer = document.createElement('div');
+                  imageContainer.className = 'image-container';
+  
+                  // Create the image element
+                  const imageElement = document.createElement('img');
+                  imageElement.src = URL.createObjectURL(file);
+  
+                  // Create the delete button
+                  const deleteButton = document.createElement('button');
+                  deleteButton.textContent = 'Delete';
+                  deleteButton.className = 'delete-button';
+                  deleteButton.addEventListener('click', () => {
+                      // Remove the image container when the delete button is clicked
+                      selectedFilesContainer.removeChild(imageContainer);
+                  });
+  
+                  // Append the image and delete button to the container
+                  imageContainer.appendChild(imageElement);
+                  imageContainer.appendChild(deleteButton);
+  
+                  // Append the container to the selected files container
+                  selectedFilesContainer.appendChild(imageContainer);
+  
+                  // Add a click event listener to show the delete button on image click
+                  imageElement.addEventListener('click', () => {
+                      deleteButton.style.display = 'block';
+                  });
+              }
+          }
+      </script>
+  
 </body>
 
 </html>

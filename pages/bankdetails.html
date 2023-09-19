@@ -21,7 +21,8 @@
   <link id="pagestyle" href="../assets/css/soft-ui-dashboard.css?v=1.0.7" rel="stylesheet" />
   <!-- Nepcha Analytics (nepcha.com) -->
   <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
-  <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+  
+ 
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
@@ -334,27 +335,14 @@
 <!-- Body Starts here -->
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  <div class="card-body pt-4 pb-2">
+    <button class="btn btn-primary mb-3" id="showForm">Add</button>
+    
+    <!-- Display submitted data here -->
+    <div id="submittedDataList"></div>
+  </div>
+  
+ 
 
 
 <!-- Body Ends Here -->
@@ -659,6 +647,101 @@ function refreshTime() {
   setInterval(refreshTime, 1000);
 
     </script>
+
+<script>
+  // Counter to keep track of the number of forms submitted
+  var submissionCount = 0;
+
+  // Event listener to show/hide the form
+  document.getElementById("showForm").addEventListener("click", function() {
+    createForm();
+  });
+
+  // Function to create a new form
+  function createForm() {
+    submissionCount++;
+
+    // Create a new form element
+    var form = document.createElement("form");
+    form.id = "bankForm" + submissionCount;
+    form.style.display = "block";
+    
+    // Create form inputs
+    var nameInput = document.createElement("input");
+    nameInput.type = "text";
+    nameInput.className = "form-control";
+    nameInput.placeholder = "Enter name";
+
+    var bankNameInput = document.createElement("input");
+    bankNameInput.type = "text";
+    bankNameInput.className = "form-control";
+    bankNameInput.placeholder = "Enter bank name";
+
+    var ifcCodeInput = document.createElement("input");
+    ifcCodeInput.type = "text";
+    ifcCodeInput.className = "form-control";
+    ifcCodeInput.placeholder = "Enter IFC code";
+
+    // Create a submit button for the form
+    var submitButton = document.createElement("button");
+    submitButton.type = "submit";
+    submitButton.className = "btn btn-primary";
+    submitButton.textContent = "Submit";
+
+    // Event listener to handle form submission
+    form.addEventListener("submit", function(event) {
+      event.preventDefault(); // Prevent the form from submitting in the traditional way
+
+      // Get the form input values
+      var name = nameInput.value;
+      var bankName = bankNameInput.value;
+      var ifcCode = ifcCodeInput.value;
+
+      // Display the submitted data with Edit and Delete buttons
+      var submittedDataContainer = document.getElementById("submittedDataList");
+      var submittedDataDiv = document.createElement("div");
+      submittedDataDiv.innerHTML = `
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Bank Name:</strong> ${bankName}</p>
+        <p><strong>IFC Code:</strong> ${ifcCode}</p>
+        <button class="btn btn-info btn-sm edit-btn ">Edit</button>
+        <button class="btn btn-danger btn-sm delete-btn">Delete</button>
+      `;
+
+      // Add event listeners for Edit and Delete buttons
+      var editButton = submittedDataDiv.querySelector(".edit-btn");
+      var deleteButton = submittedDataDiv.querySelector(".delete-btn");
+
+      editButton.addEventListener("click", function() {
+        // Handle edit action here
+        alert("Edit clicked for entry: " + name);
+      });
+
+      deleteButton.addEventListener("click", function() {
+        // Handle delete action here
+        submittedDataContainer.removeChild(submittedDataDiv);
+      });
+
+      submittedDataContainer.appendChild(submittedDataDiv);
+
+      // Clear form inputs
+      nameInput.value = "";
+      bankNameInput.value = "";
+      ifcCodeInput.value = "";
+    });
+
+    // Add form inputs and submit button to the form
+    form.appendChild(nameInput);
+    form.appendChild(bankNameInput);
+    form.appendChild(ifcCodeInput);
+    form.appendChild(submitButton);
+
+    // Add the form to the page
+    document.getElementById("submittedDataList").appendChild(form);
+  }
+</script>
+
+
 </body>
 
 </html>
