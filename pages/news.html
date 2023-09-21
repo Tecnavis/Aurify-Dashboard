@@ -22,6 +22,79 @@
   <!-- Nepcha Analytics (nepcha.com) -->
   <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
   <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+  <style>/* Styles for the card */
+    .card {
+        width: 1100px; /* Increased width */
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 4px 6px rgba(33, 26, 26, 0.1);
+        margin: 0 auto;
+        text-align: center;
+    }
+    
+    /* Button styles */
+    .btn {
+        padding: 5px 10px; /* Smaller button size */
+        margin: 5px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    
+    /* News area styles */
+    .news-area {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 10px;
+        margin-top: 10px;
+        text-align: left;
+    }
+    
+    /* Modal styles */
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .modal-content {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Adjust the button placement */
+    .button-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    /* Style for spacing between buttons */
+    .btn-spacing {
+        margin-top: 5px;
+    }
+    
+    /* Style for each news item */
+    .news-item {
+        display: flex; /* Make it a flex container */
+        justify-content: space-between; /* Push content (buttons) to the right corner */
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 10px;
+        margin-top: 10px;
+        text-align: left;
+    }
+    </style>
+
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
@@ -334,25 +407,38 @@
 <!-- Body Starts here -->
 
 
+  
+<body>
+    <div class="card">
+        <div class="button-container">
+            <h3>Latest News</h3>
+            <button class="btn btn-primary" id="addNewsBtn">Upload</button>
+        </div>
+        <div class="news-area" id="latestNewsArea">
+            
+        </div>
+    </div>
 
+    <!-- News Upload Modal -->
+    <div class="modal" id="newsModal">
+        <div class="modal-content">
+            <h2>Upload News</h2>
+            <form>
+                <label for="newsTitle">Title:</label>
+                <input type="text" id="newsTitle" name="newsTitle">
+                <br>
+                <label for="newsContent">Content:</label>
+                <textarea id="newsContent" name="newsContent" rows="4"></textarea>
+                <br>
+                <button class="btn btn-primary" type="submit">Upload</button>
+                <button class="btn btn-primary" id="closeModalBtn">Cancel</button>
+            </form>
+        </div>
+    </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+   
+</body>
+</html>
 
 
 
@@ -659,6 +745,68 @@ function refreshTime() {
   setInterval(refreshTime, 1000);
 
     </script>
+
+<script>
+  const addNewsBtn = document.getElementById('addNewsBtn');
+  const newsModal = document.getElementById('newsModal');
+  const closeModalBtn = document.getElementById('closeModalBtn');
+  const latestNewsArea = document.getElementById('latestNewsArea');
+  const deleteButtons = document.querySelectorAll('.delete-btn');
+
+  addNewsBtn.addEventListener('click', () => {
+      newsModal.style.display = 'block';
+  });
+
+  closeModalBtn.addEventListener('click', () => {
+      newsModal.style.display = 'none';
+  });
+
+  // Function to handle news submission
+  function uploadNews(event) {
+      event.preventDefault(); // Prevent the form from submitting
+
+      const newsTitle = document.getElementById('newsTitle').value;
+      const newsContent = document.getElementById('newsContent').value;
+
+      // Create a news element
+      const newsItem = document.createElement('div');
+      newsItem.classList.add('news-item');
+      newsItem.innerHTML = `
+          <h4>${newsTitle}</h4>
+          <p>${newsContent}</p>
+          <div class="news-item-buttons">
+              <button class="btn btn-success">Edit</button>
+              <button class="btn btn-danger delete-btn">Delete</button>
+          </div>
+      `;
+
+      // Add the news element to the latest news area
+      latestNewsArea.appendChild(newsItem);
+
+      // Clear the form and close the modal
+      document.getElementById('newsTitle').value = '';
+      document.getElementById('newsContent').value = '';
+      newsModal.style.display = 'none';
+
+      // Add event listener to the new delete button
+      const newDeleteButton = newsItem.querySelector('.delete-btn');
+      newDeleteButton.addEventListener('click', () => {
+          latestNewsArea.removeChild(newsItem);
+      });
+  }
+
+  // Add an event listener to the news upload form
+  const uploadForm = document.querySelector('form');
+  uploadForm.addEventListener('submit', uploadNews);
+
+  // Add event listeners to existing delete buttons
+  deleteButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+          const newsItem = button.parentElement.parentElement;
+          latestNewsArea.removeChild(newsItem);
+      });
+  });
+</script>
 </body>
 
 </html>

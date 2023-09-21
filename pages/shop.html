@@ -22,6 +22,29 @@
   <!-- Nepcha Analytics (nepcha.com) -->
   <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
   <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+    }
+
+    .button-container {
+        margin: 20px;
+        margin-right: 620px;
+    }
+
+    .button {
+        padding: 10px 20px;
+        font-size: 18px;
+        cursor: pointer;
+    }
+
+    .button:hover {
+        background-color: #ddd;
+    }
+</style>
+
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
@@ -334,25 +357,14 @@
 <!-- Body Starts here -->
 
 
+    <div class="button-container">
+        <button class="button btn btn-primary mb-3" onclick="redirectTo404('Category')">Category</button>
+        <button class="button btn btn-primary mb-3" onclick="redirectTo404('Products')">Products</button>
+        <button class="button btn btn-primary mb-3" onclick="redirectTo404('Orders')">Orders</button>
+        <button class="button btn btn-primary mb-3" onclick="redirectTo404('Banner')">Banner</button>
+    </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+   
 
 
 
@@ -659,6 +671,14 @@ function refreshTime() {
   setInterval(refreshTime, 1000);
 
     </script>
+
+<script>
+  function redirectTo404(pageName) {
+      // Redirect to a 404 page or display an error message.
+      // For simplicity, we're using a JavaScript alert here.
+      alert(pageName + " not found (404 error)!");
+  }
+</script>
 </body>
 
 </html>

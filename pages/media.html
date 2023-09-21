@@ -74,6 +74,7 @@
         right: 5px;
         display: none;
         font-size: 0.8rem;
+        
     }
 
     .image-container:hover .delete-button {
@@ -390,12 +391,16 @@
     <!-- End Navbar -->
     <div class="container-fluid py-4">
 <!-- Body Starts here -->
+<div class="media-library">
     <h3 class="ps-4 ms-2 font-weight-bolder opacity-6">Media Library</h3>
     <div class="upload-container">
         <label for="file-upload" id="file-label" class="btn bg-gradient-primary">Add New</label>
         <input type="file" id="file-upload" accept="image/*" multiple onchange="displaySelectedFiles()">
-        <div id="selected-files"></div>
+        <div id="selected-files" class="image-list"></div>
     </div>
+</div>
+
+
 
 
 <!-- Body Ends Here -->
