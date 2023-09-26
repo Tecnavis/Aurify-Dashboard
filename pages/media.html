@@ -391,14 +391,17 @@
     <!-- End Navbar -->
     <div class="container-fluid py-4">
 <!-- Body Starts here -->
+<!-- Body Starts here -->
 <div class="media-library">
-    <h3 class="ps-4 ms-2 font-weight-bolder opacity-6">Media Library</h3>
-    <div class="upload-container">
-        <label for="file-upload" id="file-label" class="btn bg-gradient-primary">Add New</label>
-        <input type="file" id="file-upload" accept="image/*" multiple onchange="displaySelectedFiles()">
-        <div id="selected-files" class="image-list"></div>
-    </div>
+  <h3 class="ps-4 ms-2 font-weight-bolder opacity-6">Media Library</h3>
+  <div class="upload-container">
+    <!-- Single "Add" button for all file types -->
+    <label for="file-upload" id="file-label" class="btn bg-gradient-primary">Add</label>
+    <input type="file" id="file-upload" accept="image/*,video/*,audio/*" multiple onchange="displaySelectedFiles()">
+    <div id="selected-files" class="file-list"></div>
+  </div>
 </div>
+
 
 
 
@@ -706,45 +709,78 @@ function refreshTime() {
 
     </script>
         <script>
-          function displaySelectedFiles() {
-              const fileInput = document.getElementById('file-upload');
-              const selectedFilesContainer = document.getElementById('selected-files');
-  
-              for (let i = 0; i < fileInput.files.length; i++) {
-                  const file = fileInput.files[i];
-                  const fileName = file.name;
-  
-                  // Create a container for the image and delete button
-                  const imageContainer = document.createElement('div');
-                  imageContainer.className = 'image-container';
-  
-                  // Create the image element
-                  const imageElement = document.createElement('img');
-                  imageElement.src = URL.createObjectURL(file);
-  
-                  // Create the delete button
-                  const deleteButton = document.createElement('button');
-                  deleteButton.textContent = 'Delete';
-                  deleteButton.className = 'delete-button';
-                  deleteButton.addEventListener('click', () => {
-                      // Remove the image container when the delete button is clicked
-                      selectedFilesContainer.removeChild(imageContainer);
-                  });
-  
-                  // Append the image and delete button to the container
-                  imageContainer.appendChild(imageElement);
-                  imageContainer.appendChild(deleteButton);
-  
-                  // Append the container to the selected files container
-                  selectedFilesContainer.appendChild(imageContainer);
-  
-                  // Add a click event listener to show the delete button on image click
-                  imageElement.addEventListener('click', () => {
-                      deleteButton.style.display = 'block';
-                  });
-              }
-          }
-      </script>
+  function displaySelectedFiles() {
+  const selectedFiles = document.getElementById('selected-files');
+  selectedFiles.innerHTML = ''; // Clear the previous content
+
+  const fileInput = document.getElementById('file-upload');
+  const files = fileInput.files;
+
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    const fileItem = document.createElement('div');
+    fileItem.classList.add('file-item');
+
+    // Display file name and type
+    const fileName = document.createElement('span');
+    fileName.textContent = file.name;
+    fileItem.appendChild(fileName);
+
+    // Display delete icon
+    const deleteIcon = document.createElement('span');
+    deleteIcon.classList.add('delete-icon');
+    deleteIcon.innerHTML = '❌';
+    deleteIcon.addEventListener('click', () => {
+      fileItem.remove();
+    });
+    fileItem.appendChild(deleteIcon);
+
+    // Display file type icon
+    const fileTypeIcon = document.createElement('span');
+    fileTypeIcon.classList.add('file-type-icon');
+    fileTypeIcon.textContent = getFileTypeIcon(file.type);
+    fileItem.appendChild(fileTypeIcon);
+
+    // Display the file itself (image, video, or audio)
+    const filePreview = document.createElement('div');
+    filePreview.classList.add('file-preview');
+    
+    if (file.type.startsWith('image/')) {
+      const image = document.createElement('img');
+      image.src = URL.createObjectURL(file);
+      filePreview.appendChild(image);
+    } else if (file.type.startsWith('video/')) {
+      const video = document.createElement('video');
+      video.src = URL.createObjectURL(file);
+      video.controls = true;
+      filePreview.appendChild(video);
+    } else if (file.type.startsWith('audio/')) {
+      const audio = document.createElement('audio');
+      audio.src = URL.createObjectURL(file);
+      audio.controls = true;
+      filePreview.appendChild(audio);
+    }
+    
+    fileItem.appendChild(filePreview);
+
+    selectedFiles.appendChild(fileItem);
+  }
+}
+
+function getFileTypeIcon(fileType) {
+  switch (fileType.split('/')[0]) {
+    case 'image':
+      return '🖼️';
+    case 'video':
+      return '📹';
+    case 'audio':
+      return '🔊';
+    default:
+      return '📄';
+  }
+}
+
+</script>
   
 </body>
 

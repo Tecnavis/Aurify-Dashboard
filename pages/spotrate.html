@@ -344,6 +344,39 @@
       </div>
     </nav>
     <!-- End Navbar -->
+   
+<body>
+    <label for="currency btn btn-primary mb-3"">Select a currency:</label>
+    <select id="currency">
+        <option value="USD">US Dollar (USD)</option>
+        <option value="EUR">Euro (EUR)</option>
+        <option value="GBP">British Pound (GBP)</option>
+        <option value="JPY">Japanese Yen (JPY)</option>
+        <option value="CAD">Canadian Dollar (CAD)</option>
+        <!-- Add more currencies as needed -->
+    </select>
+
+    <button onclick="getSelectedCurrency()">Get Selected Currency</button>
+
+    <p id="result"></p>
+
+    <script>
+        function getSelectedCurrency() {
+            var currencyDropdown = document.getElementById("currency");
+            var selectedCurrency = currencyDropdown.options[currencyDropdown.selectedIndex].text;
+            var result = document.getElementById("result");
+            result.textContent = "You selected: " + selectedCurrency;
+        }
+    </script>
+
+
+   
+    
+
+
+
+
+
     
       <div class="row justify-content-center">
         <div class="col-md-5 mt-4">
