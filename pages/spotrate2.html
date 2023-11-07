@@ -310,7 +310,7 @@
 
     
       <div class="row justify-content-center" >
-        <div class="col-md-5 mt-4">
+        <div class="col-md-10 mt-4">
           <div class="card">
             <div class="card-header pb-0 px-3">
               <h6 class="mb-0">Gold</h6>
@@ -330,11 +330,21 @@
                 <h6 class="mb-0">sliver</h6>
               </div>
               <div class="card-body pt-2 p-2">
-              <!-- TradingView Widget BEGIN -->
-              <div class="tradingview-widget-container">
-
-              </div>
-              <!-- TradingView Widget END -->
+                <ul class="list-group">
+                  <li class="list-group-item border-0 d-flex p-2 mb-2 bg-gray-100 border-radius-lg">
+                    <div class="d-flex flex-column">
+                      <h6 class="mb-3 text-sm">Oliver Liam</h6>
+                      <span class="mb-2 text-xs">Company Name: <span class="text-dark font-weight-bold ms-sm-2">Viking Burrito</span></span>
+                      <span class="mb-2 text-xs">Email Address: <span class="text-dark ms-sm-2 font-weight-bold">oliver@burrito.com</span></span>
+                      <span class="text-xs">VAT Number: <span class="text-dark ms-sm-2 font-weight-bold">FRB1235476</span></span>
+                    </div>
+                    <div class="ms-auto text-end">
+                      <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;"><i class="far fa-trash-alt me-2"></i>Delete</a>
+                      <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
+                    </div>
+                  </li>
+                  
+                </ul>
               </div>
             </div>
           </div>
@@ -725,119 +735,103 @@
                 <div class="col-6 d-flex align-items-center">
                   <h6 class="mb-0"></h6>
                 </div>
+               
               </div>
             </div>
             <div class="card-body p-1 pb-0">
-              <table class="table justify-content-center">
-                <thead>
-                  <tr>
-                    <th>Metal</th>
-                    <th>Purity</th>
-                    <th>Unit</th>
-                    <th>Sell (AED)</th>
-                    <th>Buy (AED)</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Gold</td>
-                    <td>999.9</td>
-                    <td>1 KG</td>
-                    <td>229007.35</td>
-                    <td>228174.24</td>
-                    <td>
-                      <button class="delete-row-button">Delete</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <form id="addRowForm">
-                <label for="metalInput">Metal:</label>
-                <input type="text" id="metalInput" required>
-                <label for="purityInput">Purity:</label>
-                <input type="number" id="purityInput" required>
-                <label for="unitInput">Unit:</label>
-                <input type="text" id="unitInput" required>
-                <button type="submit">Add Row</button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <script>
-        // Add an event listener to the form to add a new row
-        const addRowForm = document.getElementById("addRowForm");
-        addRowForm.addEventListener("submit", function (e) {
-          e.preventDefault();
-          addRow();
-        });
-      
-        // Function to add a new row to the table
-        function addRow() {
-          const tableBody = document.querySelector("table tbody");
-          const newRow = document.createElement("tr");
-      
-          const metalInput = document.getElementById("metalInput").value;
-          const purityInput = document.getElementById("purityInput").value;
-          const unitInput = document.getElementById("unitInput").value;
-      
-          const sellAED = calculateSellAED(purityInput, unitInput);
-          const buyAED = calculateBuyAED(purityInput, unitInput);
-      
-          // Add the new row with calculated values
-          newRow.innerHTML = `
-            <td>${metalInput}</td>
-            <td>${purityInput}</td>
-            <td>${unitInput}</td>
-            <td>${sellAED.toFixed(2)}</td>
-            <td>${buyAED.toFixed(2)}</td>
+      <table class="table justify-content-center">
+        <thead>
+          <tr>
+            <th>Metal</th>
+            <th>Purity</th>
+            <th>Unit</th>
+            <th>Sell (AED)</th>
+            <th>Buy (AED)</th>
+            <th>Sell<br>Premium</th>
+            <th>Sell<br>Charges</th>
+            <th>Buy<br>Premium</th>
+            <th>Buy<br>Charges</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Gold</td>
+            <td>999.9</td>
+            <td>1 KG</td>
+            <td>229,007.35</td>
+            <td>228,174.24</td>
+            <td>0</td>
+            <td>715</td>
+            <td>0</td>
+            <td>0</td>
             <td>
-              <button class="delete-row-button">Delete</button>
+              
+                <i class="fas fa-pencil-alt"></i>
+                &nbsp;
+              
+                <i class="fas fa-trash-alt"></i> 
+              
             </td>
-          `;
-      
-          tableBody.appendChild(newRow);
-      
-          // Clear the form inputs
-          document.getElementById("metalInput").value = "";
-          document.getElementById("purityInput").value = "";
-          document.getElementById("unitInput").value = "";
-      
-          // Add an event listener to the new delete button
-          const deleteButton = newRow.querySelector(".delete-row-button");
-          deleteButton.addEventListener("click", function () {
-            deleteRow(newRow);
-          });
-        }
-      
-        // Function to calculate the Sell (AED) value
-        function calculateSellAED(purity, unit) {
-          // Implement your calculation logic here
-          // For example, you can calculate based on purity and unit
-          return parseFloat(purity) * 1000; // Example calculation
-        }
-      
-        // Function to calculate the Buy (AED) value
-        function calculateBuyAED(purity, unit) {
-          // Implement your calculation logic here
-          // For example, you can calculate based on purity and unit
-          return parseFloat(purity) * 900; // Example calculation
-        }
-      
-        // Function to delete a row
-        function deleteRow(row) {
-          row.remove();
-        }
-      
-        // Add an event listener to the initial delete button
-        const deleteButton = document.querySelector(".delete-row-button");
-        deleteButton.addEventListener("click", function () {
-          deleteRow(deleteButton.parentElement.parentElement);
-        });
-      </script>
-      
+          </tr>
+          <tr>
+            <td>Gold</td>
+            <td>995</td>
+            <td>1 KG</td>
+            <td>227,861.60</td>
+            <td>227,056.07</td>
+            <td>0</td>
+            <td>688</td>
+            <td>0</td>
+            <td>0</td>
+            <td>
+                <i class="fas fa-pencil-alt"></i>
+                &nbsp;
+              
+                <i class="fas fa-trash-alt"></i> 
+            </td>
+          </tr>
+          <tr>
+            <td>Gold TEN TOLA</td>
+            <td>999</td>
+            <td>1 TTB</td>
+            <td>26,696.05</td>
+            <td>26,590.29</td>
+            <td>0</td>
+            <td>92</td>
+            <td>0</td>
+            <td>0</td>
+            <td>
+                <i class="fas fa-pencil-alt"></i>
+                &nbsp;
+              
+                <i class="fas fa-trash-alt"></i> 
+            </td>
+          </tr>
+          <tr>
+            <td>Gold</td>
+            <td>999.9</td>
+            <td>1 GM</td>
+            <td>229.00</td>
+            <td>228.17</td>
+            <td>0</td>
+            <td>0.71</td>
+            <td>0</td>
+            <td>0</td>
+            <td>
+                <i class="fas fa-pencil-alt"></i>
+                &nbsp;
+              
+                <i class="fas fa-trash-alt"></i> 
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+</div>
+</div>
+</div>
+</div>
       
 
      <!-- footer starts here -->
