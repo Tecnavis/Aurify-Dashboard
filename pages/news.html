@@ -53,12 +53,12 @@
     }
     
     /* News area styles */
-    .news-area {
+    /* .news-area {
         border: 1px solid #ccc;
         border-radius: 5px;
         padding: 10px;
         margin-top: 10px;
-        text-align: left;
+        text-align: left; */
     }
     
     /* Modal styles */
@@ -354,36 +354,46 @@
 
   
 
-  <div class="col-md-12">
-    <div class="card ">
-        <div class="button-container">
-          
-            <h5 style="padding-left: 45%;">Latest News</h5>
-            <button class="btn btn-primary" id="addNewsBtn">Upload</button>
-        </div>
-        <div class="news-area" id="latestNewsArea">
-            
-        </div>
-    </div>
+<div class="col-md-12">
+  <div class="card">
+      <div class="button-container">
+          <h5 style="padding-left: 45%;">Latest News</h5>
+          <button class="btn btn-primary" id="addNewsBtn">Upload</button>
+      </div>
+      <div class="news-area" id="latestNewsArea">
+          <!-- News content will be displayed here -->
+      </div>
+  </div>
 
-    <!-- News Upload Modal -->
-    <div class="modal" id="newsModal">
-        <div class="modal-content">
-            <h2>Upload News</h2>
-            <form>
-                <label for="newsTitle">Title:</label>
-                <input type="text" id="newsTitle" name="newsTitle">
-                <br>
-                <label for="newsContent">Content:</label>
-                <textarea id="newsContent" name="newsContent" rows="4"></textarea>
-                <br>
-                <button class="btn btn-primary" type="submit">Upload</button>
-                <button class="btn btn-primary" id="closeModalBtn">Cancel</button>
-            </form>
-        </div>
-    </div>
+  <!-- News Upload Modal -->
+  <div class="modal" id="newsModal" style="display: none;">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title">Upload News</h5>
+                  <button type="button" class="close" id="closeModalBtn" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                  <form>
+                      <div class="form-group">
+                          <label for="newsTitle">Title:</label>
+                          <input type="text" class="form-control" id="newsTitle" name="newsTitle">
+                      </div>
+                      <div class="form-group">
+                          <label for="newsContent">Content:</label>
+                          <textarea class="form-control" id="newsContent" name="newsContent" rows="4"></textarea>
+                      </div>
+                      <button class="btn btn-primary" type="submit">Upload</button>
+                      <button class="btn btn-secondary" id="closeModalBtn" data-dismiss="modal">Cancel</button>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
 </div>
-   
+
 <div class="col-md-12">
   <div class="card  "Style="margin-top:20px;">
       <div class="button-container">

@@ -278,12 +278,156 @@
 <!-- Body Starts here -->
 
 
-  <div class="card-body pt-4 pb-2">
-    <button class="btn btn-primary mb-3" id="showForm">Add</button>
-    
-    <!-- Display submitted data here -->
-    <div id="submittedDataList"></div>
+<div class="card-body pt-4 pb-2">
+  <button class="btn btn-primary mb-3" id="showForm">Add</button>
+</div>
+
+<!-- Modal -->
+<div class="modal mt-5" id="addModal">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title">Add Bank Details</h5>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+              <form id="bankForm">
+                  <div class="form-group">
+                      <label for="name">Name:</label>
+                      <input type="text" class="form-control" id="name">
+                  </div>
+                  <div class="form-group">
+                      <label for="IFCcode">IFC Code:</label>
+                      <input type="text" class="form-control" id="IFCcode">
+                  </div>
+                  <!-- Other bank details inputs can be added here -->
+              </form>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" id="saveDetails">Save</button>
+          </div>
+      </div>
   </div>
+</div>
+
+
+
+<script>
+
+  // Wait for the document to be fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Get the button element
+    var addButton = document.getElementById('showForm');
+
+    // Get the modal
+    var modal = document.getElementById('addModal');
+
+    // Get the button that saves the details
+    var saveButton = document.getElementById('saveDetails');
+
+    // When the "Add" button is clicked, show the modal
+    addButton.addEventListener('click', function() {
+        modal.style.display = 'block';
+    });
+
+    // When the save button is clicked, you can handle the form data here
+    saveButton.addEventListener('click', function() {
+        // Get the form values
+        var name = document.getElementById('name').value;
+        var IFCcode = document.getElementById('IFCcode').value;
+        // Retrieve other form inputs here if needed
+
+        // You can do something with the form data, for example:
+        console.log('Name:', name);
+        console.log('IFC Code:', IFCcode);
+        
+
+        // Close the modal after saving
+        modal.style.display = 'none';
+    });
+
+    // Close the modal when the close button or outside the modal is clicked
+    modal.addEventListener('click', function(event) {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+});
+
+</script>
+
+
+<!-- Your existing modal code -->
+<div class="modal mt-5" id="addModal">
+  <!-- ... (Your modal code) ... -->
+</div>
+
+<!-- This is where the submitted details will be displayed in cards -->
+<div id="displayCards" class="row"></div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      var addButton = document.getElementById('showForm');
+      var modal = document.getElementById('addModal');
+      var saveButton = document.getElementById('saveDetails');
+      var displayCards = document.getElementById('displayCards');
+
+      addButton.addEventListener('click', function() {
+          modal.style.display = 'block';
+      });
+
+      saveButton.addEventListener('click', function() {
+          var name = document.getElementById('name').value;
+          var IFCcode = document.getElementById('IFCcode').value;
+
+          // Create a new card for submitted details
+          var newCard = document.createElement('div');
+          newCard.className = 'col-md-6'; // Bootstrap column class for half width
+          newCard.innerHTML = `
+              <div class="card mb-3">
+                  <div class="card-body">
+                      <h5 class="card-title">Bank Details</h5>
+                      <p>Name: ${name}</p>
+                      <p>IFC Code: ${IFCcode}</p>
+                      <button class="btn btn-primary btn-sm edit">Edit</button>
+                      <button class="btn btn-danger btn-sm delete">Delete</button>
+                      <!-- You can add more fields here as needed -->
+                  </div>
+              </div>
+          `;
+          displayCards.appendChild(newCard); // Append the new card
+
+          modal.style.display = 'none';
+      });
+
+      // Event delegation for edit and delete buttons
+      displayCards.addEventListener('click', function(event) {
+          if (event.target.classList.contains('edit')) {
+              // Implement edit functionality
+              // You might want to open the modal and populate it with the card details for editing
+              // For example, you can extract the details from the card by traversing the DOM
+              // Then pre-fill the modal fields for editing
+              console.log('Edit button clicked');
+          } else if (event.target.classList.contains('delete')) {
+              // Implement delete functionality
+              // You'll want to remove the entire card from the display
+              event.target.closest('.card').remove();
+              console.log('Delete button clicked');
+          }
+      });
+
+      modal.addEventListener('click', function(event) {
+          if (event.target === modal) {
+              modal.style.display = 'none';
+          }
+      });
+  });
+</script>
+
+
+
+  
   
  
 
@@ -581,112 +725,7 @@
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/soft-ui-dashboard.min.js?v=1.0.7"></script>
   <!-- Date & Time -->
-  <script>
-  `use strict`;
-function refreshTime() {
-  const timeDisplay = document.getElementById("time");
-  const dateString = new Date().toLocaleString();
-  const formattedString = dateString.replace(", ", " - ");
-  timeDisplay.textContent = formattedString;
-}
-  setInterval(refreshTime, 1000);
-
-    </script>
-
-<script>
-  // Counter to keep track of the number of forms submitted
-  var submissionCount = 0;
-
-  // Event listener to show/hide the form
-  document.getElementById("showForm").addEventListener("click", function() {
-    createForm();
-  });
-
-  // Function to create a new form
-  function createForm() {
-    submissionCount++;
-
-    // Create a new form element
-    var form = document.createElement("form");
-    form.id = "bankForm" + submissionCount;
-    form.style.display = "block";
-    
-    // Create form inputs
-    var nameInput = document.createElement("input");
-    nameInput.type = "text";
-    nameInput.className = "form-control";
-    nameInput.placeholder = "Enter name";
-
-    var bankNameInput = document.createElement("input");
-    bankNameInput.type = "text";
-    bankNameInput.className = "form-control";
-    bankNameInput.placeholder = "Enter bank name";
-
-    var ifcCodeInput = document.createElement("input");
-    ifcCodeInput.type = "text";
-    ifcCodeInput.className = "form-control";
-    ifcCodeInput.placeholder = "Enter IFC code";
-
-    // Create a submit button for the form
-    var submitButton = document.createElement("button");
-    submitButton.type = "submit";
-    submitButton.className = "btn btn-primary";
-    submitButton.textContent = "Submit";
-
-    // Event listener to handle form submission
-    form.addEventListener("submit", function(event) {
-      event.preventDefault(); // Prevent the form from submitting in the traditional way
-
-      // Get the form input values
-      var name = nameInput.value;
-      var bankName = bankNameInput.value;
-      var ifcCode = ifcCodeInput.value;
-
-      // Display the submitted data with Edit and Delete buttons
-      var submittedDataContainer = document.getElementById("submittedDataList");
-      var submittedDataDiv = document.createElement("div");
-      submittedDataDiv.innerHTML = `
-        <p ><strong>Name:</strong> ${name}</p>
-        <p><strong>Bank Name:</strong> ${bankName}</p>
-        <p><strong>IFC Code:</strong> ${ifcCode}</p>
-        <button class=" btn btn-info btn-sm edit-btn ">Edit</button>
-        <button class ="btn btn-danger btn-sm delete-btn">Delete</button>
-      `;
-
-      // Add event listeners for Edit and Delete buttons
-      var editButton = submittedDataDiv.querySelector(".edit-btn");
-      var deleteButton = submittedDataDiv.querySelector(".delete-btn");
-
-      editButton.addEventListener("click", function() {
-        // Handle edit action here
-        alert("Edit clicked for entry: " + name);
-      });
-
-      deleteButton.addEventListener("click", function() {
-        // Handle delete action here
-        submittedDataContainer.removeChild(submittedDataDiv);
-      });
-
-      submittedDataContainer.appendChild(submittedDataDiv);
-
-      // Clear form inputs
-      nameInput.value = "";
-      bankNameInput.value = "";
-      ifcCodeInput.value = "";
-    });
-
-    // Add form inputs and submit button to the form
-    form.appendChild(nameInput);
-    form.appendChild(bankNameInput);
-    form.appendChild(ifcCodeInput);
-    form.appendChild(submitButton);
-
-    // Add the form to the page
-    document.getElementById("submittedDataList").appendChild(form);
-  }
-</script>
-
-
+ 
 </body>
 
 </html>
