@@ -349,7 +349,7 @@
                   <h6 class="mb-0"></h6>
                 </div>
                 <div class="col-6 text-end">
-                    <button class="btn btn-outline-primary btn-sm mb-0">
+                    <button class="btn btn-outline-primary btn-sm mb-0" onclick="editGoldBid()">
                       <i class="fas fa-pencil-alt"></i>
                     </button>
                   </div>
@@ -363,8 +363,8 @@
                       <h6 class="mb-1 text-dark font-weight-bold text-sm">Bid</h6>
                       
                     </div>
-                    <div class="d-flex align-items-center text-sm">
-                      $180
+                    <div class="d-flex align-items-center text-sm" id="goldBid">
+                      180
                      
                     </div>
                   </li>
@@ -373,8 +373,8 @@
                       <h6 class="text-dark mb-1 font-weight-bold text-sm">Spread</h6>
                       
                     </div>
-                    <div class="d-flex align-items-center text-sm">
-                      $250
+                    <div class="d-flex align-items-center text-sm" id="goldSpread" contenteditable="true">
+                      0
                      
                     </div>
                   </li>
@@ -383,9 +383,9 @@
                       <h6 class="text-dark mb-1 font-weight-bold text-sm">Bidding Price</h6>
                       
                     </div>
-                    <div class="d-flex align-items-center text-sm">
-                      $560
+                    <div class="d-flex align-items-center text-sm" id="goldBiddingPrice">
                       
+                      <!-- Final Value From Bid -->
                     </div>
                   </li>
               </ul>
@@ -400,7 +400,7 @@
                   <h6 class="mb-0"></h6>
                 </div>
                 <div class="col-6 text-end">
-                    <button class="btn btn-outline-primary btn-sm mb-0">
+                    <button class="btn btn-outline-primary btn-sm mb-0" onclick="editSilverBid()">
                       <i class="fas fa-pencil-alt"></i>
                     </button>
                   </div>
@@ -414,8 +414,8 @@
                       <h6 class="mb-1 text-dark font-weight-bold text-sm">Bid</h6>
                       
                     </div>
-                    <div class="d-flex align-items-center text-sm">
-                      $180
+                    <div class="d-flex align-items-center text-sm" id="silverBid">
+                      180
                      
                     </div>
                   </li>
@@ -424,8 +424,8 @@
                       <h6 class="text-dark mb-1 font-weight-bold text-sm">Spread</h6>
                       
                     </div>
-                    <div class="d-flex align-items-center text-sm">
-                      $250
+                    <div class="d-flex align-items-center text-sm" id="silverSpread" contenteditable="true"> 
+                      0
                      
                     </div>
                   </li>
@@ -434,9 +434,9 @@
                       <h6 class="text-dark mb-1 font-weight-bold text-sm">Bidding Price</h6>
                       
                     </div>
-                    <div class="d-flex align-items-center text-sm">
-                      $560
+                    <div class="d-flex align-items-center text-sm" id="silverBiddingPrice">
                       
+                      <!-- Final Value From Bid -->
                     </div>
                   </li>
               </ul>
@@ -455,7 +455,7 @@
                   <h6 class="mb-0"></h6>
                 </div>
                 <div class="col-6 text-end">
-                    <button class="btn btn-outline-primary btn-sm mb-0">
+                    <button class="btn btn-outline-primary btn-sm mb-0" onclick="editGoldAsk()">
                       <i class="fas fa-pencil-alt"></i>
                     </button>
                   </div>
@@ -470,8 +470,8 @@
                       <h6 class="mb-1 text-dark font-weight-bold text-sm">Ask</h6>
                       
                     </div>
-                    <div class="d-flex align-items-center text-sm">
-                      $180
+                    <div class="d-flex align-items-center text-sm" id="goldAsk">
+                      180
                      
                     </div>
                   </li>
@@ -480,8 +480,8 @@
                       <h6 class="text-dark mb-1 font-weight-bold text-sm">Spread</h6>
                       
                     </div>
-                    <div class="d-flex align-items-center text-sm">
-                      $250
+                    <div class="d-flex align-items-center text-sm" id="goldAskSpread">
+                      0
                      
                     </div>
                   </li>
@@ -490,8 +490,8 @@
                       <h6 class="text-dark mb-1 font-weight-bold text-sm">Asking Price</h6>
                       
                     </div>
-                    <div class="d-flex align-items-center text-sm">
-                      $560
+                    <div class="d-flex align-items-center text-sm" id="goldAskingPrice">
+                      <!-- Calculated Value with Bid -->
                       
                     </div>
                   </li>
@@ -507,7 +507,7 @@
                   <h6 class="mb-0"></h6>
                 </div>
                 <div class="col-6 text-end">
-                    <button class="btn btn-outline-primary btn-sm mb-0">
+                    <button class="btn btn-outline-primary btn-sm mb-0" onclick="editSilverAsk()">
                       <i class="fas fa-pencil-alt"></i>
                     </button>
                   </div>
@@ -521,8 +521,8 @@
                       <h6 class="mb-1 text-dark font-weight-bold text-sm">Ask</h6>
                       
                     </div>
-                    <div class="d-flex align-items-center text-sm">
-                      $180
+                    <div class="d-flex align-items-center text-sm" id="silverAsk">
+                      180
                      
                     </div>
                   </li>
@@ -531,8 +531,8 @@
                       <h6 class="text-dark mb-1 font-weight-bold text-sm">Spread</h6>
                       
                     </div>
-                    <div class="d-flex align-items-center text-sm">
-                      $250
+                    <div class="d-flex align-items-center text-sm" id="silverAskSpread">
+                      0
                      
                     </div>
                   </li>
@@ -541,8 +541,8 @@
                       <h6 class="text-dark mb-1 font-weight-bold text-sm">Asking Price</h6>
                       
                     </div>
-                    <div class="d-flex align-items-center text-sm">
-                      $560
+                    <div class="d-flex align-items-center text-sm" id="silverAskingPrice">
+                      <!-- Calculated Value with Bid -->
                       
                     </div>
                   </li>
@@ -836,6 +836,147 @@
         deleteButton.addEventListener("click", function () {
           deleteRow(deleteButton.parentElement.parentElement);
         });
+
+
+        //Edit Gold Bid values
+        const getGoldBidValue = document.getElementById("goldBid");
+        const bidGoldText = getGoldBidValue.textContent.trim();
+        const bidGoldValue = parseFloat(bidGoldText);
+        document.getElementById("goldBiddingPrice").innerHTML = bidGoldValue;
+        const editGoldSpreadValue = document.getElementById("goldSpread");
+        editGoldSpreadValue.setAttribute("contenteditable", "false");
+        //Edit Value for Gold on Button Click
+        function editGoldBid(){
+          const isEditable = editGoldSpreadValue.getAttribute("contenteditable") === "true";
+          editGoldSpreadValue.setAttribute("contenteditable", isEditable ? "false" : "true");
+          // Focus on the div to make it easier for the user to start editing
+          if (isEditable) {
+            editGoldSpreadValue.blur();
+          } else {
+            editGoldSpreadValue.focus();
+          }
+
+          editGoldSpreadValue.addEventListener("input", function() {
+            // This event handler will be triggered when the content is edited.
+            const editedGoldSpreadText = editGoldSpreadValue.textContent.trim();
+            const editedGoldSpreadValue = parseFloat(editedGoldSpreadText);
+            // You can now handle the edited content, e.g., save it to a variable or send it to the server.
+            // For example:
+            var totalGoldSpreadvalue = '';
+            if(bidGoldValue > 0){
+              totalGoldSpreadvalue = bidGoldValue + editedGoldSpreadValue;
+            }else{
+              totalGoldSpreadvalue = bidGoldValue + editedGoldSpreadValue;
+            }
+            document.getElementById("goldBiddingPrice").innerHTML = totalGoldSpreadvalue;
+          });
+        }
+
+
+        //Edit Silver Bid values
+        const getSilverBidValue = document.getElementById("silverBid");
+        const bidSilverText = getSilverBidValue.textContent.trim();
+        const bidSilverValue = parseFloat(bidGoldText);
+        document.getElementById("silverBiddingPrice").innerHTML = bidGoldValue;
+        const editSilverSpreadValue = document.getElementById("silverSpread");
+        editSilverSpreadValue.setAttribute("contenteditable", "false");
+        //Edit Value for Silver on Button Click
+        function editSilverBid(){
+          const isEditable = editSilverSpreadValue.getAttribute("contenteditable") === "true";
+          editSilverSpreadValue.setAttribute("contenteditable", isEditable ? "false" : "true");
+          // Focus on the div to make it easier for the user to start editing
+          if (isEditable) {
+            editSilverSpreadValue.blur();
+          } else {
+            editSilverSpreadValue.focus();
+          }
+
+          editSilverSpreadValue.addEventListener("input", function() {
+            // This event handler will be triggered when the content is edited.
+            const editedSilverSpreadText = editSilverSpreadValue.textContent.trim();
+            const editedSilverSpreadValue = parseFloat(editedSilverSpreadText);
+            // You can now handle the edited content, e.g., save it to a variable or send it to the server.
+            // For example:
+            var totalSilverSpreadvalue = '';
+            if(bidSilverValue > 0){
+              totalSilverSpreadvalue = bidSilverValue + editedSilverSpreadValue;
+            }else{
+              totalSilverSpreadvalue = bidSilverValue + editedSilverSpreadValue;
+            }
+            document.getElementById("silverBiddingPrice").innerHTML = totalSilverSpreadvalue;
+          });
+        }
+
+        //Edit Gold Ask values
+        const getGoldASkValue = document.getElementById("goldAsk");
+        const askGoldText = getGoldASkValue.textContent.trim();
+        const askGoldValue = parseFloat(askGoldText);
+        document.getElementById("goldAskingPrice").innerHTML = askGoldValue;
+        const editGoldAskSpreadValue = document.getElementById("goldAskSpread");
+        editGoldAskSpreadValue.setAttribute("contenteditable", "false");
+        //Edit Value for Gold on Button Click
+        function editGoldAsk(){
+          const isEditable = editGoldAskSpreadValue.getAttribute("contenteditable") === "true";
+          editGoldAskSpreadValue.setAttribute("contenteditable", isEditable ? "false" : "true");
+          // Focus on the div to make it easier for the user to start editing
+          if (isEditable) {
+            editGoldAskSpreadValue.blur();
+          } else {
+            editGoldAskSpreadValue.focus();
+          }
+
+          editGoldAskSpreadValue.addEventListener("input", function() {
+            // This event handler will be triggered when the content is edited.
+            const editedGoldSpreadText = editGoldAskSpreadValue.textContent.trim();
+            const editedGoldSpreadValue = parseFloat(editedGoldSpreadText);
+            // You can now handle the edited content, e.g., save it to a variable or send it to the server.
+            // For example:
+            var totalGoldSpreadvalue = '';
+            if(askGoldValue > 0){
+              totalGoldSpreadvalue = askGoldValue + editedGoldSpreadValue;
+            }else{
+              totalGoldSpreadvalue = askGoldValue + editedGoldSpreadValue;
+            }
+            document.getElementById("goldAskingPrice").innerHTML = totalGoldSpreadvalue;
+          });
+        }
+
+
+        //Edit Silver Ask values
+        const getSilverAskValue = document.getElementById("silverAsk");
+        const AskSilverText = getSilverBidValue.textContent.trim();
+        const AskSilverValue = parseFloat(AskSilverText);
+        document.getElementById("silverAskingPrice").innerHTML = AskSilverValue;
+        const editSilverAskSpreadValue = document.getElementById("silverAskSpread");
+        editSilverAskSpreadValue.setAttribute("contenteditable", "false");
+        //Edit Value for Silver on Button Click
+        function editSilverAsk(){
+          const isEditable = editSilverAskSpreadValue.getAttribute("contenteditable") === "true";
+          editSilverAskSpreadValue.setAttribute("contenteditable", isEditable ? "false" : "true");
+          // Focus on the div to make it easier for the user to start editing
+          if (isEditable) {
+            editSilverAskSpreadValue.blur();
+          } else {
+            editSilverAskSpreadValue.focus();
+          }
+
+          editSilverAskSpreadValue.addEventListener("input", function() {
+            // This event handler will be triggered when the content is edited.
+            const editedSilverSpreadText = editSilverAskSpreadValue.textContent.trim();
+            const editedSilverSpreadValue = parseFloat(editedSilverSpreadText);
+            // You can now handle the edited content, e.g., save it to a variable or send it to the server.
+            // For example:
+            var totalSilverSpreadvalue = '';
+            if(AskSilverValue > 0){
+              totalSilverSpreadvalue = AskSilverValue + editedSilverSpreadValue;
+            }else{
+              totalSilverSpreadvalue = AskSilverValue + editedSilverSpreadValue;
+            }
+            document.getElementById("silverAskingPrice").innerHTML = totalSilverSpreadvalue;
+          });
+        }
+
+        
       </script>
       
       
