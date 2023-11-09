@@ -678,7 +678,7 @@
                     </li><li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
                       <div class="d-flex flex-column">
                         <h6 class="mb-1 text-dark font-weight-bold text-sm">Low New Value</h6>
-                        
+                               
                       </div>
                       <div class="d-flex align-items-center text-sm">
                         $0
@@ -813,11 +813,10 @@
         }
 
 
-        //Edit Gold Bid values
-        const editGoldSpreadValue = document.getElementById("goldSpread");
-        editGoldSpreadValue.setAttribute("contenteditable", "false");
         //Edit Value for Gold on Button Click
         function editGoldBid(){
+          const editGoldSpreadValue = document.getElementById("goldSpread");
+          editGoldSpreadValue.setAttribute("contenteditable", "false");
           const getGoldBidValue = document.getElementById("goldBid");
           const bidGoldText = getGoldBidValue.textContent.trim();
           const bidGoldValue = parseFloat(bidGoldText);
@@ -843,6 +842,7 @@
             }else{
               totalGoldSpreadvalue = bidGoldValue - editedGoldSpreadValue;
             }
+            console.log(totalGoldSpreadvalue);
             document.getElementById("goldBiddingPrice").innerHTML = totalGoldSpreadvalue;
             document.getElementById("goldAsk").innerHTML = totalGoldSpreadvalue + 1;
             document.getElementById("goldAskingPrice").innerHTML = totalGoldSpreadvalue + 1;
@@ -850,11 +850,10 @@
         }
 
 
-        //Edit Silver Bid values
-        const editSilverSpreadValue = document.getElementById("silverSpread");
-        editSilverSpreadValue.setAttribute("contenteditable", "false");
         //Edit Value for Silver on Button Click
         function editSilverBid(){
+          const editSilverSpreadValue = document.getElementById("silverSpread");
+          editSilverSpreadValue.setAttribute("contenteditable", "false");
           const getSilverBidValue = document.getElementById("silverBid");
           const bidSilverText = getSilverBidValue.textContent.trim();
           const bidSilverValue = parseFloat(bidSilverText);
@@ -887,10 +886,11 @@
         }
 
         //Edit Gold Ask values
-        const editGoldAskSpreadValue = document.getElementById("goldAskSpread");
-        editGoldAskSpreadValue.setAttribute("contenteditable", "false");
+        
         //Edit Value for Gold on Button Click
         function editGoldAsk(){
+          const editGoldAskSpreadValue = document.getElementById("goldAskSpread");
+          editGoldAskSpreadValue.setAttribute("contenteditable", "false");
           const getGoldAskValue = document.getElementById("goldAsk");
           const askGoldText = getGoldAskValue.textContent.trim();
           const askGoldValue = parseFloat(askGoldText);
@@ -922,10 +922,11 @@
 
 
         //Edit Silver Ask values
-        const editSilverAskSpreadValue = document.getElementById("silverAskSpread");
-        editSilverAskSpreadValue.setAttribute("contenteditable", "false");
+        
         //Edit Value for Silver on Button Click
         function editSilverAsk(){
+          const editSilverAskSpreadValue = document.getElementById("silverAskSpread");
+          editSilverAskSpreadValue.setAttribute("contenteditable", "false");
           const getSilverAskValue = document.getElementById("silverAsk");
           const askSilverText = getSilverAskValue.textContent.trim();
           const askSilverValue = parseFloat(askSilverText);
