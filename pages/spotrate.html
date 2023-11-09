@@ -808,8 +808,8 @@
           document.getElementById("silverBid").innerHTML = getValue
           document.getElementById("silverBiddingPrice").innerHTML = getValue
 
-          document.getElementById("silverAsk").innerHTML = getValue + 1
-          document.getElementById("silverAskingPrice").innerHTML = getValue + 1
+          document.getElementById("silverAsk").innerHTML = getValue + 0.05
+          document.getElementById("silverAskingPrice").innerHTML = getValue + 0.05
         }
 
 
@@ -880,8 +880,8 @@
               totalSilverSpreadvalue = bidSilverValue - editedSilverSpreadValue;
             }
             document.getElementById("silverBiddingPrice").innerHTML = totalSilverSpreadvalue;
-            document.getElementById("silverAsk").innerHTML = totalSilverSpreadvalue + 1;
-            document.getElementById("silverAskingPrice").innerHTML = totalSilverSpreadvalue + 1;
+            document.getElementById("silverAsk").innerHTML = totalSilverSpreadvalue + 0.05;
+            document.getElementById("silverAskingPrice").innerHTML = totalSilverSpreadvalue + 0.05;   
           });
         }
 
