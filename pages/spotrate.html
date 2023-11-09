@@ -309,6 +309,10 @@
     <!-- <a href="tv.html">Go to TV </a> -->
 
     
+      <input type="number" id="getValue"> 
+      <button onClick="setValue()">Submit</button>
+      <p id="displayValue"></p>
+
       <div class="row justify-content-center" >
         <div class="col-md-5 mt-4">
           <div class="card">
@@ -364,7 +368,7 @@
                       
                     </div>
                     <div class="d-flex align-items-center text-sm" id="goldBid">
-                      180
+                      0
                      
                     </div>
                   </li>
@@ -385,7 +389,7 @@
                     </div>
                     <div class="d-flex align-items-center text-sm" id="goldBiddingPrice">
                       
-                      <!-- Final Value From Bid -->
+                      0
                     </div>
                   </li>
               </ul>
@@ -415,7 +419,7 @@
                       
                     </div>
                     <div class="d-flex align-items-center text-sm" id="silverBid">
-                      180
+                      0
                      
                     </div>
                   </li>
@@ -436,7 +440,7 @@
                     </div>
                     <div class="d-flex align-items-center text-sm" id="silverBiddingPrice">
                       
-                      <!-- Final Value From Bid -->
+                      0
                     </div>
                   </li>
               </ul>
@@ -471,7 +475,7 @@
                       
                     </div>
                     <div class="d-flex align-items-center text-sm" id="goldAsk">
-                      180
+                      0
                      
                     </div>
                   </li>
@@ -491,7 +495,7 @@
                       
                     </div>
                     <div class="d-flex align-items-center text-sm" id="goldAskingPrice">
-                      <!-- Calculated Value with Bid -->
+                      0
                       
                     </div>
                   </li>
@@ -522,7 +526,7 @@
                       
                     </div>
                     <div class="d-flex align-items-center text-sm" id="silverAsk">
-                      180
+                      0
                      
                     </div>
                   </li>
@@ -531,7 +535,7 @@
                       <h6 class="text-dark mb-1 font-weight-bold text-sm">Spread</h6>
                       
                     </div>
-                    <div class="d-flex align-items-center text-sm" id="silverAskSpread">
+                    <div class="d-flex align-items-center text-sm" id="silverAskSpread" contenteditable="true">
                       0
                      
                     </div>
@@ -542,7 +546,7 @@
                       
                     </div>
                     <div class="d-flex align-items-center text-sm" id="silverAskingPrice">
-                      <!-- Calculated Value with Bid -->
+                      0
                       
                     </div>
                   </li>
@@ -838,15 +842,34 @@
         });
 
 
+        function setValue() {
+          var getValue = parseFloat(document.getElementById("getValue").value)
+          document.getElementById("displayValue").innerHTML = getValue;
+
+          //Set the value to elements
+          document.getElementById("goldBid").innerHTML = getValue
+          document.getElementById("goldBiddingPrice").innerHTML = getValue
+
+          document.getElementById("goldAsk").innerHTML = getValue + 1
+          document.getElementById("goldAskingPrice").innerHTML = getValue + 1
+
+          document.getElementById("silverBid").innerHTML = getValue
+          document.getElementById("silverBiddingPrice").innerHTML = getValue
+
+          document.getElementById("silverAsk").innerHTML = getValue + 1
+          document.getElementById("silverAskingPrice").innerHTML = getValue + 1
+        }
+
+
         //Edit Gold Bid values
-        const getGoldBidValue = document.getElementById("goldBid");
-        const bidGoldText = getGoldBidValue.textContent.trim();
-        const bidGoldValue = parseFloat(bidGoldText);
-        document.getElementById("goldBiddingPrice").innerHTML = bidGoldValue;
         const editGoldSpreadValue = document.getElementById("goldSpread");
         editGoldSpreadValue.setAttribute("contenteditable", "false");
         //Edit Value for Gold on Button Click
         function editGoldBid(){
+          const getGoldBidValue = document.getElementById("goldBid");
+          const bidGoldText = getGoldBidValue.textContent.trim();
+          const bidGoldValue = parseFloat(bidGoldText);
+          document.getElementById("goldBiddingPrice").innerHTML = bidGoldValue;
           const isEditable = editGoldSpreadValue.getAttribute("contenteditable") === "true";
           editGoldSpreadValue.setAttribute("contenteditable", isEditable ? "false" : "true");
           // Focus on the div to make it easier for the user to start editing
@@ -866,22 +889,24 @@
             if(bidGoldValue > 0){
               totalGoldSpreadvalue = bidGoldValue + editedGoldSpreadValue;
             }else{
-              totalGoldSpreadvalue = bidGoldValue + editedGoldSpreadValue;
+              totalGoldSpreadvalue = bidGoldValue - editedGoldSpreadValue;
             }
             document.getElementById("goldBiddingPrice").innerHTML = totalGoldSpreadvalue;
+            document.getElementById("goldAsk").innerHTML = totalGoldSpreadvalue + 1;
+            document.getElementById("goldAskingPrice").innerHTML = totalGoldSpreadvalue + 1;
           });
         }
 
 
         //Edit Silver Bid values
-        const getSilverBidValue = document.getElementById("silverBid");
-        const bidSilverText = getSilverBidValue.textContent.trim();
-        const bidSilverValue = parseFloat(bidGoldText);
-        document.getElementById("silverBiddingPrice").innerHTML = bidGoldValue;
         const editSilverSpreadValue = document.getElementById("silverSpread");
         editSilverSpreadValue.setAttribute("contenteditable", "false");
         //Edit Value for Silver on Button Click
         function editSilverBid(){
+          const getSilverBidValue = document.getElementById("silverBid");
+          const bidSilverText = getSilverBidValue.textContent.trim();
+          const bidSilverValue = parseFloat(bidSilverText);
+          document.getElementById("silverBiddingPrice").innerHTML = bidSilverValue;
           const isEditable = editSilverSpreadValue.getAttribute("contenteditable") === "true";
           editSilverSpreadValue.setAttribute("contenteditable", isEditable ? "false" : "true");
           // Focus on the div to make it easier for the user to start editing
@@ -901,21 +926,23 @@
             if(bidSilverValue > 0){
               totalSilverSpreadvalue = bidSilverValue + editedSilverSpreadValue;
             }else{
-              totalSilverSpreadvalue = bidSilverValue + editedSilverSpreadValue;
+              totalSilverSpreadvalue = bidSilverValue - editedSilverSpreadValue;
             }
             document.getElementById("silverBiddingPrice").innerHTML = totalSilverSpreadvalue;
+            document.getElementById("silverAsk").innerHTML = totalSilverSpreadvalue + 1;
+            document.getElementById("silverAskingPrice").innerHTML = totalSilverSpreadvalue + 1;
           });
         }
 
         //Edit Gold Ask values
-        const getGoldASkValue = document.getElementById("goldAsk");
-        const askGoldText = getGoldASkValue.textContent.trim();
-        const askGoldValue = parseFloat(askGoldText);
-        document.getElementById("goldAskingPrice").innerHTML = askGoldValue;
         const editGoldAskSpreadValue = document.getElementById("goldAskSpread");
         editGoldAskSpreadValue.setAttribute("contenteditable", "false");
         //Edit Value for Gold on Button Click
         function editGoldAsk(){
+          const getGoldAskValue = document.getElementById("goldAsk");
+          const askGoldText = getGoldAskValue.textContent.trim();
+          const askGoldValue = parseFloat(askGoldText);
+          document.getElementById("goldAskingPrice").innerHTML = askGoldValue;
           const isEditable = editGoldAskSpreadValue.getAttribute("contenteditable") === "true";
           editGoldAskSpreadValue.setAttribute("contenteditable", isEditable ? "false" : "true");
           // Focus on the div to make it easier for the user to start editing
@@ -935,7 +962,7 @@
             if(askGoldValue > 0){
               totalGoldSpreadvalue = askGoldValue + editedGoldSpreadValue;
             }else{
-              totalGoldSpreadvalue = askGoldValue + editedGoldSpreadValue;
+              totalGoldSpreadvalue = askGoldValue - editedGoldSpreadValue;
             }
             document.getElementById("goldAskingPrice").innerHTML = totalGoldSpreadvalue;
           });
@@ -943,14 +970,14 @@
 
 
         //Edit Silver Ask values
-        const getSilverAskValue = document.getElementById("silverAsk");
-        const AskSilverText = getSilverBidValue.textContent.trim();
-        const AskSilverValue = parseFloat(AskSilverText);
-        document.getElementById("silverAskingPrice").innerHTML = AskSilverValue;
         const editSilverAskSpreadValue = document.getElementById("silverAskSpread");
         editSilverAskSpreadValue.setAttribute("contenteditable", "false");
         //Edit Value for Silver on Button Click
         function editSilverAsk(){
+          const getSilverAskValue = document.getElementById("silverAsk");
+          const askSilverText = getSilverAskValue.textContent.trim();
+          const askSilverValue = parseFloat(askSilverText);
+          document.getElementById("silverAskingPrice").innerHTML = askSilverValue;
           const isEditable = editSilverAskSpreadValue.getAttribute("contenteditable") === "true";
           editSilverAskSpreadValue.setAttribute("contenteditable", isEditable ? "false" : "true");
           // Focus on the div to make it easier for the user to start editing
@@ -967,10 +994,10 @@
             // You can now handle the edited content, e.g., save it to a variable or send it to the server.
             // For example:
             var totalSilverSpreadvalue = '';
-            if(AskSilverValue > 0){
-              totalSilverSpreadvalue = AskSilverValue + editedSilverSpreadValue;
+            if(askSilverValue > 0){
+              totalSilverSpreadvalue = askSilverValue + editedSilverSpreadValue;
             }else{
-              totalSilverSpreadvalue = AskSilverValue + editedSilverSpreadValue;
+              totalSilverSpreadvalue = askSilverValue - editedSilverSpreadValue;
             }
             document.getElementById("silverAskingPrice").innerHTML = totalSilverSpreadvalue;
           });
