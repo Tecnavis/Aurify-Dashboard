@@ -928,13 +928,13 @@
               </tr>
               <tr>
                 <th>Sell</th>
-                <td><div type="text" class="form-control" id="sellInput"></div></td>
-                <td><div type="text" class="form-control" id="sellInput"></div></td>
+                <td><div type="text" class="form-control" id="sellAEDInput"></div></td>
+                <td><div type="text" class="form-control" id="sellUSDInput"></div></td>
               </tr>
               <tr>
                 <th>Buy</th>
-                <td><div type="text" class="form-control" id="buyInput"></div></td>
-                <td><div type="text" class="form-control" id="buyInput"></div></td>
+                <td><div type="text" class="form-control" id="buyAEDInput"></div></td>
+                <td><div type="text" class="form-control" id="buyUSDInput"></div></td>
               </tr>
             </table>
             
@@ -1064,6 +1064,11 @@
 
           document.getElementById("goldAsk").innerHTML = getValue + 1
           document.getElementById("goldAskingPrice").innerHTML = getValue + 1
+
+
+          //Set Value to Commodity
+          document.getElementById("buyUSDInput").innerHTML = getValue
+          document.getElementById("sellUSDInput").innerHTML = getValue + 1
         }
 
         function setSilverValue() {
@@ -1139,7 +1144,7 @@
             const editedGoldSpreadValue = parseFloat(editedGoldSpreadText);
             // You can now handle the edited content, e.g., save it to a variable or send it to the server.
             // For example:
-            var totalGoldSpreadvalue = '';
+            let totalGoldSpreadvalue = '';
             if(bidGoldValue > 0){
               totalGoldSpreadvalue = bidGoldValue + editedGoldSpreadValue;
             }else{
@@ -1149,6 +1154,9 @@
             document.getElementById("goldBiddingPrice").innerHTML = totalGoldSpreadvalue;
             document.getElementById("goldAsk").innerHTML = totalGoldSpreadvalue + 1;
             document.getElementById("goldAskingPrice").innerHTML = totalGoldSpreadvalue + 1;
+
+            //Set value to Commodity
+            document.getElementById("buyUSDInput").innerHTML = totalGoldSpreadvalue
           });
         }
 
@@ -1184,7 +1192,7 @@
             }
             document.getElementById("silverBiddingPrice").innerHTML = totalSilverSpreadvalue;
             document.getElementById("silverAsk").innerHTML = totalSilverSpreadvalue + 0.05;
-            document.getElementById("silverAskingPrice").innerHTML = totalSilverSpreadvalue + 0.05;   
+            document.getElementById("silverAskingPrice").innerHTML = totalSilverSpreadvalue + 0.05;
           });
         }
 
@@ -1218,7 +1226,10 @@
             }else{
               totalGoldSpreadvalue = askGoldValue - editedGoldSpreadValue;
             }
-            document.getElementById("goldAskingPrice").innerHTML = totalGoldSpreadvalue;
+            document.getElementById("goldAskingPrice").innerHTML = totalGoldSpreadvalue;  
+            
+            //Set Value to Commodity
+            document.getElementById("sellUSDInput").innerHTML = totalGoldSpreadvalue;
           });
         }
 
@@ -1316,6 +1327,25 @@
             }
             document.getElementById("goldNewHighValue").innerHTML = finalHighMarginValue;
           });
+
+          function addTableRow(){
+            const sellValueInUSD = document.getElementById("sellUSDInput");
+            const sellValueInUSDToText = sellValueInUSD.textContent.trim();
+            const sellValueInUSDToNum = parseFloat(sellValueInUSDToText);
+
+            const buyValueInUSD = document.getElementById("buyUSDInput");
+            const buyValueInUSDToText = buyValueInUSD.textContent.trim();
+            const buyValueInUSDToNum = parseFloat(buyValueInUSDToText);
+
+
+
+            // const sellValueInAED = 
+            document.getElementById("sellAEDInput").innerHTML = sellValueInUSDToNum;
+            // const buyValueInAED = 
+            document.getElementById("buyAEDInput").innerHTML = buyValueInUSDToNum;
+
+
+          }
 
         }
 
