@@ -1129,9 +1129,9 @@ document.getElementById("addRowForm").addEventListener("input", calculateRates);
   const metalInput = document.getElementById("metalInput").value;
   const purityInput = document.getElementById("purityInput").value;
   const unitInput = document.getElementById("unitInput").value;
-  const weightInput = document.getElementById("weightInput").value; // Added weightInput
-  const sellInput = document.getElementById("sellInput").value;
-  const buyInput = document.getElementById("buyInput").value;
+  const weightInput = document.getElementById("weightInput").value;
+  const sellAEDInput = document.getElementById("sellAEDInput").textContent; // Updated to use textContent
+  const buyAEDInput = document.getElementById("buyAEDInput").textContent; // Updated to use textContent
   const sellPremiumInput = document.getElementById("sellPremiumInput").value;
   const sellChargesInput = document.getElementById("sellChargesInput").value;
   const buyPremiumInput = document.getElementById("buyPremiumInput").value;
@@ -1161,9 +1161,9 @@ document.getElementById("addRowForm").addEventListener("input", calculateRates);
   document.getElementById("metalInput").value = "";
   document.getElementById("purityInput").value = "";
   document.getElementById("unitInput").value = "";
-  document.getElementById("weightInput").value = ""; // Clear weightInput
-  document.getElementById("sellAEDInput").value = "";
-  document.getElementById("buyAEDInput").value = "";
+  document.getElementById("weightInput").value = "";
+  document.getElementById("sellAEDInput").textContent = ""; // Updated to use textContent
+  document.getElementById("buyAEDInput").textContent = ""; // Updated to use textContent
   document.getElementById("sellPremiumInput").value = "";
   document.getElementById("sellChargesInput").value = "";
   document.getElementById("buyPremiumInput").value = "";
