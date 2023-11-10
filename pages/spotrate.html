@@ -1065,7 +1065,16 @@
 
 
 <script>
+document.getElementById("addRowForm").addEventListener("input", calculateRates);
 
+// Call calculateRates with default values
+calculateRates();
+
+// Set default values in the form
+document.getElementById("metalInput").value = "Gold";
+document.getElementById("purityInput").value = "9999";
+document.getElementById("unitInput").value = "1";
+document.getElementById("weightInput").value = "GM";
 function calculateRates() {
     // Get values from the form
     const metalType = document.getElementById("metalInput").value;
@@ -1074,8 +1083,9 @@ function calculateRates() {
     const weightInput = document.getElementById("weightInput");
 
     // Set default values for unit and weight
-    let unit = 1;
-    let weight = "GM";
+    let unit = parseFloat(unitInput.value) || 1; // Use the value from the input or default to 1
+    let weight = weightInput.value || "GM"; // Use the value from the input or default to "GM"
+
 
     // Update unit and weight based on the selected metal type
     switch (metalType) {
