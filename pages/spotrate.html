@@ -958,12 +958,13 @@
             <label for="metalInput">Metal</label>
             <select type="text" class="form-control" id="metalInput" required>
               <option>Gold</option>
+              <option >Gold kilobar</option>
+              <option>Gold TOLA</option>
               <option>Gold TEN TOLA</option>
-              <option>Silver</option>
-              <option>Gold Coin</option>
-              <option>Minted Bar</option>
-              <option>Gold kilobar</option>
-              <option>Plaltinum</option>
+              <option disabled>Silver</option>
+              <option disabled>Gold Coin</option>
+              <option disabled>Minted Bar</option>
+              <option disabled>Plaltinum</option>
               </select>
           </div>
           <div class="form-group col-3">
@@ -1069,8 +1070,36 @@ function calculateRates() {
     // Get values from the form
     const metalType = document.getElementById("metalInput").value;
     const purity = document.getElementById("purityInput").value;
-    const unit = document.getElementById("unitInput").value;
-    const weight = document.getElementById("weightInput").value;
+    const unitInput = document.getElementById("unitInput");
+    const weightInput = document.getElementById("weightInput");
+
+    // Set default values for unit and weight
+    let unit = 1;
+    let weight = "GM";
+
+    // Update unit and weight based on the selected metal type
+    switch (metalType) {
+        case "Gold kilobar":
+            unit = 1;
+            weight = "KG";
+            break;
+        case "Gold TOLA":
+            unit = 1;
+            weight = "TOLA";
+            break;
+        case "Gold TEN TOLA":
+            unit = 1;
+            weight = "TTB";
+            break;
+        // Add more cases for other metal types if needed
+
+        default:
+            break;
+    }
+
+    // Update the form fields
+    unitInput.value = unit;
+    weightInput.value = weight;
 
     // Perform the calculation based on the example formula
     let unitMultiplier = 1;
@@ -1082,14 +1111,14 @@ function calculateRates() {
         unitMultiplier = 1000;
     } else if (weight === "TTB") {
         unitMultiplier = 116.6400;
-    }else if (weight === "TOLA") {
+    } else if (weight === "TOLA") {
         unitMultiplier = 11.664;
-    }else if (weight === "OZ") {
+    } else if (weight === "OZ") {
         unitMultiplier = 31.1034768;
     }
 
     const goldUSDResult = parseFloat(document.getElementById("GoldUSDresult").textContent);
-    const calculatedRate = goldUSDResult * 3.67 *unit* unitMultiplier * (purity / Math.pow(10, purity.length));
+    const calculatedRate = goldUSDResult * 3.67 * unit * unitMultiplier * (purity / Math.pow(10, purity.length));
 
     // Update the sell and buy rates in the form
     document.getElementById("sellAEDInput").textContent = calculatedRate.toFixed(2);
