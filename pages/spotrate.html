@@ -901,11 +901,11 @@
                 <Table style="width: 300px; margin-left: 20px;">
                   <tr>
                     <th>Gold &nbsp;&nbsp; 1GM &nbsp;(in USD) </th>
-                    <td><div>0</div></td>
+                    <td><div id="GoldUSDresult">0</div></td>
                   </tr>
                   <tr>
                     <th>Gold &nbsp;&nbsp; 1GM &nbsp;(in <span id="currencySymbol">AED</span>) </th>
-                    <td><div>0</div></td>
+                    <td><div id="GoldAEDresult">0</div></td>
                   </tr>
                 </Table>
               </div>
@@ -1064,6 +1064,8 @@
 
 
 <script>
+
+
   function getSelectedCurrency() {
       const currencySelect = document.getElementById("currency");
       const currencySymbol = document.getElementById("currencySymbol");
@@ -1148,6 +1150,7 @@
 
 
         function setGoldValue() {
+
           var getValue = parseFloat(document.getElementById("getGoldValue").value)
           document.getElementById("displayGoldValue").innerHTML = getValue
 
@@ -1162,6 +1165,13 @@
           //Set Value to Commodity
           document.getElementById("buyUSDInput").innerHTML = getValue
           document.getElementById("sellUSDInput").innerHTML = getValue + 1
+
+      var goldValuegm = parseFloat(document.getElementById("displayGoldValue").textContent);
+      var GoldUSDresult = (goldValuegm /31.1035).toFixed(4) ; 
+      var GoldAEDresult = (GoldUSDresult * 3.67).toFixed(4)
+      document.getElementById("GoldUSDresult").textContent = GoldUSDresult;
+      document.getElementById("GoldAEDresult").textContent = GoldAEDresult;
+
         }
 
         function setSilverValue() {
