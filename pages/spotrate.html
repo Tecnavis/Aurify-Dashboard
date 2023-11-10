@@ -1327,26 +1327,6 @@
             }
             document.getElementById("goldNewHighValue").innerHTML = finalHighMarginValue;
           });
-
-          function addTableRow(){
-            const sellValueInUSD = document.getElementById("sellUSDInput");
-            const sellValueInUSDToText = sellValueInUSD.textContent.trim();
-            const sellValueInUSDToNum = parseFloat(sellValueInUSDToText);
-
-            const buyValueInUSD = document.getElementById("buyUSDInput");
-            const buyValueInUSDToText = buyValueInUSD.textContent.trim();
-            const buyValueInUSDToNum = parseFloat(buyValueInUSDToText);
-
-
-
-            // const sellValueInAED = 
-            document.getElementById("sellAEDInput").innerHTML = sellValueInUSDToNum;
-            // const buyValueInAED = 
-            document.getElementById("buyAEDInput").innerHTML = buyValueInUSDToNum;
-
-
-          }
-
         }
 
         //Edit Silver Margin Values 
@@ -1408,8 +1388,25 @@
             }
             document.getElementById("silverNewHighValue").innerHTML = finalHighMarginValue;
           });
-
         }
+
+        function addTableRow(){
+            const sellValueInUSD = document.getElementById("sellUSDInput");
+            const sellValueInUSDToText = sellValueInUSD.textContent.trim();
+            const sellValueInUSDToNum = parseFloat(sellValueInUSDToText);
+
+            const buyValueInUSD = document.getElementById("buyUSDInput");
+            const buyValueInUSDToText = buyValueInUSD.textContent.trim();
+            const buyValueInUSDToNum = parseFloat(buyValueInUSDToText);
+
+            console.log(sellValueInUSDToNum);
+            console.log(buyValueInUSDToNum);
+
+            // const sellValueInAED = 
+            document.getElementById("sellAEDInput").innerHTML = sellValueInUSDToNum * 3.67
+            // const buyValueInAED = 
+            document.getElementById("buyAEDInput").innerHTML = buyValueInUSDToNum * 3.67
+          }
 
         
       </script>
