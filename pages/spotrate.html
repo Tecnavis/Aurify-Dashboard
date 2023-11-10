@@ -1072,24 +1072,41 @@ function calculateRates() {
     const unit = document.getElementById("unitInput").value;
     const weight = document.getElementById("weightInput").value;
 
-    // Perform the calculation based on your example formula
+    // Perform the calculation based on the example formula
+    let unitMultiplier = 1;
+
+    // Adjust unit multiplier based on the selected unit
+    if (weight === "GM") {
+        unitMultiplier = 1;
+    } else if (weight === "KG") {
+        unitMultiplier = 1000;
+    } else if (weight === "TTB") {
+        unitMultiplier = 116.6400;
+    }else if (weight === "TOLA") {
+        unitMultiplier = 0;
+    }else if (weight === "OZ") {
+        unitMultiplier = 31.1034768;
+    }
+
     const goldUSDResult = parseFloat(document.getElementById("GoldUSDresult").textContent);
-    const calculatedRate = goldUSDResult * 3.67 * 1000 * (purity / 1000);
+    const calculatedRate = goldUSDResult * 3.67 *unit* unitMultiplier * (purity / Math.pow(10, purity.length));
 
     // Update the sell and buy rates in the form
-    document.getElementById("sellAEDInput").textContent = calculatedRate.toFixed(2); // Adjust decimal places as needed
-    document.getElementById("sellUSDInput").textContent = (calculatedRate / 3.67).toFixed(2); // Adjust decimal places as needed
+    document.getElementById("sellAEDInput").textContent = calculatedRate.toFixed(2);
+    document.getElementById("sellUSDInput").textContent = (calculatedRate / 3.67).toFixed(2);
 
     // You can adjust the buy rate calculation based on your requirements
     const buyRate = calculatedRate * 1.05; // For example, increase by 5%
-    document.getElementById("buyAEDInput").textContent = buyRate.toFixed(2); // Adjust decimal places as needed
-    document.getElementById("buyUSDInput").textContent = (buyRate / 3.67).toFixed(2); // Adjust decimal places as needed
-  }
+    document.getElementById("buyAEDInput").textContent = buyRate.toFixed(2);
+    document.getElementById("buyUSDInput").textContent = (buyRate / 3.67).toFixed(2);
+}
 
-  // Add an event listener to trigger the calculation when the form values change
-  document.getElementById("addRowForm").addEventListener("input", calculateRates);
+// Add an event listener to trigger the calculation when the form values change
+document.getElementById("addRowForm").addEventListener("input", calculateRates);
 
 
+
+  
   function getSelectedCurrency() {
       const currencySelect = document.getElementById("currency");
       const currencySymbol = document.getElementById("currencySymbol");
