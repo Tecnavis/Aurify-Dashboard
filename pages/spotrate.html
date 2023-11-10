@@ -355,7 +355,11 @@
       <div class="input-bid-ask-values">
         <div class="input">
           <input type="number" id="getGoldValue" placeholder="Gold Value">  
+<<<<<<< Updated upstream
           <button onClick="setGoldValue()"> <i class="fas fa-check"></i></button>
+=======
+          <button onClick="setGoldValue()"><i class="fas fa-check"></i></button>
+>>>>>>> Stashed changes
           <p id="displayGoldValue"></p>
         </div>
         <div class="input">
@@ -1007,8 +1011,8 @@
     <td>${metalInput}</td>
     <td>${purityInput}</td>
     <td>${unitInput} ${weightInput}</td>
-    <td>${sellInput}</td>
-    <td>${buyInput}</td>
+    <td>${sellAEDInput}</td>
+    <td>${buyAEDInput}</td>
     <td>${sellPremiumInput}</td>
     <td>${sellChargesInput}</td>
     <td>${buyPremiumInput}</td>
@@ -1026,8 +1030,8 @@
   document.getElementById("purityInput").value = "";
   document.getElementById("unitInput").value = "";
   document.getElementById("weightInput").value = ""; // Clear weightInput
-  document.getElementById("sellInput").value = "";
-  document.getElementById("buyInput").value = "";
+  document.getElementById("sellAEDInput").value = "";
+  document.getElementById("buyAEDInput").value = "";
   document.getElementById("sellPremiumInput").value = "";
   document.getElementById("sellChargesInput").value = "";
   document.getElementById("buyPremiumInput").value = "";
