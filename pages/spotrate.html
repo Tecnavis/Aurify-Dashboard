@@ -1065,16 +1065,25 @@
 
 
 <script>
+  // Add an event listener to trigger the calculation when the gold value input changes
+document.getElementById("getGoldValue").addEventListener("input", function () {
+    setGoldValue(); // Call setGoldValue function when the input changes
+    calculateRates(); // Call calculateRates to update the table values
+});
+document.getElementById("getGoldValue").addEventListener("input", setGoldValue);
+
 document.getElementById("addRowForm").addEventListener("input", calculateRates);
 
 // Call calculateRates with default values
 calculateRates();
+
 
 // Set default values in the form
 document.getElementById("metalInput").value = "Gold";
 document.getElementById("purityInput").value = "9999";
 document.getElementById("unitInput").value = "1";
 document.getElementById("weightInput").value = "GM";
+
 function calculateRates() {
     // Get values from the form
     const metalType = document.getElementById("metalInput").value;
@@ -1196,19 +1205,22 @@ document.getElementById("addRowForm").addEventListener("input", calculateRates);
   // Add the new row to the table body
   document.getElementById("tableBody").appendChild(newRow);
 
-  // Clear input fields after adding the row
-  document.getElementById("metalInput").value = "";
-  document.getElementById("purityInput").value = "";
-  document.getElementById("unitInput").value = "";
-  document.getElementById("weightInput").value = "";
-  document.getElementById("sellAEDInput").textContent = ""; // Updated to use textContent
-  document.getElementById("buyAEDInput").textContent = ""; // Updated to use textContent
-  document.getElementById("sellPremiumInput").value = "";
-  document.getElementById("sellChargesInput").value = "";
-  document.getElementById("buyPremiumInput").value = "";
-  document.getElementById("buyChargesInput").value = "";
-  // Close the modal
-  $('#addRowModal').modal('hide');
+  // Function to reset form fields to default values
+function resetFormFields() {
+    document.getElementById("metalInput").value = "Gold";
+    document.getElementById("purityInput").value = "9999";
+    document.getElementById("unitInput").value = "1";
+    document.getElementById("weightInput").value = "GM";
+    document.getElementById("sellPremiumInput").value = "";
+    document.getElementById("sellChargesInput").value = "";
+    document.getElementById("buyPremiumInput").value = "";
+    document.getElementById("buyChargesInput").value = "";
+}
+
+// Event listener for the "Add Commodity" button
+document.getElementById("addRowModal").addEventListener("show.bs.modal", function () {
+    resetFormFields();
+});
 }
 
     // Add a variable to store the row to be deleted
@@ -1229,30 +1241,38 @@ document.getElementById("addRowForm").addEventListener("input", calculateRates);
     }
 
 
-        function setGoldValue() {
+    function setGoldValue() {
+    var getValue = parseFloat(document.getElementById("getGoldValue").value);
+    document.getElementById("displayGoldValue").textContent = getValue;
 
-          var getValue = parseFloat(document.getElementById("getGoldValue").value)
-          document.getElementById("displayGoldValue").innerHTML = getValue
+    // Set the value to elements
+    document.getElementById("goldBid").textContent = getValue;
+    document.getElementById("goldBiddingPrice").textContent = getValue;
 
-          //Set the value to elements
-          document.getElementById("goldBid").innerHTML = getValue
-          document.getElementById("goldBiddingPrice").innerHTML = getValue
+    document.getElementById("goldAsk").textContent = getValue + 0.5;
+    document.getElementById("goldAskingPrice").textContent = getValue + 0.5;
 
-          document.getElementById("goldAsk").innerHTML = getValue + 0.5
-          document.getElementById("goldAskingPrice").innerHTML = getValue + 0.5
+    // Set Value to Commodity
+    document.getElementById("buyUSDInput").textContent = getValue;
+    document.getElementById("sellUSDInput").textContent = getValue + 1;
+
+    var goldValuegm = parseFloat(document.getElementById("displayGoldValue").textContent);
+    var GoldUSDresult = (goldValuegm / 31.1035).toFixed(4);
+    var GoldAEDresult = (GoldUSDresult * 3.67).toFixed(4);
+    document.getElementById("GoldUSDresult").textContent = GoldUSDresult;
+    document.getElementById("GoldAEDresult").textContent = GoldAEDresult;
+
+    // Call calculateRates to update the table values
+    calculateRates();
+}
+
+// Add an event listener to trigger the setGoldValue function when the input changes
+document.getElementById("getGoldValue").addEventListener("input", setGoldValue);
+
+// Add an event listener to trigger the calculateRates function when the addRowForm input changes
+document.getElementById("addRowForm").addEventListener("input", calculateRates);
 
 
-          //Set Value to Commodity
-          document.getElementById("buyUSDInput").innerHTML = getValue
-          document.getElementById("sellUSDInput").innerHTML = getValue + 1
-
-      var goldValuegm = parseFloat(document.getElementById("displayGoldValue").textContent);
-      var GoldUSDresult = (goldValuegm /31.1035).toFixed(4) ; 
-      var GoldAEDresult = (GoldUSDresult * 3.67).toFixed(4)
-      document.getElementById("GoldUSDresult").textContent = GoldUSDresult;
-      document.getElementById("GoldAEDresult").textContent = GoldAEDresult;
-
-        }
 
         function setSilverValue() {
           var getValue = parseFloat(document.getElementById("getSilverValue").value)
@@ -1335,8 +1355,8 @@ document.getElementById("addRowForm").addEventListener("input", calculateRates);
             }
             console.log(totalGoldSpreadvalue);
             document.getElementById("goldBiddingPrice").innerHTML = totalGoldSpreadvalue;
-            document.getElementById("goldAsk").innerHTML = totalGoldSpreadvalue + 1;
-            document.getElementById("goldAskingPrice").innerHTML = totalGoldSpreadvalue + 1;
+            document.getElementById("goldAsk").innerHTML = totalGoldSpreadvalue + 0.5;
+            document.getElementById("goldAskingPrice").innerHTML = totalGoldSpreadvalue + 0.5;
 
             //Set value to Commodity
             document.getElementById("buyUSDInput").innerHTML = totalGoldSpreadvalue
