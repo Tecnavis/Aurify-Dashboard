@@ -1065,6 +1065,30 @@
 
 <script>
 
+function calculateRates() {
+    // Get values from the form
+    const metalType = document.getElementById("metalInput").value;
+    const purity = document.getElementById("purityInput").value;
+    const unit = document.getElementById("unitInput").value;
+    const weight = document.getElementById("weightInput").value;
+
+    // Perform the calculation based on your example formula
+    const goldUSDResult = parseFloat(document.getElementById("GoldUSDresult").textContent);
+    const calculatedRate = goldUSDResult * 3.67 * 1000 * (purity / 1000);
+
+    // Update the sell and buy rates in the form
+    document.getElementById("sellAEDInput").textContent = calculatedRate.toFixed(2); // Adjust decimal places as needed
+    document.getElementById("sellUSDInput").textContent = (calculatedRate / 3.67).toFixed(2); // Adjust decimal places as needed
+
+    // You can adjust the buy rate calculation based on your requirements
+    const buyRate = calculatedRate * 1.05; // For example, increase by 5%
+    document.getElementById("buyAEDInput").textContent = buyRate.toFixed(2); // Adjust decimal places as needed
+    document.getElementById("buyUSDInput").textContent = (buyRate / 3.67).toFixed(2); // Adjust decimal places as needed
+  }
+
+  // Add an event listener to trigger the calculation when the form values change
+  document.getElementById("addRowForm").addEventListener("input", calculateRates);
+
 
   function getSelectedCurrency() {
       const currencySelect = document.getElementById("currency");
