@@ -1055,20 +1055,20 @@
                 </div>
                 <div class="d-flex col-12">
                   <div class="form-group col-3">
-                    <label for="sellPremiumInput">Sell Premium</label>
-                    <input type="text" class="form-control" id="sellPremiumInput">
+                    <label for="sellPremiumUSD">Sell Premium USD</label>
+                    <input type="text" class="form-control" id="sellPremiumUSD">
                   </div>
                   <div class="form-group col-3">
-                    <label for="sellChargesInput">Sell <br>Charges</label>
-                    <input type="text" class="form-control" id="sellChargesInput">
+                    <label for="sellPremiumAED">Sell Premium AED</label>
+                    <input type="text" class="form-control" id="sellPremiumAED">
                   </div>
                   <div class="form-group col-3">
-                    <label for="buyPremiumInput">Buy Premium</label>
-                    <input type="text" class="form-control" id="buyPremiumInput">
+                    <label for="buyPremiumUSD">Buy Premium USD</label>
+                    <input type="text" class="form-control" id="buyPremiumUSD">
                   </div>
                   <div class="form-group col-3">
-                    <label for="buyChargesInput">Buy <br>Charges</label>
-                    <input type="text" class="form-control" id="buyChargesInput">
+                    <label for="buyPremiumAED">Buy Premium AED</label>
+                    <input type="text" class="form-control" id="buyPremiumAED">
                   </div>
                 </div>
                 <br>
@@ -1148,7 +1148,7 @@
 
         // Set default values in the form
         document.getElementById("metalInput").value = "Gold";
-        document.getElementById("purityInput").value = "9999";
+        document.getElementById("purityInput").value = "999";
         document.getElementById("unitInput").value = "1";
         document.getElementById("weightInput").value = "GM";
 
@@ -1204,15 +1204,17 @@
             unitMultiplier = 31.1034768;
           }
 
-          const goldUSDResult = parseFloat(document.getElementById("GoldUSDresult").textContent);
-          const calculatedRate = goldUSDResult * 3.67 * unit * unitMultiplier * (purity / Math.pow(10, purity.length));
+          const goldUSDResult = parseFloat(document.getElementById("goldAskingPrice").textContent);
+          const calculatedRate = ((goldUSDResult / 31.1035) * 3.67 * unit * unitMultiplier) * (purity / Math.pow(10, purity.length));
 
           // Update the sell and buy rates in the form
           document.getElementById("sellAEDInput").textContent = calculatedRate.toFixed(2);
           document.getElementById("sellUSDInput").textContent = (calculatedRate / 3.67).toFixed(2);
 
           // You can adjust the buy rate calculation based on your requirements
-          const buyRate = calculatedRate * 1.05; // For example, increase by 5%
+          const goldUSDBiddingResult = parseFloat(document.getElementById("goldBiddingPrice").textContent);
+          const buyRate = ((goldUSDBiddingResult / 31.1035) * 3.67 * unit * unitMultiplier) * (purity / Math.pow(10, purity.length)); // For example, increase by 5%
+
           document.getElementById("buyAEDInput").textContent = buyRate.toFixed(2);
           document.getElementById("buyUSDInput").textContent = (buyRate / 3.67).toFixed(2);
         }
@@ -1248,27 +1250,27 @@
           const weightInput = document.getElementById("weightInput").value;
           const sellAEDInput = document.getElementById("sellAEDInput").textContent; // Updated to use textContent
           const buyAEDInput = document.getElementById("buyAEDInput").textContent; // Updated to use textContent
-          const sellPremiumInput = document.getElementById("sellPremiumInput").value;
-          const sellChargesInput = document.getElementById("sellChargesInput").value;
-          const buyPremiumInput = document.getElementById("buyPremiumInput").value;
-          const buyChargesInput = document.getElementById("buyChargesInput").value;
+          const sellPremiumInput = document.getElementById("sellPremiumUSD").value;
+          const sellChargesInput = document.getElementById("sellPremiumAED").value;
+          const buyPremiumInput = document.getElementById("buyPremiumUSD").value;
+          const buyChargesInput = document.getElementById("buyPremiumAED").value;
 
           // Create a new table row
           const newRow = document.createElement("tr");
           newRow.innerHTML = `
-    <td>${metalInput}</td>
-    <td>${purityInput}</td>
-    <td>${unitInput} ${weightInput}</td>
-    <td>${sellAEDInput}</td>
-    <td>${buyAEDInput}</td>
-    <td>${sellPremiumInput}</td>
-    <td>${sellChargesInput}</td>
-    <td>${buyPremiumInput}</td>
-    <td>${buyChargesInput}</td>
-    <td>
-      <i class="fas fa-trash-alt" onclick="deleteRowConfirmation(this)"></i>
-    </td>
-  `;
+          <td>${metalInput}</td>
+          <td>${purityInput}</td>
+          <td>${unitInput} ${weightInput}</td>
+          <td>${sellAEDInput}</td>
+          <td>${buyAEDInput}</td>
+          <td>${sellPremiumInput}</td>
+          <td>${sellChargesInput}</td>
+          <td>${buyPremiumInput}</td>
+          <td>${buyChargesInput}</td>
+          <td>
+            <i class="fas fa-trash-alt" onclick="deleteRowConfirmation(this)"></i>
+          </td>
+          `;
 
           // Add the new row to the table body
           document.getElementById("tableBody").appendChild(newRow);
@@ -1276,7 +1278,7 @@
           // Function to reset form fields to default values
           function resetFormFields() {
             document.getElementById("metalInput").value = "Gold";
-            document.getElementById("purityInput").value = "9999";
+            document.getElementById("purityInput").value = "999";
             document.getElementById("unitInput").value = "1";
             document.getElementById("weightInput").value = "GM";
             document.getElementById("sellPremiumInput").value = "";
@@ -1335,14 +1337,14 @@
 
           // Call calculateRates to update the table values
           calculateRates();
+          buyRate();
         }
 
         // Add an event listener to trigger the setGoldValue function when the input changes
         document.getElementById("getGoldValue").addEventListener("input", setGoldValue);
-
         // Add an event listener to trigger the calculateRates function when the addRowForm input changes
         document.getElementById("addRowForm").addEventListener("input", calculateRates);
-
+        document.getElementById("addRowForm").addEventListener("input", buyRate);
 
 
         function setSilverValue() {
@@ -1395,13 +1397,7 @@
         }
 
         //Convert Values From USD to AED
-        function valuesUSDToAED(sellUSDInput, buyUSDInput) {
-          console.log(buyUSDInput);
-          console.log(sellUSDInput);
-
-          // document.getElementById("buyUSDInput").innerHTML = buyUSDInput
-          // document.getElementById("sellUSDInput").innerHTML = sellUSDInput
-
+        function valuesUSDToAED() {
           const sellValueInUSD = document.getElementById("sellUSDInput");
           const sellValueInUSDToText = sellValueInUSD.textContent.trim();
           const sellValueInUSDToNum = parseFloat(sellValueInUSDToText);
@@ -1409,7 +1405,6 @@
           const buyValueInUSD = document.getElementById("buyUSDInput");
           const buyValueInUSDToText = buyValueInUSD.textContent.trim();
           const buyValueInUSDToNum = parseFloat(buyValueInUSDToText);
-
 
           const sellValueInAED = sellValueInUSDToNum * 3.67;
           const buyValueInAED = buyValueInUSDToNum * 3.67;
@@ -1453,9 +1448,7 @@
             document.getElementById("goldAsk").innerHTML = totalGoldSpreadValue + 0.5;
             document.getElementById("goldAskingPrice").innerHTML = totalGoldSpreadValue + 0.5;
 
-            //Set value to Commodity
-            buyUSDInput = totalGoldSpreadValue
-            valuesUSDToAED(sellUSDInput, buyUSDInput)
+            document.getElementById("buyUSDInput").innerHTML = totalGoldSpreadValue;
           });
         }
 
@@ -1519,18 +1512,15 @@
             const editedGoldSpreadValue = parseFloat(editedGoldSpreadText);
             // You can now handle the edited content, e.g., save it to a variable or send it to the server.
             // For example:
-            var totalGoldSpreadvalue = '';
+            var totalGoldSpreadValue = '';
             if (askGoldValue > 0) {
-              totalGoldSpreadvalue = askGoldValue + editedGoldSpreadValue;
+              totalGoldSpreadValue = askGoldValue + editedGoldSpreadValue;
             } else {
-              totalGoldSpreadvalue = askGoldValue - editedGoldSpreadValue;
+              totalGoldSpreadValue = askGoldValue - editedGoldSpreadValue;
             }
-            document.getElementById("goldAskingPrice").innerHTML = totalGoldSpreadvalue;
+            document.getElementById("goldAskingPrice").innerHTML = totalGoldSpreadValue;
 
-            //Set Value to Commodity
-            sellUSDInput = totalGoldSpreadvalue
-            console.log(sellUSDInput);
-            valuesUSDToAED(sellUSDInput, buyUSDInput);
+            document.getElementById("sellUSDInput").innerHTML = totalGoldSpreadValue;
           });
         }
 
@@ -1695,11 +1685,46 @@
           valuesUSDToAED();
         }
 
+        const exchangeRate = 3.67; // 1 USD = 3.67 AED (an example rate)
 
+        function convertUSDToAED(usdValue) {
+          return usdValue * exchangeRate;
+        }
 
+        function convertAEDToUSD(aedValue) {
+          return aedValue / exchangeRate;
+        }
 
+        // Event listeners for USD fields
+        document.getElementById("sellPremiumUSD").addEventListener('input', function () {
+          const usdValue = parseFloat(this.value) || 0;
+          const aedValue = convertUSDToAED(usdValue);
+          document.getElementById("sellPremiumAED").value = aedValue.toFixed(2);
+          console.log('USD to AED:', aedValue);
+        });
+
+        document.getElementById("buyPremiumUSD").addEventListener('input', function () {
+          const usdValue = parseFloat(this.value) || 0;
+          const aedValue = convertUSDToAED(usdValue);
+          document.getElementById("buyPremiumAED").value = aedValue.toFixed(2);
+          console.log('USD to AED:', aedValue);
+        });
+
+        // Event listeners for AED fields
+        document.getElementById("sellPremiumAED").addEventListener('input', function () {
+          const aedValue = parseFloat(this.value) || 0;
+          const usdValue = convertAEDToUSD(aedValue);
+          document.getElementById("sellPremiumUSD").value = usdValue.toFixed(2);
+          console.log('AED to USD:', usdValue);
+        });
+
+        document.getElementById("buyPremiumAED").addEventListener('input', function () {
+          const aedValue = parseFloat(this.value) || 0;
+          const usdValue = convertAEDToUSD(aedValue);
+          document.getElementById("buyPremiumUSD").value = usdValue.toFixed(2);
+          console.log('AED to USD:', usdValue);
+        });
       </script>
-
 
 
       <!-- footer starts here -->
