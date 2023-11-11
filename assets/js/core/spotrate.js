@@ -238,6 +238,7 @@
 
         document.getElementById('saveChangesButton').style.display = 'block';
         document.getElementById('saveButton').style.display = 'none';
+        document.getElementById('closeButton').style.display = 'none';
 
         // Get the row to be edited
         editedRow = iconElement.parentElement.parentElement;
