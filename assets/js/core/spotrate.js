@@ -128,11 +128,6 @@ function calculateRates() {
     }
   }
 
-
-
-
-
-
   const goldUSDResult = parseFloat(document.getElementById("goldAskingPrice").textContent);
   const calculatedRate = ((goldUSDResult + valueUSD1) / 31.1035 * 3.67 * unit * unitMultiplier) * (purity / Math.pow(10, purity.length));
 
@@ -146,8 +141,6 @@ function calculateRates() {
 
   document.getElementById("buyAEDInput").textContent = buyRate.toFixed(2);
   document.getElementById("buyUSDInput").textContent = (buyRate / 3.67).toFixed(2);
-
-
 }
 
 // Add an event listener to trigger the calculation when the form values change
@@ -300,6 +293,17 @@ function confirmedDelete() {
   $('#deleteConfirmationModal').modal('hide');
 }
 
+//Update Sell and Buy USD Input
+function updateBuyUSDInput(value) {
+  document.getElementById("buyUSDInput").textContent = value;
+  valuesUSDToAED()
+}
+
+function updateSellUSDInput(value) {
+  document.getElementById("sellUSDInput").textContent = value;
+  valuesUSDToAED()
+}
+
 
 function setGoldValue() {
   var getValue = parseFloat(document.getElementById("getGoldValue").value);
@@ -313,22 +317,23 @@ function setGoldValue() {
   document.getElementById("goldAskingPrice").textContent = getValue + 0.5;
 
   // Set Value to Commodity
-  document.getElementById("buyUSDInput").textContent = getValue;
-  document.getElementById("sellUSDInput").textContent = getValue + 1;
+  updateSellUSDInput(getValue + 0.5)
+  updateBuyUSDInput(getValue)
 
   var goldValuegm = parseFloat(document.getElementById("displayGoldValue").textContent);
-  var GoldUSDresult = (goldValuegm / 31.1035).toFixed(4);
-  var GoldAEDresult = (GoldUSDresult * 3.67).toFixed(4);
-  document.getElementById("GoldUSDresult").textContent = GoldUSDresult;
-  document.getElementById("GoldAEDresult").textContent = GoldAEDresult;
+  var GoldUSDResult = (goldValuegm / 31.1035).toFixed(4);
+  var GoldAEDResult = (GoldUSDResult * 3.67).toFixed(4);
+  document.getElementById("GoldUSDresult").textContent = GoldUSDResult;
+  document.getElementById("GoldAEDresult").textContent = GoldAEDResult;
 
   //usd 
-  document.getElementById("buyUSDInput").innerHTML = getValue;
+  // updateBuyUSDInput(getValue)
 
   // Call calculateRates to update the table values
-  calculateRates();
-  buyRate();
+  // calculateRates();
+  // buyRate();
 }
+
 
 // Add an event listener to trigger the setGoldValue function when the input changes
 document.getElementById("getGoldValue").addEventListener("input", setGoldValue);
@@ -386,7 +391,7 @@ function setSilverHighMarginValue() {
   document.getElementById("silverNewHighValue").innerHTML = getValue
 }
 
-//Convert Values From USD to AED
+//Convert Values From USD to AED for Sell and Buy
 function valuesUSDToAED() {
   const sellValueInUSD = document.getElementById("sellUSDInput");
   const sellValueInUSDToText = sellValueInUSD.textContent.trim();
@@ -424,7 +429,7 @@ function editGoldBid() {
     const editedGoldSpreadValue = parseFloat(editedGoldSpreadText);
     // You can now handle the edited content, e.g., save it to a variable or send it to the server.
     // For example:
-    let totalGoldSpreadValue = '';
+    var totalGoldSpreadValue = '';
     if (bidGoldValue > 0) {
       totalGoldSpreadValue = bidGoldValue + editedGoldSpreadValue;
     } else {
@@ -435,11 +440,45 @@ function editGoldBid() {
     document.getElementById("goldAsk").innerHTML = totalGoldSpreadValue + 0.5;
     document.getElementById("goldAskingPrice").innerHTML = totalGoldSpreadValue + 0.5;
 
-    document.getElementById("buyUSDInput").innerHTML = totalGoldSpreadValue;
+    //Update Buy USD Value
+    updateBuyUSDInput(totalGoldSpreadValue)
   });
 }
 
+//Edit Value for Gold on Button Click
+function editGoldAsk() {
+  const getGoldAskValue = document.getElementById("goldAsk");
+  const askGoldText = getGoldAskValue.textContent.trim();
+  const askGoldValue = parseFloat(askGoldText);
+  document.getElementById("goldAskingPrice").innerHTML = askGoldValue;
+  const editGoldAskSpreadValue = document.getElementById("goldAskSpread");
+  const isEditable = editGoldAskSpreadValue.getAttribute("contenteditable") === "true";
+  editGoldAskSpreadValue.setAttribute("contenteditable", isEditable ? "false" : "true");
+  // Focus on the div to make it easier for the user to start editing
+  if (isEditable) {
+    editGoldAskSpreadValue.blur();
+  } else {
+    editGoldAskSpreadValue.focus();
+  }
 
+  editGoldAskSpreadValue.addEventListener("input", function () {
+    // This event handler will be triggered when the content is edited.
+    const editedGoldSpreadText = editGoldAskSpreadValue.textContent.trim();
+    const editedGoldSpreadValue = parseFloat(editedGoldSpreadText);
+    // You can now handle the edited content, e.g., save it to a variable or send it to the server.
+    // For example:
+    var totalGoldSpreadValue = '';
+    if (askGoldValue > 0) {
+      totalGoldSpreadValue = askGoldValue + editedGoldSpreadValue;
+    } else {
+      totalGoldSpreadValue = askGoldValue - editedGoldSpreadValue;
+    }
+    document.getElementById("goldAskingPrice").innerHTML = totalGoldSpreadValue;
+
+    //Update Sell USD Value
+    updateSellUSDInput(totalGoldSpreadValue)
+  });
+}
 
 //Edit Value for Silver on Button Click
 function editSilverBid() {
@@ -474,42 +513,6 @@ function editSilverBid() {
     document.getElementById("silverAskingPrice").innerHTML = totalSilverSpreadvalue + 0.05;
   });
 }
-
-
-//Edit Value for Gold on Button Click
-function editGoldAsk() {
-  const getGoldAskValue = document.getElementById("goldAsk");
-  const askGoldText = getGoldAskValue.textContent.trim();
-  const askGoldValue = parseFloat(askGoldText);
-  document.getElementById("goldAskingPrice").innerHTML = askGoldValue;
-  const editGoldAskSpreadValue = document.getElementById("goldAskSpread");
-  const isEditable = editGoldAskSpreadValue.getAttribute("contenteditable") === "true";
-  editGoldAskSpreadValue.setAttribute("contenteditable", isEditable ? "false" : "true");
-  // Focus on the div to make it easier for the user to start editing
-  if (isEditable) {
-    editGoldAskSpreadValue.blur();
-  } else {
-    editGoldAskSpreadValue.focus();
-  }
-
-  editGoldAskSpreadValue.addEventListener("input", function () {
-    // This event handler will be triggered when the content is edited.
-    const editedGoldSpreadText = editGoldAskSpreadValue.textContent.trim();
-    const editedGoldSpreadValue = parseFloat(editedGoldSpreadText);
-    // You can now handle the edited content, e.g., save it to a variable or send it to the server.
-    // For example:
-    var totalGoldSpreadValue = '';
-    if (askGoldValue > 0) {
-      totalGoldSpreadValue = askGoldValue + editedGoldSpreadValue;
-    } else {
-      totalGoldSpreadValue = askGoldValue - editedGoldSpreadValue;
-    }
-    document.getElementById("goldAskingPrice").innerHTML = totalGoldSpreadValue;
-
-    document.getElementById("sellUSDInput").innerHTML = totalGoldSpreadValue;
-  });
-}
-
 
 //Edit Value for Silver on Button Click
 function editSilverAsk() {
@@ -574,7 +577,7 @@ function editGoldMarginValue() {
     document.getElementById("goldNewLowValue").innerHTML = finalLowMarginValue;
   });
 
-  
+
   const goldHighValue = document.getElementById("goldHighValue");
   const goldHighValueToText = goldHighValue.textContent.trim();
   const goldHighValueToNum = parseFloat(goldHighValueToText);
@@ -634,7 +637,7 @@ function editSilverMarginValue() {
     document.getElementById("silverNewLowValue").innerHTML = finalLowMarginValue;
   });
 
-  
+
   const silverHighValue = document.getElementById("silverHighValue");
   const silverHighValueToText = silverHighValue.textContent.trim();
   const silverHighValueToNum = parseFloat(silverHighValueToText);
