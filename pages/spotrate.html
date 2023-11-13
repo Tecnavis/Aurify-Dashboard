@@ -590,7 +590,7 @@
                   <li class="list-group-item border-0 d-flex ps-0 mb-2 border-radius-lg">
                     <div class="d-flex flex-column">
                       <h6 class="text-dark mb-1 font-weight-bold text-sm">Spread</h6>
-                      <div class="d-flex align-items-center text-sm" id="goldSpread" contenteditable="true">0</div>
+                      <div class="d-flex align-items-center text-sm" id="goldSpread" contenteditable="false">0</div>
                     </div>
                   </li>
                 </ul>
@@ -640,7 +640,7 @@
                   <li class="list-group-item border-0 d-flex ps-0 mb-2 border-radius-lg">
                     <div class="d-flex flex-column">
                       <h6 class="text-dark mb-1 font-weight-bold text-sm">Spread</h6>
-                      <div class="d-flex align-items-center text-sm" id="silverSpread" contenteditable="true">0</div>
+                      <div class="d-flex align-items-center text-sm" id="silverSpread" contenteditable="false">0</div>
                     </div>
                   </li>
                 </ul>
@@ -695,7 +695,7 @@
                   <li class="list-group-item border-0 d-flex ps-0 mb-2 border-radius-lg">
                     <div class="d-flex flex-column">
                       <h6 class="text-dark mb-1 font-weight-bold text-sm">Spread</h6>
-                      <div class="d-flex align-items-center text-sm" id="goldAskSpread" contenteditable="true">0</div>
+                      <div class="d-flex align-items-center text-sm" id="goldAskSpread" contenteditable="false">0</div>
                     </div>
                   </li>
                 </ul>
@@ -745,7 +745,7 @@
                   <li class="list-group-item border-0 d-flex ps-0 mb-2 border-radius-lg">
                     <div class="d-flex flex-column">
                       <h6 class="text-dark mb-1 font-weight-bold text-sm">Spread</h6>
-                      <div class="d-flex align-items-center text-sm" id="silverAskSpread" contenteditable="true">0</div>
+                      <div class="d-flex align-items-center text-sm" id="silverAskSpread" contenteditable="false">0</div>
                     </div>
                   </li>
                 </ul>
@@ -799,7 +799,7 @@
                   <li class="list-group-item border-0 d-flex ps-0 mb-2 border-radius-lg">
                     <div class="d-flex flex-column">
                       <h6 class="text-dark mb-1 font-weight-bold text-sm">Margin</h6>
-                      <div class="d-flex align-items-center text-sm" id="goldLowMargin" contenteditable="true">0</div>
+                      <div class="d-flex align-items-center text-sm" id="goldLowMargin" contenteditable="false">0</div>
                     </div>
                   </li>
                 </ul>
@@ -832,7 +832,7 @@
                   <li class="list-group-item border-0 d-flex ps-0 mb-2 border-radius-lg">
                     <div class="d-flex flex-column">
                       <h6 class="text-dark mb-1 font-weight-bold text-sm">Margin</h6>
-                      <div class="d-flex align-items-center text-sm" id="goldHighMargin" contenteditable="true">0</div>
+                      <div class="d-flex align-items-center text-sm" id="goldHighMargin" contenteditable="false">0</div>
                     </div>
                   </li>
                 </ul>
@@ -881,7 +881,7 @@
                   <li class="list-group-item border-0 d-flex ps-0 mb-2 border-radius-lg">
                     <div class="d-flex flex-column">
                       <h6 class="text-dark mb-1 font-weight-bold text-sm">Margin</h6>
-                      <div class="d-flex align-items-center text-sm" id="silverLowMargin" contenteditable="true">0</div>
+                      <div class="d-flex align-items-center text-sm" id="silverLowMargin" contenteditable="false">0</div>
                     </div>
                   </li>
                 </ul>
@@ -914,7 +914,7 @@
                   <li class="list-group-item border-0 d-flex ps-0 mb-2 border-radius-lg">
                     <div class="d-flex flex-column">
                       <h6 class="text-dark mb-1 font-weight-bold text-sm">Margin</h6>
-                      <div class="d-flex align-items-center text-sm" id="silverHighMargin" contenteditable="true">0
+                      <div class="d-flex align-items-center text-sm" id="silverHighMargin" contenteditable="false">0
                       </div>
                     </div>
                   </li>
@@ -1042,16 +1042,16 @@
                   <div class="col-6 d-block">
                     <center><label>Sell Premium </label></center>
                     <div class="d-flex">
-                  <div class="form-group col-6">
-                    <!-- <label for="sellPremiumUSD"> USD</label> -->
-                    <input type="text" class="form-control" id="sellPremiumUSD" placeholder="USD" >
+                      <div class="form-group col-6">
+                        <!-- <label for="sellPremiumUSD"> USD</label> -->
+                        <input type="text" class="form-control" id="sellPremiumUSD" placeholder="USD">
+                      </div>
+                      <div class="form-group col-6">
+                        <!-- <label for="sellPremiumAED">AED</label> -->
+                        <input type="text" class="form-control" id="sellPremiumAED" placeholder="AED">
+                      </div>
+                    </div>
                   </div>
-                  <div class="form-group col-6">
-                    <!-- <label for="sellPremiumAED">AED</label> -->
-                    <input type="text" class="form-control" id="sellPremiumAED" placeholder="AED">
-                  </div>
-                </div>
-                </div>
                 </div>
                 <div class="d-flex col-12">
                   <div class="form-group col-3">
@@ -1069,18 +1069,18 @@
                     </select>
                   </div>
                   <div class="col-6 d-block ">
-                   <center><label>Buy Premium </label></center> 
+                    <center><label>Buy Premium </label></center>
                     <div class="d-flex">
-                  <div class="form-group col-6">
-                    <!-- <label for="buyPremiumUSD"> USD</label> -->
-                    <input type="text" class="form-control" id="buyPremiumUSD" placeholder="USD">
+                      <div class="form-group col-6">
+                        <!-- <label for="buyPremiumUSD"> USD</label> -->
+                        <input type="text" class="form-control" id="buyPremiumUSD" placeholder="USD">
+                      </div>
+                      <div class="form-group col-6">
+                        <!-- <label for="buyPremiumAED">AED</label> -->
+                        <input type="text" class="form-control" id="buyPremiumAED" placeholder="AED">
+                      </div>
+                    </div>
                   </div>
-                  <div class="form-group col-6">
-                    <!-- <label for="buyPremiumAED">AED</label> -->
-                    <input type="text" class="form-control" id="buyPremiumAED" placeholder="AED">
-                  </div>
-                </div>
-                </div>
 
                 </div>
                 <br>
@@ -1110,15 +1110,17 @@
                       </td>
                     </tr>
                   </table>
-                      
+
                 </div>
               </form>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" id="closeButton" data-dismiss="modal">Close</button>
-                <!-- Display an edit icon and attach click event to editRow -->
-              <button type="button" class="btn btn-primary" id="saveChangesButton" onclick="updateRow()">Save Changes</button>
-              <button type="button" class="btn btn-primary" id="saveButton" onclick="saveRow()" data-dismiss="modal">Save</button>
+              <!-- Display an edit icon and attach click event to editRow -->
+              <button type="button" class="btn btn-primary" id="saveChangesButton" onclick="updateRow()">Save
+                Changes</button>
+              <button type="button" class="btn btn-primary" id="saveButton" onclick="saveRow()"
+                data-dismiss="modal">Save</button>
             </div>
           </div>
         </div>
