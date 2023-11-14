@@ -10,6 +10,37 @@ document.getElementById("addRowForm").addEventListener("input", calculateRates);
 // Call calculateRates with default values
 calculateRates();
 
+// Function to calculate total value including Premium 
+function totalUSDInputValue() {
+  const sellPremiumUSDElement = document.getElementById('sellPremiumUSD');
+  const buyPremiumUSDElement = document.getElementById('buyPremiumUSD');
+
+  // Ensure the elements exist and contain valid numerical data
+  const sellPremiumUSD = sellPremiumUSDElement ? parseFloat(sellPremiumUSDElement.value) || 0 : 0;
+  const buyPremiumUSD = buyPremiumUSDElement ? parseFloat(buyPremiumUSDElement.value) || 0 : 0;
+
+  // Get values from Sell and Buy USD Input
+  const sellUSDInputElement = document.getElementById("sellUSDInput");
+  const buyUSDInputElement = document.getElementById("buyUSDInput");
+
+  const sellUSDInput = sellUSDInputElement ? parseFloat(sellUSDInputElement.textContent) || 0 : 0;
+  const buyUSDInput = buyUSDInputElement ? parseFloat(buyUSDInputElement.textContent) || 0 : 0;
+
+  const totalSellUSDInput = sellPremiumUSD + buyUSDInput;
+  const totalBuyUSDInput = buyPremiumUSD + sellUSDInput;
+
+  // Update the content of elements
+  if (sellUSDInputElement) {
+    sellUSDInputElement.textContent = parseFloat(totalSellUSDInput);
+  }
+
+  if (buyUSDInputElement) {
+    buyUSDInputElement.textContent = parseFloat(totalBuyUSDInput);
+  }
+
+  valuesUSDToAED()
+}
+
 
 // Set default values in the form
 document.getElementById("metalInput").value = "Gold";
@@ -141,7 +172,10 @@ function calculateRates() {
 
   document.getElementById("buyAEDInput").textContent = buyRate.toFixed(2);
   document.getElementById("buyUSDInput").textContent = (buyRate / 3.67).toFixed(2);
+
+  totalUSDInputValue()
 }
+
 
 // Add an event listener to trigger the calculation when the form values change
 document.getElementById("addRowForm").addEventListener("input", calculateRates);
