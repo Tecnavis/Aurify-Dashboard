@@ -1,3 +1,38 @@
+const API_KEY = '42e02154f6d33bbcfaad8903a99e0ace'
+
+async function fetchData() {
+  try {
+    const response = await fetch(`https://api.metalpriceapi.com/v1/latest?api_key=${API_KEY}&base=USD&currencies=EUR,XAU,XAG`);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log('Data:', data);
+
+    // Convert values to USD of 1 Ounce Gold and Silver
+    const getGoldValue = data.rates.XAU;
+    const goldValue = 1 / getGoldValue;
+
+    const getSilverValue = data.rates.XAG;
+    const silverValue = 1 / getSilverValue;
+
+    // Call the setGoldValue function and pass the gold and silver value 
+    setGoldValue(goldValue);
+    setSilverValue(silverValue);
+
+    return data;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  fetchData();
+});
+
+
 // Add an event listener to trigger the calculation when the gold value input changes
 document.getElementById("getGoldValue").addEventListener("input", function () {
   setGoldValue(); // Call setGoldValue function when the input changes
@@ -338,30 +373,28 @@ function updateSellUSDInput(value) {
   valuesUSDToAED()
 }
 
+// Set Gold value using API call
+// Set Gold value using API call
 
-function setGoldValue() {
-  var getValue = parseFloat(document.getElementById("getGoldValue").value);
-  document.getElementById("displayGoldValue").textContent = getValue;
 
+
+function setGoldValue(goldValue) {
   // Set the value to elements
-  document.getElementById("goldBid").textContent = getValue;
-  document.getElementById("goldBiddingPrice").textContent = getValue;
+  document.getElementById("goldBid").textContent = goldValue;
+  document.getElementById("goldBiddingPrice").textContent = goldValue;
 
-  document.getElementById("goldAsk").textContent = getValue + 0.5;
-  document.getElementById("goldAskingPrice").textContent = getValue + 0.5;
+  document.getElementById("goldAsk").textContent = goldValue + 0.5;
+  document.getElementById("goldAskingPrice").textContent = goldValue + 0.5;
 
   // Set Value to Commodity
-  updateSellUSDInput(getValue + 0.5)
-  updateBuyUSDInput(getValue)
+  updateSellUSDInput(goldValue + 0.5);
+  updateBuyUSDInput(goldValue);
 
-  var goldValuegm = parseFloat(document.getElementById("displayGoldValue").textContent);
+  var goldValuegm = goldValue
   var GoldUSDResult = (goldValuegm / 31.1035).toFixed(4);
   var GoldAEDResult = (GoldUSDResult * 3.67).toFixed(4);
   document.getElementById("GoldUSDresult").textContent = GoldUSDResult;
   document.getElementById("GoldAEDresult").textContent = GoldAEDResult;
-
-  //usd 
-  // updateBuyUSDInput(getValue)
 
   // Call calculateRates to update the table values
   // calculateRates();
@@ -376,16 +409,14 @@ document.getElementById("addRowForm").addEventListener("input", calculateRates);
 document.getElementById("addRowForm").addEventListener("input", buyRate);
 
 
-function setSilverValue() {
-  var getValue = parseFloat(document.getElementById("getSilverValue").value)
-  document.getElementById("displaySilverValue").innerHTML = getValue
+function setSilverValue(silverValue) {
 
   //Set the value to elements
-  document.getElementById("silverBid").innerHTML = getValue
-  document.getElementById("silverBiddingPrice").innerHTML = getValue
+  document.getElementById("silverBid").innerHTML = silverValue
+  document.getElementById("silverBiddingPrice").innerHTML = silverValue
 
-  document.getElementById("silverAsk").innerHTML = getValue + 0.05
-  document.getElementById("silverAskingPrice").innerHTML = getValue + 0.05
+  document.getElementById("silverAsk").innerHTML = silverValue + 0.05
+  document.getElementById("silverAskingPrice").innerHTML = silverValue + 0.05
 }
 
 //Margin Value
