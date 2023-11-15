@@ -50,14 +50,14 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-// Add an event listener to trigger the calculation when the gold value input changes
-document.getElementById("getGoldValue").addEventListener("input", function () {
-  setGoldValue(); // Call setGoldValue function when the input changes
-  calculateRates(); // Call calculateRates to update the table values
-});
-document.getElementById("getGoldValue").addEventListener("input", setGoldValue);
+// // Add an event listener to trigger the calculation when the gold value input changes
+// document.getElementById("getGoldValue").addEventListener("input", function () {
+//   setGoldValue(); // Call setGoldValue function when the input changes
+//   calculateRates(); // Call calculateRates to update the table values
+// });
+// document.getElementById("getGoldValue").addEventListener("input", setGoldValue);
 
-document.getElementById("addRowForm").addEventListener("input", calculateRates);
+// document.getElementById("addRowForm").addEventListener("input", calculateRates);
 
 // Call calculateRates with default values
 calculateRates();
@@ -111,7 +111,6 @@ function calculateRates() {
   let unit = parseFloat(unitInput.value) || 1; // Use the value from the input or default to 1
   let weight = weightInput.value || "GM"; // Use the value from the input or default to "GM"
 
-
   // Update unit and weight based on the selected metal type
   switch (metalType) {
     case "Gold kilobar":
@@ -127,7 +126,6 @@ function calculateRates() {
       weight = "TTB";
       break;
     // Add more cases for other metal types if needed
-
     default:
       break;
   }
@@ -236,6 +234,7 @@ document.getElementById("addRowForm").addEventListener("input", calculateRates);
 function addTableRow() {
   document.getElementById('saveButton').style.display = 'block';
   document.getElementById('saveChangesButton').style.display = 'none';
+
 }
 
 function getSelectedCurrency() {
@@ -256,8 +255,6 @@ function deleteRow(iconElement) {
 }
 
 function saveRow() {
-
-
   // Get data from the form
   const metalInput = document.getElementById("metalInput").value;
   const purityInput = document.getElementById("purityInput").value;
@@ -414,8 +411,8 @@ function setGoldValue(goldValue) {
   document.getElementById("GoldAEDresult").textContent = GoldAEDResult;
 
   // Call calculateRates to update the table values
-  // calculateRates();
-  // buyRate();
+  //calculateRates();
+  //buyRate();
 }
 
 
@@ -427,7 +424,6 @@ document.getElementById("addRowForm").addEventListener("input", buyRate);
 
 
 function setSilverValue(silverValue) {
-
   //Set the value to elements
   document.getElementById("silverBid").innerHTML = silverValue
   document.getElementById("silverBiddingPrice").innerHTML = silverValue
