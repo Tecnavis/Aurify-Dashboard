@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-  fetchData();
+  setInterval(fetchData, 2000)
 });
 
 
