@@ -1,4 +1,9 @@
-const API_KEY = 'goldapi-helchrlozgag1d-io'
+document.addEventListener('DOMContentLoaded', function () {
+  fetchData();
+});
+
+
+const API_KEY = 'goldapi-34zzsrlp128efv-io'
 
 async function fetchData() {
   var myHeaders = new Headers();
@@ -43,11 +48,6 @@ async function fetchData() {
   }
 }
 
-
-
-document.addEventListener('DOMContentLoaded', function () {
-  fetchData();
-});
 
 
 // // Add an event listener to trigger the calculation when the gold value input changes
