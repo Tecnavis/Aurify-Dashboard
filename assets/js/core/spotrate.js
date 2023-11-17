@@ -1,46 +1,63 @@
-const API_KEY = '42e02154f6d33bbcfaad8903a99e0ace'
+document.addEventListener('DOMContentLoaded', function () {
+  setInterval(fetchData, 2000)
+});
+
+
+const API_KEY = 'goldapi-34zzsrlp128efv-io'
 
 async function fetchData() {
-  try {
-    const response = await fetch(`https://api.metalpriceapi.com/v1/latest?api_key=${API_KEY}&base=USD&currencies=EUR,XAU,XAG`);
+  var myHeaders = new Headers();
+  myHeaders.append("x-access-token", API_KEY);
+  myHeaders.append("Content-Type", "application/json");
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+  var requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow'
+  };
+
+  try {
+    const responseGold = await fetch("https://www.goldapi.io/api/XAU/USD", requestOptions);
+    const responseSilver = await fetch("https://www.goldapi.io/api/XAG/USD", requestOptions);
+
+    if (!responseGold.ok && !responseSilver.ok) {
+      throw new Error('One or more network responses were not OK');
     }
 
-    const data = await response.json();
-    console.log('Data:', data);
+    const resultGold = await responseGold.json();
+    const resultSilver = await responseSilver.json();
 
-    // Convert values to USD of 1 Ounce Gold and Silver
-    const getGoldValue = data.rates.XAU;
-    const goldValue = 1 / getGoldValue;
+    // Adjust based on the actual API response structure
+    var goldValue = parseFloat(resultGold.open_price);
+    var silverValue = parseFloat(resultSilver.open_price);
 
-    const getSilverValue = data.rates.XAG;
-    const silverValue = 1 / getSilverValue;
+    var goldLowValue = parseFloat(resultGold.low_price);
+    var goldHighValue = parseFloat(resultGold.high_price);
+    var silverLowValue = parseFloat(resultSilver.low_price);
+    var silverHighValue = parseFloat(resultSilver.high_price);
 
-    // Call the setGoldValue function and pass the gold and silver value 
+    // Make sure setGoldValue and setSilverValue are defined and do what you expect
     setGoldValue(goldValue);
     setSilverValue(silverValue);
-
-    return data;
+    setGoldLowMarginValue(goldLowValue)
+    setGoldHighMarginValue(goldHighValue)
+    setSilverLowMarginValue(silverLowValue)
+    setSilverHighMarginValue(silverHighValue)
   } catch (error) {
-    console.error('Error fetching data:', error);
+    console.error('Error fetching gold and silver values:', error);
   }
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-  fetchData();
-});
 
 
-// Add an event listener to trigger the calculation when the gold value input changes
-document.getElementById("getGoldValue").addEventListener("input", function () {
-  setGoldValue(); // Call setGoldValue function when the input changes
-  calculateRates(); // Call calculateRates to update the table values
-});
-document.getElementById("getGoldValue").addEventListener("input", setGoldValue);
+// // Add an event listener to trigger the calculation when the gold value input changes
+// document.getElementById("getGoldValue").addEventListener("input", function () {
+//   setGoldValue(); // Call setGoldValue function when the input changes
+//   calculateRates(); // Call calculateRates to update the table values
+// });
+// document.getElementById("getGoldValue").addEventListener("input", setGoldValue);
 
-document.getElementById("addRowForm").addEventListener("input", calculateRates);
+// document.getElementById("addRowForm").addEventListener("input", calculateRates);
 
 // Call calculateRates with default values
 calculateRates();
@@ -94,7 +111,6 @@ function calculateRates() {
   let unit = parseFloat(unitInput.value) || 1; // Use the value from the input or default to 1
   let weight = weightInput.value || "GM"; // Use the value from the input or default to "GM"
 
-
   // Update unit and weight based on the selected metal type
   switch (metalType) {
     case "Gold kilobar":
@@ -110,7 +126,6 @@ function calculateRates() {
       weight = "TTB";
       break;
     // Add more cases for other metal types if needed
-
     default:
       break;
   }
@@ -219,6 +234,7 @@ document.getElementById("addRowForm").addEventListener("input", calculateRates);
 function addTableRow() {
   document.getElementById('saveButton').style.display = 'block';
   document.getElementById('saveChangesButton').style.display = 'none';
+
 }
 
 function getSelectedCurrency() {
@@ -239,8 +255,6 @@ function deleteRow(iconElement) {
 }
 
 function saveRow() {
-
-
   // Get data from the form
   const metalInput = document.getElementById("metalInput").value;
   const purityInput = document.getElementById("purityInput").value;
@@ -397,8 +411,8 @@ function setGoldValue(goldValue) {
   document.getElementById("GoldAEDresult").textContent = GoldAEDResult;
 
   // Call calculateRates to update the table values
-  // calculateRates();
-  // buyRate();
+  //calculateRates();
+  //buyRate();
 }
 
 
@@ -410,7 +424,6 @@ document.getElementById("addRowForm").addEventListener("input", buyRate);
 
 
 function setSilverValue(silverValue) {
-
   //Set the value to elements
   document.getElementById("silverBid").innerHTML = silverValue
   document.getElementById("silverBiddingPrice").innerHTML = silverValue
@@ -420,40 +433,28 @@ function setSilverValue(silverValue) {
 }
 
 //Margin Value
-function setGoldLowMarginValue() {
-  var getValue = parseFloat(document.getElementById("getGoldLowMarginValue").value)
-  document.getElementById("displayGoldLowMarginValue").innerHTML = getValue
-
+function setGoldLowMarginValue(goldLowValue) {
   //Set the value to elements
-  document.getElementById("goldLowValue").innerHTML = getValue
-  document.getElementById("goldNewLowValue").innerHTML = getValue
+  document.getElementById("goldLowValue").innerHTML = goldLowValue
+  document.getElementById("goldNewLowValue").innerHTML = goldLowValue
 }
 
-function setSilverLowMarginValue() {
-  var getValue = parseFloat(document.getElementById("getSilverLowMarginValue").value)
-  document.getElementById("displaySilverLowMarginValue").innerHTML = getValue
-
+function setSilverLowMarginValue(silverLowValue) {
   //Set the value to elements
-  document.getElementById("silverLowValue").innerHTML = getValue
-  document.getElementById("silverNewLowValue").innerHTML = getValue
+  document.getElementById("silverLowValue").innerHTML = silverLowValue
+  document.getElementById("silverNewLowValue").innerHTML = silverLowValue
 }
 
-function setGoldHighMarginValue() {
-  var getValue = parseFloat(document.getElementById("getGoldHighMarginValue").value)
-  document.getElementById("displayGoldHighMarginValue").innerHTML = getValue
-
+function setGoldHighMarginValue(goldHighValue) {
   //Set the value to elements
-  document.getElementById("goldHighValue").innerHTML = getValue
-  document.getElementById("goldNewHighValue").innerHTML = getValue
+  document.getElementById("goldHighValue").innerHTML = goldHighValue
+  document.getElementById("goldNewHighValue").innerHTML = goldHighValue
 }
 
-function setSilverHighMarginValue() {
-  var getValue = parseFloat(document.getElementById("getSilverHighMarginValue").value)
-  document.getElementById("displaySilverHighMarginValue").innerHTML = getValue
-
+function setSilverHighMarginValue(silverHighValue) {
   //Set the value to elements
-  document.getElementById("silverHighValue").innerHTML = getValue
-  document.getElementById("silverNewHighValue").innerHTML = getValue
+  document.getElementById("silverHighValue").innerHTML = silverHighValue
+  document.getElementById("silverNewHighValue").innerHTML = silverHighValue
 }
 
 //Convert Values From USD to AED for Sell and Buy
