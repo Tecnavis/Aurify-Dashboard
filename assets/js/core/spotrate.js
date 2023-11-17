@@ -1,9 +1,11 @@
 document.addEventListener('DOMContentLoaded', function () {
-  setInterval(fetchData, 2000)
+  setInterval(() => {
+    fetchData()
+  }, 5000)
 });
 
 
-const API_KEY = 'goldapi-34zzsrlp128efv-io'
+const API_KEY = 'goldapi-15kxrlp2tb4ts-io'  
 
 async function fetchData() {
   var myHeaders = new Headers();
@@ -28,8 +30,8 @@ async function fetchData() {
     const resultSilver = await responseSilver.json();
 
     // Adjust based on the actual API response structure
-    var goldValue = parseFloat(resultGold.open_price);
-    var silverValue = parseFloat(resultSilver.open_price);
+    var goldValue = parseFloat(resultGold.price);
+    var silverValue = parseFloat(resultSilver.price);
 
     var goldLowValue = parseFloat(resultGold.low_price);
     var goldHighValue = parseFloat(resultGold.high_price);
@@ -48,6 +50,13 @@ async function fetchData() {
   }
 }
 
+
+const tableBody = document.getElementById("tableBody");
+const rows = tableBody.getElementsByTagName("tr");
+
+for (let i = 0; i < rows.length; i++) {
+  rows[i].addEventListener("click", setGoldValue);
+}
 
 
 // // Add an event listener to trigger the calculation when the gold value input changes
@@ -234,7 +243,7 @@ document.getElementById("addRowForm").addEventListener("input", calculateRates);
 function addTableRow() {
   document.getElementById('saveButton').style.display = 'block';
   document.getElementById('saveChangesButton').style.display = 'none';
-
+  setGoldValue()
 }
 
 function getSelectedCurrency() {
@@ -306,7 +315,6 @@ function saveRow() {
       modalTitle.textContent = editedRow ? "Edit Commodity" : "Add Commodity";
     }
   });
-
 }
 let editedRow; // Add a variable to keep track of the edited row
 
@@ -387,11 +395,8 @@ function updateSellUSDInput(value) {
   valuesUSDToAED()
 }
 
+
 // Set Gold value using API call
-// Set Gold value using API call
-
-
-
 function setGoldValue(goldValue) {
   // Set the value to elements
   document.getElementById("goldBid").textContent = goldValue;
@@ -410,8 +415,8 @@ function setGoldValue(goldValue) {
   document.getElementById("GoldUSDresult").textContent = GoldUSDResult;
   document.getElementById("GoldAEDresult").textContent = GoldAEDResult;
 
-  // Call calculateRates to update the table values
-  //calculateRates();
+  //Call calculateRates to update the table values
+  calculateRates();
   //buyRate();
 }
 
