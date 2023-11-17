@@ -276,12 +276,13 @@
     <!-- End Navbar -->
     <div class="container-fluid py-4">
 <!-- Body Starts here -->
-<h3 class="ps-4 ms-2 font-weight-bolder opacity-6">Bank Details</h3>
 
-<div class="card-body pt-4 pb-2">
-  <button class="btn btn-primary mb-3" id="showForm">Add</button>
+<div class="d-flex align-items-center">
+  <h3 class="ps-4 ms-2 font-weight-bolder opacity-6">Bank Details</h3>
+  <div class="card-body pt-4 pb-2 ms-auto">
+    <button class="btn btn-primary mb-3" style="margin-left: 800px; width: 160px;" id="showForm">Add</button>
+  </div>
 </div>
-
 <!-- Modal -->
 <div class="modal mt-5" id="addModal">
   <div class="modal-dialog">
@@ -725,6 +726,18 @@ document.addEventListener('DOMContentLoaded', function() {
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/soft-ui-dashboard.min.js?v=1.0.7"></script>
   <!-- Date & Time -->
+
+  <script>
+    `use strict`;
+  function refreshTime() {
+    const timeDisplay = document.getElementById("time");
+    const dateString = new Date().toLocaleString();
+    const formattedString = dateString.replace(", ", " - ");
+    timeDisplay.textContent = formattedString;
+  }
+    setInterval(refreshTime, 1000);
+  
+      </script>
  
 </body>
 
