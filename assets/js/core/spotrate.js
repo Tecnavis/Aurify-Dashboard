@@ -1,11 +1,12 @@
+import { saveDataToFirestore } from './spotrateDB.js';
+
 document.addEventListener('DOMContentLoaded', function () {
   setInterval(() => {
     fetchData()
   }, 5000)
 });
 
-
-const API_KEY = 'goldapi-15kxrlp2tb4ts-io'  
+const API_KEY = 'goldapi-j3cjrlp3qmmwh-io'
 
 async function fetchData() {
   var myHeaders = new Headers();
@@ -48,14 +49,6 @@ async function fetchData() {
   } catch (error) {
     console.error('Error fetching gold and silver values:', error);
   }
-}
-
-
-const tableBody = document.getElementById("tableBody");
-const rows = tableBody.getElementsByTagName("tr");
-
-for (let i = 0; i < rows.length; i++) {
-  rows[i].addEventListener("click", setGoldValue);
 }
 
 
@@ -257,7 +250,6 @@ function getSelectedCurrency() {
   });
 }
 
-
 function deleteRow(iconElement) {
   const row = iconElement.parentElement.parentElement;
   row.remove();
@@ -296,17 +288,6 @@ function saveRow() {
   // Add the new row to the table body
   document.getElementById("tableBody").appendChild(newRow);
 
-  // Function to reset form fields to default values
-  function resetFormFields() {
-    document.getElementById("metalInput").value = "Gold";
-    document.getElementById("purityInput").value = "999";
-    document.getElementById("unitInput").value = "1";
-    document.getElementById("weightInput").value = "GM";
-    document.getElementById("sellPremiumInput").value = "";
-    document.getElementById("sellPremiumInputAED").value = "";
-    document.getElementById("buyPremiumInput").value = "";
-    document.getElementById("buyPremiumInputAED").value = "";
-  }
 
   document.getElementById("addRowModal").addEventListener("show.bs.modal", function () {
     // Check if it's for editing or adding
@@ -315,7 +296,40 @@ function saveRow() {
       modalTitle.textContent = editedRow ? "Edit Commodity" : "Add Commodity";
     }
   });
+
+  // Save data to Firestore
+  saveDataToFirestore({
+    metal: metalInput,
+    purity: purityInput,
+    unit: unitInput,
+    weight: weightInput,
+    sellAED: sellAEDInput,
+    buyAED: buyAEDInput,
+    sellPremiumAED: sellPremiumInputAED,
+    buyPremiumAED: buyPremiumInputAED
+  })
+    .then((docRef) => {
+      console.log("Document written with ID: ", docRef.id);
+    })
+    .catch((error) => {
+      console.error("Error adding document: ", error);
+    });
+
+  resetFormFields();
 }
+
+// Function to reset form fields to default values
+function resetFormFields() {
+  document.getElementById("metalInput").value = "Gold";
+  document.getElementById("purityInput").value = "999";
+  document.getElementById("unitInput").value = "1";
+  document.getElementById("weightInput").value = "GM";
+  document.getElementById("sellPremiumUSD").value = "";
+  document.getElementById("sellPremiumAED").value = "";
+  document.getElementById("buyPremiumUSD").value = "";
+  document.getElementById("buyPremiumAED").value = "";
+}
+
 let editedRow; // Add a variable to keep track of the edited row
 
 function editRow(iconElement) {
@@ -422,7 +436,7 @@ function setGoldValue(goldValue) {
 
 
 // Add an event listener to trigger the setGoldValue function when the input changes
-document.getElementById("getGoldValue").addEventListener("input", setGoldValue);
+// document.getElementById("getGoldValue").addEventListener("input", setGoldValue);
 // Add an event listener to trigger the calculateRates function when the addRowForm input changes
 document.getElementById("addRowForm").addEventListener("input", calculateRates);
 document.getElementById("addRowForm").addEventListener("input", buyRate);

@@ -418,7 +418,7 @@
           <button onClick="setSilverValue()"><i class="fas fa-check"></i></button>
           <p id="displaySilverValue"></p>
         </div>
-      </div> --> 
+      </div> -->
 
       <!-- <div class="input-margin-values">
         <div class="input">
@@ -745,7 +745,8 @@
                   <li class="list-group-item border-0 d-flex ps-0 mb-2 border-radius-lg">
                     <div class="d-flex flex-column">
                       <h6 class="text-dark mb-1 font-weight-bold text-sm">Spread</h6>
-                      <div class="d-flex align-items-center text-sm" id="silverAskSpread" contenteditable="false">0</div>
+                      <div class="d-flex align-items-center text-sm" id="silverAskSpread" contenteditable="false">0
+                      </div>
                     </div>
                   </li>
                 </ul>
@@ -881,7 +882,8 @@
                   <li class="list-group-item border-0 d-flex ps-0 mb-2 border-radius-lg">
                     <div class="d-flex flex-column">
                       <h6 class="text-dark mb-1 font-weight-bold text-sm">Margin</h6>
-                      <div class="d-flex align-items-center text-sm" id="silverLowMargin" contenteditable="false">0</div>
+                      <div class="d-flex align-items-center text-sm" id="silverLowMargin" contenteditable="false">0
+                      </div>
                     </div>
                   </li>
                 </ul>
@@ -969,8 +971,9 @@
                 <div class="col-6">
                   <!-- Add this button to trigger the modal for adding a new row -->
                   <button data-toggle="modal" data-target="#addRowModal" onclick="addTableRow()"
-                    class="btn bg-gradient-primary mt-3" style="float: right; margin-right: 10px;">Add
-                    Commodity</button>
+                    class="btn bg-gradient-primary mt-3" style="float: right; margin-right: 10px;">
+                    Add Commodity
+                  </button>
                 </div>
               </div>
 
@@ -1287,7 +1290,6 @@
       <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
       <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
       <script src="../assets/js/plugins/chartjs.min.js"></script>
-      <script src="../assets/js/core/spotrate.js"></script>
       <script>
         var win = navigator.platform.indexOf('Win') > -1;
         if (win && document.querySelector('#sidenav-scrollbar')) {
@@ -1323,6 +1325,14 @@
           result.textContent = "You selected: " + selectedCurrency;
         }
       </script>
+
+      <!-- Firebase  -->
+      <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js"></script>
+      <script type="module" src="../db/db.js"></script>
+      <script type="module" src="../assets/js/core/spotrateDB.js"></script>
+      <script src="../assets/js/core/spotrate.js"></script>
+
 </body>
 
 </html>
