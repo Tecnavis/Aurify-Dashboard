@@ -1,12 +1,15 @@
-import { saveDataToFirestore } from './spotrateDB.js';
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
+import { app } from '../../../config/db.js'
+
+const firestore = getFirestore(app); // Get a Firestore instance
 
 document.addEventListener('DOMContentLoaded', function () {
   setInterval(() => {
-    fetchData()
+    //fetchData()
   }, 5000)
 });
 
-const API_KEY = 'goldapi-j3cjrlp3qmmwh-io'
+const API_KEY = 'goldapi-j3cjrlp3qntps-io'
 
 async function fetchData() {
   var myHeaders = new Headers();
@@ -255,7 +258,7 @@ function deleteRow(iconElement) {
   row.remove();
 }
 
-function saveRow() {
+async function saveRow() {
   // Get data from the form
   const metalInput = document.getElementById("metalInput").value;
   const purityInput = document.getElementById("purityInput").value;
@@ -288,6 +291,23 @@ function saveRow() {
   // Add the new row to the table body
   document.getElementById("tableBody").appendChild(newRow);
 
+  // Firebase
+  try {
+    // Save data to Firestore
+    const docRef = await addDoc(collection(firestore, "commodities"), {
+      metal: metalInput,
+      purity: purityInput,
+      unit: unitInput,
+      weight: weightInput,
+      sellAED: sellAEDInput,
+      buyAED: buyAEDInput,
+      sellPremiumAED: sellPremiumInputAED,
+      buyPremiumAED: buyPremiumInputAED
+    });
+    console.log("Document written with ID: ", docRef.id);
+  } catch (error) {
+    console.error("Error adding document: ", error);
+  }
 
   document.getElementById("addRowModal").addEventListener("show.bs.modal", function () {
     // Check if it's for editing or adding
@@ -296,24 +316,6 @@ function saveRow() {
       modalTitle.textContent = editedRow ? "Edit Commodity" : "Add Commodity";
     }
   });
-
-  // Save data to Firestore
-  saveDataToFirestore({
-    metal: metalInput,
-    purity: purityInput,
-    unit: unitInput,
-    weight: weightInput,
-    sellAED: sellAEDInput,
-    buyAED: buyAEDInput,
-    sellPremiumAED: sellPremiumInputAED,
-    buyPremiumAED: buyPremiumInputAED
-  })
-    .then((docRef) => {
-      console.log("Document written with ID: ", docRef.id);
-    })
-    .catch((error) => {
-      console.error("Error adding document: ", error);
-    });
 
   resetFormFields();
 }
@@ -330,7 +332,8 @@ function resetFormFields() {
   document.getElementById("buyPremiumAED").value = "";
 }
 
-let editedRow; // Add a variable to keep track of the edited row
+// Add a variable to keep track of the edited row
+let editedRow;
 
 function editRow(iconElement) {
 
