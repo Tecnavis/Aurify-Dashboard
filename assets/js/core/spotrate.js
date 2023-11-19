@@ -1,13 +1,11 @@
-import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
-import { app } from '../../../config/db.js'
-
-const firestore = getFirestore(app); // Get a Firestore instance
+import { saveDataToFirestore } from '../core/spotrateDB.js'
 
 document.addEventListener('DOMContentLoaded', function () {
   setInterval(() => {
-    //fetchData()
+    // fetchData()
   }, 5000)
 });
+
 
 const API_KEY = 'goldapi-j3cjrlp3qntps-io'
 
@@ -228,7 +226,7 @@ function calculateRates() {
   document.getElementById("buyAEDInput").textContent = buyRate.toFixed(2);
   document.getElementById("buyUSDInput").textContent = (buyRate / 3.67).toFixed(2);
 
-  totalUSDInputValue()
+  totalUSDInputValue() 
 }
 
 
@@ -236,11 +234,16 @@ function calculateRates() {
 document.getElementById("addRowForm").addEventListener("input", calculateRates);
 
 
+
 function addTableRow() {
   document.getElementById('saveButton').style.display = 'block';
   document.getElementById('saveChangesButton').style.display = 'none';
   setGoldValue()
 }
+
+document.getElementById('addCommodityButton').addEventListener('click', addTableRow);
+document.getElementById('saveButton').addEventListener('click', saveRow);
+
 
 function getSelectedCurrency() {
   const currencySelect = document.getElementById("currency");
@@ -294,7 +297,7 @@ async function saveRow() {
   // Firebase
   try {
     // Save data to Firestore
-    const docRef = await addDoc(collection(firestore, "commodities"), {
+    const docRef = saveDataToFirestore({
       metal: metalInput,
       purity: purityInput,
       unit: unitInput,
@@ -433,12 +436,12 @@ function setGoldValue(goldValue) {
   document.getElementById("GoldAEDresult").textContent = GoldAEDResult;
 
   //Call calculateRates to update the table values
-  calculateRates();
-  //buyRate();
+  // calculateRates();
+  // buyRate();
 }
 
 
-// Add an event listener to trigger the setGoldValue function when the input changes
+// // Add an event listener to trigger the setGoldValue function when the input changes
 // document.getElementById("getGoldValue").addEventListener("input", setGoldValue);
 // Add an event listener to trigger the calculateRates function when the addRowForm input changes
 document.getElementById("addRowForm").addEventListener("input", calculateRates);

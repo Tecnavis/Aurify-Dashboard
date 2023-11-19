@@ -970,9 +970,9 @@
 
                 <div class="col-6">
                   <!-- Add this button to trigger the modal for adding a new row -->
-                  <button data-toggle="modal" data-target="#addRowModal" onclick="addTableRow()"
+                  <button onclick="addTableRow()" data-toggle="modal" data-target="#addRowModal"  id="addCommodityButton"
                     class="btn bg-gradient-primary mt-3" style="float: right; margin-right: 10px;">
-                    Add Commodity
+                    Add Commodity 
                   </button>
                 </div>
               </div>
@@ -1326,11 +1326,13 @@
         }
       </script>
 
-      <!-- <script type="module" src="../assets/js/core/spotrateDB.js"></script> -->
+      
       <!-- Firebase  -->
-      <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js"></script>
-      <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js"></script> 
+      <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js"></script> 
+      <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database.js"></script>
       <script type="module" src="../config/db.js"></script>
+      <script type="module" src="../assets/js/core/spotrateDB.js"></script>
       <script type="module" src="../assets/js/core/spotrate.js"></script> 
 </body>
 
