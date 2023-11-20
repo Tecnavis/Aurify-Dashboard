@@ -5,9 +5,18 @@ document.addEventListener('DOMContentLoaded', function () {
     // fetchData()
   }, 5000)
 
-
   showTable();
 });
+
+
+// Event Listener for Buttons
+document.getElementById('addCommodityButton').addEventListener('click', addTableRow);
+document.getElementById('saveButton').addEventListener('click', saveRow);
+document.getElementById('saveChangesButton').addEventListener('click', updateRow);
+document.getElementById('confirmedDelete').addEventListener('click', confirmedDelete);
+document.getElementById('deleteRowConfirmation').addEventListener('click', deleteRowConfirmation);
+document.getElementById('editRow').addEventListener('click', editRow);
+//////////////
 
 
 const API_KEY = 'goldapi-j3cjrlp3qntps-io'
@@ -243,15 +252,6 @@ function addTableRow() {
   document.getElementById('saveChangesButton').style.display = 'none';
   setGoldValue()
 }
-
-// Event Listener for Buttons
-document.getElementById('addCommodityButton').addEventListener('click', addTableRow);
-document.getElementById('saveButton').addEventListener('click', saveRow);
-document.getElementById('saveChangesButton').addEventListener('click', updateRow);
-document.getElementById('confirmedDelete').addEventListener('click', confirmedDelete);
-document.getElementById('deleteRowConfirmation').addEventListener('click', deleteRowConfirmation);
-document.getElementById('editRow').addEventListener('click', editRow);
-//////////////
 
 function getSelectedCurrency() {
   const currencySelect = document.getElementById("currency");
