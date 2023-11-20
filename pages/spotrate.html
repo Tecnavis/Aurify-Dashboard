@@ -1144,7 +1144,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-              <button type="button" class="btn btn-danger" onclick="confirmedDelete()">Delete</button>
+              <button type="button" class="btn btn-danger" id="confirmedDelete" onclick="confirmedDelete()">Delete</button>
             </div>
           </div>
         </div>
@@ -1333,7 +1333,7 @@
       <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database.js"></script>
       <script type="module" src="../config/db.js"></script>
       <script type="module" src="../assets/js/core/spotrateDB.js"></script>
-      <script type="module" src="../assets/js/core/spotrate.js"></script> 
+      <script type="module" defer src="../assets/js/core/spotrate.js"></script> 
 </body>
 
 </html>

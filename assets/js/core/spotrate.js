@@ -1,9 +1,12 @@
-import { saveDataToFirestore } from '../core/spotrateDB.js'
+import { saveDataToFirestore, readData } from '../core/spotrateDB.js'
 
 document.addEventListener('DOMContentLoaded', function () {
   setInterval(() => {
     // fetchData()
   }, 5000)
+
+
+  showTable();
 });
 
 
@@ -226,7 +229,7 @@ function calculateRates() {
   document.getElementById("buyAEDInput").textContent = buyRate.toFixed(2);
   document.getElementById("buyUSDInput").textContent = (buyRate / 3.67).toFixed(2);
 
-  totalUSDInputValue() 
+  totalUSDInputValue()
 }
 
 
@@ -241,9 +244,14 @@ function addTableRow() {
   setGoldValue()
 }
 
+// Event Listener for Buttons
 document.getElementById('addCommodityButton').addEventListener('click', addTableRow);
 document.getElementById('saveButton').addEventListener('click', saveRow);
-
+document.getElementById('saveChangesButton').addEventListener('click', updateRow);
+document.getElementById('confirmedDelete').addEventListener('click', confirmedDelete);
+document.getElementById('deleteRowConfirmation').addEventListener('click', deleteRowConfirmation);
+document.getElementById('editRow').addEventListener('click', editRow);
+//////////////
 
 function getSelectedCurrency() {
   const currencySelect = document.getElementById("currency");
@@ -260,6 +268,56 @@ function deleteRow(iconElement) {
   const row = iconElement.parentElement.parentElement;
   row.remove();
 }
+
+
+// Show Table from Database
+async function showTable() {
+  try {
+    const tableData = await readData();
+    console.log('Data read successfully:', tableData);
+
+    const tableBody = document.getElementById('tableBody'); // Replace with your actual table body ID
+
+    tableData.map((data) => {
+      // Declare variables outside the loop
+      let metalInput, purityInput, unitInput, weightInput, sellAEDInput, buyAEDInput, sellPremiumInputAED, buyPremiumInputAED;
+
+      // Assign values from data to variables
+      metalInput = data.data.metal;
+      purityInput = data.data.purity;
+      unitInput = data.data.unit;
+      weightInput = data.data.weight;
+      sellAEDInput = data.data.sellAED;
+      buyAEDInput = data.data.buyAED;
+      sellPremiumInputAED = data.data.sellPremiumAED;
+      buyPremiumInputAED = data.data.buyPremiumAED;
+
+      // Create a new table row
+      const newRow = document.createElement("tr");
+      newRow.innerHTML = `
+        <td>${metalInput}</td>
+        <td>${purityInput}</td>
+        <td>${unitInput} ${weightInput}</td>
+        <td>${sellAEDInput}</td>
+        <td>${buyAEDInput}</td>
+        <td>${sellPremiumInputAED}</td>
+        <td>${buyPremiumInputAED}</td>
+        <td>
+          <i class="fas fa-edit" id="editRow" onclick="editRow(this)"></i>
+          <i class="fas fa-trash-alt" id="deleteRowConfirmation" onclick="deleteRowConfirmation(this)"></i>
+        </td>
+      `;
+
+      // Append the new row to the table body
+      tableBody.appendChild(newRow);
+    });
+
+  } catch (error) {
+    console.error('Error reading data:', error);
+  }
+}
+
+
 
 async function saveRow() {
   // Get data from the form
@@ -285,9 +343,8 @@ async function saveRow() {
         <td>${sellPremiumInputAED}</td>
         <td>${buyPremiumInputAED}</td>
         <td>
-            <i class="fas fa-edit" onclick="editRow(this)"></i>
-          <i class="fas fa-trash-alt" onclick="deleteRowConfirmation(this)"></i>
-
+          <i class="fas fa-edit" id="editRow" onclick="editRow(this)"></i>
+          <i class="fas fa-trash-alt" id="deleteRowConfirmation" onclick="deleteRowConfirmation(this)"></i>
         </td>
         `;
 
@@ -297,7 +354,7 @@ async function saveRow() {
   // Firebase
   try {
     // Save data to Firestore
-    const docRef = saveDataToFirestore({
+    saveDataToFirestore({
       metal: metalInput,
       purity: purityInput,
       unit: unitInput,
@@ -306,8 +363,9 @@ async function saveRow() {
       buyAED: buyAEDInput,
       sellPremiumAED: sellPremiumInputAED,
       buyPremiumAED: buyPremiumInputAED
-    });
-    console.log("Document written with ID: ", docRef.id);
+    }).then((response) => {
+      console.log("Document written with ID: ", response.id);
+    })
   } catch (error) {
     console.error("Error adding document: ", error);
   }
@@ -373,6 +431,8 @@ function editRow(iconElement) {
   // Show the modal for editing
   $('#addRowModal').modal('show');
 }
+
+
 function updateRow() {
   // Update the content of the edited row
   editedRow.cells[0].textContent = document.getElementById("metalInput").value;
