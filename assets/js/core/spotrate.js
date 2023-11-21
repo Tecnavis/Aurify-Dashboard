@@ -1,4 +1,4 @@
-import { saveDataToFirestore, readData } from '../core/spotrateDB.js'
+import { saveDataToFirestore, readData, updateDataInFirestore } from '../core/spotrateDB.js'
 
 document.addEventListener('DOMContentLoaded', function () {
   setInterval(() => {
@@ -9,18 +9,45 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-// Event Listener for Buttons
-document.getElementById('addCommodityButton').addEventListener('click', addTableRow);
-document.getElementById('saveButton').addEventListener('click', saveRow);
-document.getElementById('saveChangesButton').addEventListener('click', updateRow);
-document.getElementById('confirmedDelete').addEventListener('click', confirmedDelete);
-document.getElementById('deleteRowConfirmation').addEventListener('click', deleteRowConfirmation);
-document.getElementById('editRow').addEventListener('click', editRow);
-//////////////
+// Add a variable to keep track of the edited row
+let editedRow;
+
+document.body.addEventListener('click', function (event) {
+  if (event.target.classList.contains('editRowBtn')) {
+    console.log('Edit button clicked');
+    editRow(event.target);
+  }
+
+  if (event.target.classList.contains('editGoldBid')) {
+    editGoldBid(event.target);
+  }
+
+  if (event.target.classList.contains('editSilverBid')) {
+    editSilverBid(event.target);
+  }
+
+  if (event.target.classList.contains('editGoldAsk')) {
+    editGoldAsk(event.target);
+  }
+
+  if (event.target.classList.contains('editSilverAsk')) {
+    editSilverAsk(event.target);
+  }
+
+  if (event.target.classList.contains('editGoldMarginValue')) {
+    editGoldMarginValue(event.target);
+  }
+
+  if (event.target.classList.contains('editSilverMarginValue')) {
+    editSilverMarginValue(event.target);
+  }
+});
 
 
+// Gold API KEY
 const API_KEY = 'goldapi-j3cjrlp3qntps-io'
 
+// Function to Fetch Gold API Data
 async function fetchData() {
   var myHeaders = new Headers();
   myHeaders.append("x-access-token", API_KEY);
@@ -245,6 +272,17 @@ function calculateRates() {
 // Add an event listener to trigger the calculation when the form values change
 document.getElementById("addRowForm").addEventListener("input", calculateRates);
 
+// Event Listener for Buttons
+document.getElementById('addCommodityButton').addEventListener('click', addTableRow);
+document.getElementById('saveButton').addEventListener('click', saveRow);
+document.getElementById('saveChangesButton').addEventListener('click', updateRow);
+document.getElementById('confirmedDelete').addEventListener('click', confirmedDelete);
+document.getElementById('deleteRowConfirmation').addEventListener('click', deleteRowConfirmation);
+//////////////
+// document.getElementById('editRowBtn').addEventListener('click', editRow);
+
+
+
 
 
 function addTableRow() {
@@ -292,6 +330,7 @@ async function showTable() {
       sellPremiumInputAED = data.data.sellPremiumAED;
       buyPremiumInputAED = data.data.buyPremiumAED;
 
+
       // Create a new table row
       const newRow = document.createElement("tr");
       newRow.innerHTML = `
@@ -303,7 +342,7 @@ async function showTable() {
         <td>${sellPremiumInputAED}</td>
         <td>${buyPremiumInputAED}</td>
         <td>
-          <i class="fas fa-edit" id="editRow" onclick="editRow(this)"></i>
+          <button class="editRowBtn" data-document-id="${data.id}"><i class="fas fa-edit"></i></button>
           <i class="fas fa-trash-alt" id="deleteRowConfirmation" onclick="deleteRowConfirmation(this)"></i>
         </td>
       `;
@@ -343,7 +382,7 @@ async function saveRow() {
         <td>${sellPremiumInputAED}</td>
         <td>${buyPremiumInputAED}</td>
         <td>
-          <i class="fas fa-edit" id="editRow" onclick="editRow(this)"></i>
+          <i class="fas fa-edit" id="editRowBtn" onClick="editRow()"></i>
           <i class="fas fa-trash-alt" id="deleteRowConfirmation" onclick="deleteRowConfirmation(this)"></i>
         </td>
         `;
@@ -381,6 +420,7 @@ async function saveRow() {
   resetFormFields();
 }
 
+
 // Function to reset form fields to default values
 function resetFormFields() {
   document.getElementById("metalInput").value = "Gold";
@@ -393,10 +433,13 @@ function resetFormFields() {
   document.getElementById("buyPremiumAED").value = "";
 }
 
-// Add a variable to keep track of the edited row
-let editedRow;
+
 
 function editRow(iconElement) {
+
+  // Get the document ID from the button
+  const documentId = iconElement.getAttribute('data-document-id');
+  console.log(documentId);
 
   document.getElementById('saveChangesButton').style.display = 'block';
   document.getElementById('saveButton').style.display = 'none';
@@ -430,10 +473,14 @@ function editRow(iconElement) {
 
   // Show the modal for editing
   $('#addRowModal').modal('show');
+
+
+  document.getElementById("saveChangesButton").addEventListener('click', () => updateRow(documentId));
 }
 
 
-function updateRow() {
+function updateRow(documentId) {
+  console.log(documentId);
   // Update the content of the edited row
   editedRow.cells[0].textContent = document.getElementById("metalInput").value;
   editedRow.cells[1].textContent = document.getElementById("purityInput").value;
@@ -443,9 +490,32 @@ function updateRow() {
   editedRow.cells[5].textContent = document.getElementById("sellPremiumAED").value;
   editedRow.cells[6].textContent = document.getElementById("buyPremiumAED").value;
 
+  // Prepare the data to be updated in Firestore
+  const updatedData = {
+    metal: document.getElementById("metalInput").value,
+    purity: document.getElementById("purityInput").value,
+    unit: document.getElementById("unitInput").value,
+    weight: document.getElementById("weightInput").value,
+    sellAED: document.getElementById("sellAEDInput").textContent,
+    buyAED: document.getElementById("buyAEDInput").textContent,
+    sellPremiumAED: document.getElementById("sellPremiumAED").value,
+    buyPremiumAED: document.getElementById("buyPremiumAED").value
+  };
+
+  // Update the Firestore document
+  updateDataInFirestore(documentId, updatedData)
+    .then(() => {
+      console.log('Document successfully updated in Firestore');
+    })
+    .catch((error) => {
+      console.error('Error updating document in Firestore: ', error);
+    });
+
+
   // Hide the modal after updating
   $('#addRowModal').modal('hide');
 }
+
 
 // Add a variable to store the row to be deleted
 let rowToDelete;
@@ -558,6 +628,9 @@ function valuesUSDToAED() {
   document.getElementById("sellAEDInput").innerHTML = sellValueInAED;
   document.getElementById("buyAEDInput").innerHTML = buyValueInAED;
 }
+
+
+
 
 //Edit Value for Gold on Button Click
 function editGoldBid() {
