@@ -1,4 +1,4 @@
-import { saveDataToFirestore, readData, updateDataInFirestore } from '../core/spotrateDB.js'
+import { saveDataToFirestore, readData, updateDataInFirestore, deleteDataFromFirestore } from '../core/spotrateDB.js'
 
 document.addEventListener('DOMContentLoaded', function () {
   setInterval(() => {
@@ -11,10 +11,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Add a variable to keep track of the edited row
 let editedRow;
+// Add a variable to store the row to be deleted
+let rowToDelete;
 
 document.body.addEventListener('click', function (event) {
+  if (event.target.classList.contains('deleteRowConfirmation')) {
+    deleteRowConfirmation(event.target);
+  }
+
   if (event.target.classList.contains('editRowBtn')) {
-    console.log('Edit button clicked');
     editRow(event.target);
   }
 
@@ -343,7 +348,7 @@ async function showTable() {
         <td>${buyPremiumInputAED}</td>
         <td>
           <button class="editRowBtn" data-document-id="${data.id}"><i class="fas fa-edit"></i></button>
-          <i class="fas fa-trash-alt" id="deleteRowConfirmation" onclick="deleteRowConfirmation(this)"></i>
+          <button class="deleteRowConfirmation" data-document-id="${data.id}"><i class="fas fa-trash-alt"></i></button>
         </td>
       `;
 
@@ -382,8 +387,8 @@ async function saveRow() {
         <td>${sellPremiumInputAED}</td>
         <td>${buyPremiumInputAED}</td>
         <td>
-          <i class="fas fa-edit" id="editRowBtn" onClick="editRow()"></i>
-          <i class="fas fa-trash-alt" id="deleteRowConfirmation" onclick="deleteRowConfirmation(this)"></i>
+          <button class="editRowBtn" data-document-id="${data.id}"><i class="fas fa-edit"></i></button>
+          <button class="deleteRowConfirmation" data-document-id="${data.id}"><i class="fas fa-trash-alt"></i></button>
         </td>
         `;
 
@@ -506,28 +511,36 @@ function updateRow(documentId) {
   updateDataInFirestore(documentId, updatedData)
     .then(() => {
       console.log('Document successfully updated in Firestore');
+      // Reset the form fields
+      resetFormFields();
+      // Hide the modal after updating
+      $('#addRowModal').modal('hide');
     })
     .catch((error) => {
       console.error('Error updating document in Firestore: ', error);
     });
 
-
   // Hide the modal after updating
-  $('#addRowModal').modal('hide');
+  // $('#addRowModal').modal('hide');
 }
 
 
-// Add a variable to store the row to be deleted
-let rowToDelete;
+
 
 function deleteRowConfirmation(iconElement) {
+  // Get the document ID from the button
+  const documentId = iconElement.getAttribute('data-document-id');
   // Store the row to be deleted
   rowToDelete = iconElement.parentElement.parentElement;
   // Show the delete confirmation modal
   $('#deleteConfirmationModal').modal('show');
+
+  document.getElementById("confirmedDelete").addEventListener('click', () => confirmedDelete(documentId));
 }
 
-function confirmedDelete() {
+function confirmedDelete(documentId) {
+  console.log(documentId);
+  deleteDataFromFirestore(documentId)
   // Delete the stored row
   rowToDelete.remove();
   // Close the delete confirmation modal

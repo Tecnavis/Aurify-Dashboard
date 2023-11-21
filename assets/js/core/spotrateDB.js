@@ -1,4 +1,4 @@
-import { getFirestore, collection, addDoc, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js";
 import { app } from '../../../config/db.js';
 
 const firestore = getFirestore(app); // Get a Firestore instance
@@ -21,6 +21,18 @@ async function updateDataInFirestore(documentId, data) {
     }
 }
 
+// Delete data from Firestore function
+async function deleteDataFromFirestore(documentId) {
+    try {
+        const docRef = doc(firestore, "commodities", documentId);
+        await deleteDoc(docRef);
+        console.log('Document successfully deleted from Firestore');
+    } catch (error) {
+        console.error('Error deleting document from Firestore: ', error);
+        throw error; // Rethrow the error to propagate it to the calling function
+    }
+}
+
 // Function to read data from the Firestore collection
 async function readData() {
     const querySnapshot = await getDocs(collection(firestore, "commodities"));
@@ -34,4 +46,4 @@ async function readData() {
     return result;
 }
 
-export { saveDataToFirestore, updateDataInFirestore, readData };
+export { saveDataToFirestore, updateDataInFirestore, deleteDataFromFirestore, readData };
