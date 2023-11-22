@@ -387,8 +387,8 @@ async function saveRow() {
         <td>${sellPremiumInputAED}</td>
         <td>${buyPremiumInputAED}</td>
         <td>
-          <button class="editRowBtn" data-document-id="${data.id}"><i class="fas fa-edit"></i></button>
-          <button class="deleteRowConfirmation" data-document-id="${data.id}"><i class="fas fa-trash-alt"></i></button>
+          <button class="editRowBtn"><i class="fas fa-edit"></i></button>
+          <button class="deleteRowConfirmation"><i class="fas fa-trash-alt"></i></button>
         </td>
         `;
 

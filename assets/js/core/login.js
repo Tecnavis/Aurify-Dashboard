@@ -24,7 +24,10 @@ submitButton.addEventListener("click", function (e) {
             // Signed in
             const user = userCredential.user;
             console.log("Success! Welcome back!");
-            console.log(user);
+            console.log(user.uid);
+            // Store the UID in sessionStorage
+            sessionStorage.setItem('uid', user.uid);
+
             window.alert("Success! Welcome back!");
             // ...
 

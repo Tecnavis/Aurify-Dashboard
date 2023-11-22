@@ -140,6 +140,20 @@
     </div>
   </footer>
   <!-- -------- END FOOTER 3 w/ COMPANY DESCRIPTION WITH LINKS & SOCIAL ICONS & COPYRIGHT ------- -->
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Check if the user is authenticated
+      const uid = sessionStorage.getItem('uid');
+
+      if (uid) {
+        // If authenticated, redirect to the Dashboard page
+        window.location.href = 'dashboard.html'; // Change to your login page
+      }
+    });
+  </script>
+
+
   <!--   Core JS Files   -->
   <script src="../assets/js/core/popper.min.js"></script>
   <script src="../assets/js/core/bootstrap.min.js"></script>
