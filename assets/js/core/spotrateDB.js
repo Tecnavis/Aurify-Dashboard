@@ -5,13 +5,18 @@ import {
     getDocs,
     doc,
     updateDoc,
-    deleteDoc
+    deleteDoc,
+    setDoc,
+    getDoc
 } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
 import { app } from '../../../config/db.js';
 
 const firestore = getFirestore(app);
 const auth = getAuth(app);
+
+
+
 
 // Save data to Firestore function
 function saveDataToFirestore(data) {
@@ -25,6 +30,85 @@ function saveDataToFirestore(data) {
 
     return addDoc(collection(firestore, `users/${uid}/commodities`), data);
 }
+
+
+let spreadDocId = ''
+// Save data to Firestore function
+function saveSpreadValues(data) {
+    // Get the UID of the authenticated user
+    const uid = sessionStorage.getItem('uid');
+
+    if (!uid) {
+        console.error('User not authenticated');
+        return Promise.reject('User not authenticated');
+    }
+
+    // Create a reference to the Firestore collection
+    const spreadCollection = collection(firestore, `users/${uid}/spread`);
+
+    // Reference to the specific document with ID 
+    const spreadDocRef = spreadDocId ? doc(spreadCollection, spreadDocId) : null;
+
+    if (spreadDocRef) {
+        // Update the existing document
+        setDoc(spreadDocRef, data)
+            .then(() => {
+                console.log('Data successfully updated in Firestore');
+            })
+            .catch((error) => {
+                console.error('Error updating data in Firestore: ', error);
+            });
+    } else {
+        // Create a new document
+        addDoc(spreadCollection, data)
+            .then(() => {
+                console.log('Data successfully added to Firestore');
+            })
+            .catch((error) => {
+                console.error('Error adding data to Firestore: ', error);
+            });
+    }
+}
+
+// Read data from Firestore function
+function readSpreadValues() {
+    // Get the UID of the authenticated user
+    const uid = sessionStorage.getItem('uid');
+
+    if (!uid) {
+        console.error('User not authenticated');
+        return Promise.reject('User not authenticated');
+    }
+
+    // Create a reference to the Firestore collection
+    const spreadCollection = collection(firestore, `users/${uid}/spread`);
+
+    // Get all documents in the collection
+    return getDocs(spreadCollection)
+        .then((querySnapshot) => {
+            // Assuming you want an array of spreadData
+            const spreadDataArray = [];
+
+            querySnapshot.forEach((doc) => {
+                const spreadData = doc.data();
+                console.log(spreadData);
+
+                // Document ID
+                spreadDocId = doc.id;
+
+                // Add spreadData to the array
+                spreadDataArray.push({ id: spreadDocId, data: spreadData });
+            });
+
+            // Return the array of spreadData
+            return spreadDataArray;
+        })
+        .catch((error) => {
+            console.error('Error reading data from Firestore: ', error);
+            throw error; // Throw the error to handle it in the calling code if needed
+        });
+}
+
 
 // Update data in Firestore function
 async function updateDataInFirestore(documentId, data) {
@@ -87,4 +171,11 @@ async function readData() {
     return result;
 }
 
-export { saveDataToFirestore, updateDataInFirestore, deleteDataFromFirestore, readData };
+export {
+    saveDataToFirestore,
+    updateDataInFirestore,
+    deleteDataFromFirestore,
+    readData,
+    saveSpreadValues,
+    readSpreadValues
+};

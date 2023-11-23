@@ -1,18 +1,22 @@
-import { saveDataToFirestore, readData, updateDataInFirestore, deleteDataFromFirestore } from '../core/spotrateDB.js'
+import { saveDataToFirestore, readData, updateDataInFirestore, deleteDataFromFirestore, saveSpreadValues, readSpreadValues } from '../core/spotrateDB.js'
 
 document.addEventListener('DOMContentLoaded', function () {
   setInterval(() => {
     fetchData()
-  }, 1000)
+  }, 5000)
 
   showTable();
+  displaySpreadValues();
 });
 
 
+// Gold API KEY
+const API_KEY = 'goldapi-fbqpmirloto20zi-io'
 // Add a variable to keep track of the edited row
 let editedRow;
 // Add a variable to store the row to be deleted
 let rowToDelete;
+
 
 document.body.addEventListener('click', function (event) {
   if (event.target.classList.contains('deleteRowConfirmation')) {
@@ -47,10 +51,6 @@ document.body.addEventListener('click', function (event) {
     editSilverMarginValue(event.target);
   }
 });
-
-
-// Gold API KEY
-const API_KEY = 'goldapi-fbqpmirloto20zi-io'
 
 // Function to Fetch Gold API Data
 async function fetchData() {
@@ -108,7 +108,7 @@ async function fetchData() {
 document.getElementById("addRowForm").addEventListener("input", calculateRates);
 
 // Call calculateRates with default values
-// calculateRates();
+calculateRates();
 
 // Function to calculate total value including Premium 
 function totalUSDInputValue() {
@@ -340,7 +340,7 @@ async function showTable() {
         <td>${metalInput}</td>
         <td>${purityInput}</td>
         <td>${unitInput} ${weightInput}</td>
-        <td>${sellAEDInput}</td>
+        <td>${sellAEDInput}</td> 
         <td>${buyAEDInput}</td>
         <td>${sellPremiumInputAED}</td>
         <td>${buyPremiumInputAED}</td>
@@ -435,7 +435,6 @@ function resetFormFields() {
   document.getElementById("buyPremiumUSD").value = "";
   document.getElementById("buyPremiumAED").value = "";
 }
-
 
 
 function editRow(iconElement) {
@@ -578,6 +577,7 @@ function setGoldValue(goldValue) {
 }
 
 
+
 // // Add an event listener to trigger the setGoldValue function when the input changes
 // document.getElementById("getGoldValue").addEventListener("input", setGoldValue);
 // Add an event listener to trigger the calculateRates function when the addRowForm input changes
@@ -637,6 +637,38 @@ function valuesUSDToAED() {
 }
 
 
+// Function to add values to the "spread" collection in Firebase
+function addToFirebaseSpreadCollection(editedBidSpreadValue, editedAskSpreadValue) {
+  // Define the data to be added to the collection
+  saveSpreadValues({
+    editedBidSpreadValue: editedBidSpreadValue,
+    editedAskSpreadValue: editedAskSpreadValue
+  });
+}
+
+// Function to Display Spread Values from Firebase
+function displaySpreadValues() {
+  readSpreadValues()
+    .then((spreadDataArray) => {
+      if (spreadDataArray && spreadDataArray.length > 0) {
+        // Assuming you want to display data from the latest document
+        const latestSpreadData = spreadDataArray[spreadDataArray.length - 1].data;
+
+        // Do something with the retrieved data
+        document.getElementById("goldAskSpread").textContent = latestSpreadData.editedAskSpreadValue;
+        document.getElementById("goldSpread").textContent = latestSpreadData.editedBidSpreadValue;
+
+        // Assuming you want to track the latest document ID
+        spreadDocId = spreadDataArray[spreadDataArray.length - 1].id;
+      } else {
+        console.log('Spread values not found.');
+      }
+    })
+    .catch((error) => {
+      console.error('Error reading spread values: ', error);
+    });
+}
+
 
 //Edit Value for Gold on Button Click
 function editGoldBid() {
@@ -644,36 +676,45 @@ function editGoldBid() {
   const bidGoldText = getGoldBidValue.textContent.trim();
   const bidGoldValue = parseFloat(bidGoldText);
   document.getElementById("goldBiddingPrice").innerHTML = bidGoldValue;
+
   const editGoldSpreadValue = document.getElementById("goldSpread");
   const isEditable = editGoldSpreadValue.getAttribute("contenteditable") === "true";
   editGoldSpreadValue.setAttribute("contenteditable", isEditable ? "false" : "true");
+
   // Focus on the div to make it easier for the user to start editing
   if (isEditable) {
     editGoldSpreadValue.blur();
   } else {
     editGoldSpreadValue.focus();
   }
+
+  // Update the bidding price whenever the spread value changes
   editGoldSpreadValue.addEventListener("input", function () {
-    // This event handler will be triggered when the content is edited.
     const editedGoldSpreadText = editGoldSpreadValue.textContent.trim();
     const editedGoldSpreadValue = parseFloat(editedGoldSpreadText);
-    // You can now handle the edited content, e.g., save it to a variable or send it to the server.
-    // For example:
-    var totalGoldSpreadValue = '';
+
+    var totalGoldSpreadValue = "";
     if (bidGoldValue > 0) {
       totalGoldSpreadValue = bidGoldValue + editedGoldSpreadValue;
     } else {
       totalGoldSpreadValue = bidGoldValue - editedGoldSpreadValue;
     }
     console.log(totalGoldSpreadValue);
+
     document.getElementById("goldBiddingPrice").innerHTML = totalGoldSpreadValue;
     document.getElementById("goldAsk").innerHTML = totalGoldSpreadValue + 0.5;
     document.getElementById("goldAskingPrice").innerHTML = totalGoldSpreadValue + 0.5;
 
-    //Update Buy USD Value
-    updateBuyUSDInput(totalGoldSpreadValue)
+    const editedAskSpreadValue = parseFloat(document.getElementById("goldAskSpread").textContent.trim());
+
+    // Add the edited spread value to Firebase
+    addToFirebaseSpreadCollection(editedGoldSpreadValue, editedAskSpreadValue);
+
+    // Update Buy USD Value
+    updateBuyUSDInput(totalGoldSpreadValue);
   });
 }
+
 
 
 //Edit Value for Gold on Button Click
@@ -706,10 +747,16 @@ function editGoldAsk() {
     }
     document.getElementById("goldAskingPrice").innerHTML = totalGoldSpreadValue;
 
+    const editedBidSpreadValue = parseFloat(document.getElementById("goldSpread").textContent.trim());
+
+    // Add the edited spread value to Firebase
+    addToFirebaseSpreadCollection(editedBidSpreadValue, editedGoldSpreadValue);
+
     //Update Sell USD Value
     updateSellUSDInput(totalGoldSpreadValue)
   });
 }
+
 
 //Edit Value for Silver on Button Click
 function editSilverBid() {
