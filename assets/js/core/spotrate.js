@@ -2,8 +2,8 @@ import { saveDataToFirestore, readData, updateDataInFirestore, deleteDataFromFir
 
 document.addEventListener('DOMContentLoaded', function () {
   setInterval(() => {
-    // fetchData()
-  }, 5000)
+    fetchData()
+  }, 1000)
 
   showTable();
 });
@@ -50,7 +50,7 @@ document.body.addEventListener('click', function (event) {
 
 
 // Gold API KEY
-const API_KEY = 'goldapi-j3cjrlp3qntps-io'
+const API_KEY = 'goldapi-fbqpmirloto20zi-io'
 
 // Function to Fetch Gold API Data
 async function fetchData() {
@@ -102,12 +102,13 @@ async function fetchData() {
 //   setGoldValue(); // Call setGoldValue function when the input changes
 //   calculateRates(); // Call calculateRates to update the table values
 // });
+
 // document.getElementById("getGoldValue").addEventListener("input", setGoldValue);
 
-// document.getElementById("addRowForm").addEventListener("input", calculateRates);
+document.getElementById("addRowForm").addEventListener("input", calculateRates);
 
 // Call calculateRates with default values
-calculateRates();
+// calculateRates();
 
 // Function to calculate total value including Premium 
 function totalUSDInputValue() {
@@ -256,6 +257,7 @@ function calculateRates() {
     }
   }
 
+
   const goldUSDResult = parseFloat(document.getElementById("goldAskingPrice").textContent);
   const calculatedRate = ((goldUSDResult + valueUSD1) / 31.1035 * 3.67 * unit * unitMultiplier) * (purity / Math.pow(10, purity.length));
 
@@ -284,10 +286,6 @@ document.getElementById('saveChangesButton').addEventListener('click', updateRow
 document.getElementById('confirmedDelete').addEventListener('click', confirmedDelete);
 document.getElementById('deleteRowConfirmation').addEventListener('click', deleteRowConfirmation);
 //////////////
-// document.getElementById('editRowBtn').addEventListener('click', editRow);
-
-
-
 
 
 function addTableRow() {
@@ -441,7 +439,6 @@ function resetFormFields() {
 
 
 function editRow(iconElement) {
-
   // Get the document ID from the button
   const documentId = iconElement.getAttribute('data-document-id');
   console.log(documentId);
@@ -478,7 +475,6 @@ function editRow(iconElement) {
 
   // Show the modal for editing
   $('#addRowModal').modal('show');
-
 
   document.getElementById("saveChangesButton").addEventListener('click', () => updateRow(documentId));
 }
@@ -520,11 +516,9 @@ function updateRow(documentId) {
       console.error('Error updating document in Firestore: ', error);
     });
 
-  // Hide the modal after updating
+  // // Hide the modal after updating
   // $('#addRowModal').modal('hide');
 }
-
-
 
 
 function deleteRowConfirmation(iconElement) {
@@ -579,7 +573,7 @@ function setGoldValue(goldValue) {
   document.getElementById("GoldAEDresult").textContent = GoldAEDResult;
 
   //Call calculateRates to update the table values
-  // calculateRates();
+  calculateRates();
   // buyRate();
 }
 
@@ -644,7 +638,6 @@ function valuesUSDToAED() {
 
 
 
-
 //Edit Value for Gold on Button Click
 function editGoldBid() {
   const getGoldBidValue = document.getElementById("goldBid");
@@ -681,6 +674,7 @@ function editGoldBid() {
     updateBuyUSDInput(totalGoldSpreadValue)
   });
 }
+
 
 //Edit Value for Gold on Button Click
 function editGoldAsk() {
