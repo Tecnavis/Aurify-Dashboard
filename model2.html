@@ -70,35 +70,10 @@
 
 
   </div>
-  <div class="border-radius-xl mt-3 mx-3 position-relative" style="background-image: url('./assets/img/3139428.jpg'); background-size: cover;">
-    <div id="time" class="text-center pt-5 h3"></div>
-    
-    <script>
-        function updateTime() {
-            var now = new Date();
-            
-            var options = {
-                hour: 'numeric',
-                minute: '2-digit',
-                hour12: true
-            };
-            
-            var formattedTime = now.toLocaleTimeString('en-US', options);
-            
-            document.getElementById('time').textContent = formattedTime;
-        }
-
-        // Update time every second
-        setInterval(updateTime, 1000);
-
-        // Initial call to display time immediately
-        updateTime();
-    </script>
-
-    <br><br>
-
+  <div class="border-radius-xl mt-3 mx-3 position-relative" style="background-image: url('./assets/img/3139428.jpg'); background-size: cover;height: 500px;">
+  
     <div class="container mt-5 effectclass">
-        <div class="row">
+        <div class="row" >
 
             <div class="col-md-6 mb-5">
                 <div class="row mb-4">
@@ -130,53 +105,27 @@
                 </div>
             </div>
 
-            <div class="col-md-6 mb-5">
-                <div class="card">
-                    <div class="card-body">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Commodity</th>
-                                    <th scope="col">Weight</th>
-                                    <th scope="col">Buy</th>
-                                    <th scope="col">Sell</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Gold 1g in USD</td>
-                                    <td>Weight</td>
-                                    <td>Buy</td>
-                                    <td>Sell</td>
-                                </tr>
-                                <tr>
-                                    <td>Gold 1g in AED</td>
-                                    <td>Weight</td>
-                                    <td>Buy</td>
-                                    <td>Sell</td>
-                                </tr>
-                                <tr>
-                                    <td>Gold 995 1 kg</td>
-                                    <td>Weight</td>
-                                    <td>Buy</td>
-                                    <td>Sell</td>
-                                </tr>
-                                <tr>
-                                    <td>Gold 9999 1 kg</td>
-                                    <td>Weight</td>
-                                    <td>Buy</td>
-                                    <td>Sell</td>
-                                </tr>
-                                <tr>
-                                    <td>Gold ten tola purity</td>
-                                    <td>Weight</td>
-                                    <td>Buy</td>
-                                    <td>Sell</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+            <div class="col-md-4 mb-5">
+<!-- TradingView Widget BEGIN -->
+<div class="tradingview-widget-container">
+  <!-- <div class="tradingview-widget-container__widget"></div>
+  <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank"><span class="blue-text">Track all markets on TradingView</span></a></div> -->
+  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js" async>
+  {
+  "interval": "1m",
+  "width": 425,
+  "isTransparent": true,
+  "height": 450,
+  "symbol": "COMEX:GC1!",
+  "showIntervalTabs": true,
+  "displayMode": "single",
+  "locale": "en",
+  "colorTheme": "dark"
+}
+  </script>
+</div>
+<!-- TradingView Widget END -->
+
             </div>
         </div>
     </div>
