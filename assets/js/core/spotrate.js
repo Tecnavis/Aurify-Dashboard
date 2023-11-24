@@ -3,7 +3,7 @@ import { saveDataToFirestore, readData, updateDataInFirestore, deleteDataFromFir
 document.addEventListener('DOMContentLoaded', function () {
   setInterval(() => {
     fetchData()
-  }, 5000)
+  }, 1000)
 
   showTable();
   displaySpreadValues();
@@ -311,6 +311,9 @@ function deleteRow(iconElement) {
 }
 
 
+// let goldUSDResultGM = document.getElementById("goldUSDresult").textContent;
+// let goldBidSpreadValue = document.getElementById("goldSpread").textContent;
+// let goldAskSpreadValue = document.getElementById("goldAskSpread").textContent;
 // Show Table from Database
 async function showTable() {
   try {
@@ -333,6 +336,8 @@ async function showTable() {
       sellPremiumInputAED = data.data.sellPremiumAED;
       buyPremiumInputAED = data.data.buyPremiumAED;
 
+      // let buy = parseFloat(goldUSDResult + goldBidSpread + buyPremiumInputAED)
+      // let sell = parseFloat(goldUSDResult + goldAskSpread + sellPremiumInputAED)
 
       // Create a new table row
       const newRow = document.createElement("tr");
@@ -353,7 +358,6 @@ async function showTable() {
       // Append the new row to the table body
       tableBody.appendChild(newRow);
     });
-
   } catch (error) {
     console.error('Error reading data:', error);
   }

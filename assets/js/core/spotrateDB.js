@@ -33,6 +33,7 @@ function saveDataToFirestore(data) {
 
 
 let spreadDocId = ''
+
 // Save data to Firestore function
 function saveSpreadValues(data) {
     // Get the UID of the authenticated user
@@ -43,32 +44,20 @@ function saveSpreadValues(data) {
         return Promise.reject('User not authenticated');
     }
 
-    // Create a reference to the Firestore collection
-    const spreadCollection = collection(firestore, `users/${uid}/spread`);
+    // Create a reference to the Firestore document
+    const spreadDocRef = doc(firestore, `users/${uid}/spread/spreadDocument`);
 
-    // Reference to the specific document with ID 
-    const spreadDocRef = spreadDocId ? doc(spreadCollection, spreadDocId) : null;
-
-    if (spreadDocRef) {
-        // Update the existing document
-        setDoc(spreadDocRef, data)
-            .then(() => {
-                console.log('Data successfully updated in Firestore');
-            })
-            .catch((error) => {
-                console.error('Error updating data in Firestore: ', error);
-            });
-    } else {
-        // Create a new document
-        addDoc(spreadCollection, data)
-            .then(() => {
-                console.log('Data successfully added to Firestore');
-            })
-            .catch((error) => {
-                console.error('Error adding data to Firestore: ', error);
-            });
-    }
+    // Set the data for the document (this will overwrite the existing document if it exists)
+    return setDoc(spreadDocRef, data)
+        .then(() => {
+            console.log('Document updated successfully');
+        })
+        .catch((error) => {
+            console.error('Error updating document: ', error);
+            throw error; // Throw the error to handle it in the calling code if needed
+        });
 }
+
 
 // Read data from Firestore function
 function readSpreadValues() {

@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
 const firestore = getFirestore(app);
 const auth = getAuth(app);
 
-let documentId = ''
+var documentId = ''
 
 // Attach event listener to the button with ID saveChangesBtn
 document.addEventListener("DOMContentLoaded", function () {
