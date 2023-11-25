@@ -65,18 +65,28 @@ async function fetchData() {
   };
 
   try {
-    const responseGold = await fetch("https://www.goldapi.io/api/XAU/USD", requestOptions);
-    const responseSilver = await fetch("https://www.goldapi.io/api/XAG/USD", requestOptions);
+    // const responseGold = await fetch("https://www.goldapi.io/api/XAU/USD", requestOptions);
+    // const responseSilver = await fetch("https://www.goldapi.io/api/XAG/USD", requestOptions);
 
-    if (!responseGold.ok && !responseSilver.ok) {
-      throw new Error('One or more network responses were not OK');
+    // if (!responseGold.ok && !responseSilver.ok) {
+    //   throw new Error('One or more network responses were not OK');
+    // }
+
+    // const resultGold = await responseGold.json();
+    // const resultSilver = await responseSilver.json();
+
+    const responseGoldSample = await fetch("http://localhost:3000/random-number");
+    if (responseGoldSample.ok) {
+      const data = await responseGoldSample.json();
+      const randomNumber = data.random_number;
+      console.log("Random Number:", randomNumber);
+      setGoldValue(randomNumber);
+    } else {
+      console.error("Error fetching random number:", responseGoldSample.status);
     }
 
-    const resultGold = await responseGold.json();
-    const resultSilver = await responseSilver.json();
-
     // Adjust based on the actual API response structure
-    var goldValue = parseFloat(resultGold.price);
+    var goldValue = parseFloat(randomNumber);
     var silverValue = parseFloat(resultSilver.price);
 
     var goldLowValue = parseFloat(resultGold.low_price);
@@ -85,7 +95,7 @@ async function fetchData() {
     var silverHighValue = parseFloat(resultSilver.high_price);
 
     // Make sure setGoldValue and setSilverValue are defined and do what you expect
-    setGoldValue(goldValue);
+
     setSilverValue(silverValue);
     setGoldLowMarginValue(goldLowValue)
     setGoldHighMarginValue(goldHighValue)
@@ -311,9 +321,6 @@ function deleteRow(iconElement) {
 }
 
 
-// let goldUSDResultGM = document.getElementById("goldUSDresult").textContent;
-// let goldBidSpreadValue = document.getElementById("goldSpread").textContent;
-// let goldAskSpreadValue = document.getElementById("goldAskSpread").textContent;
 // Show Table from Database
 async function showTable() {
   try {
@@ -322,22 +329,32 @@ async function showTable() {
 
     const tableBody = document.getElementById('tableBody'); // Replace with your actual table body ID
 
-    tableData.map((data) => {
-      // Declare variables outside the loop
-      let metalInput, purityInput, unitInput, weightInput, sellAEDInput, buyAEDInput, sellPremiumInputAED, buyPremiumInputAED;
+    // Define a function to get the gold value asynchronously
+    const getGoldValue = async () => {
+      return new Promise((resolve) => {
+        setInterval(() => {
+          const goldValue = document.getElementById("GoldAEDresult").textContent;
+          console.log('Refreshed goldValue:', goldValue);
+          resolve(goldValue);
+        }, 1000);
+      });
+    };
+
+    // Loop through the tableData
+    for (const data of tableData) {
+      // Call the function to get the gold value
+      var goldValue = await getGoldValue();
+      console.log(goldValue); 
 
       // Assign values from data to variables
-      metalInput = data.data.metal;
-      purityInput = data.data.purity;
-      unitInput = data.data.unit;
-      weightInput = data.data.weight;
-      sellAEDInput = data.data.sellAED;
-      buyAEDInput = data.data.buyAED;
-      sellPremiumInputAED = data.data.sellPremiumAED;
-      buyPremiumInputAED = data.data.buyPremiumAED;
-
-      // let buy = parseFloat(goldUSDResult + goldBidSpread + buyPremiumInputAED)
-      // let sell = parseFloat(goldUSDResult + goldAskSpread + sellPremiumInputAED)
+      const metalInput = data.data.metal;
+      const purityInput = data.data.purity;
+      const unitInput = data.data.unit;
+      const weightInput = data.data.weight;
+      const sellAEDInput = data.data.sellAED;
+      const buyAEDInput = data.data.buyAED;
+      const sellPremiumInputAED = data.data.sellPremiumAED;
+      const buyPremiumInputAED = data.data.buyPremiumAED;
 
       // Create a new table row
       const newRow = document.createElement("tr");
@@ -345,8 +362,8 @@ async function showTable() {
         <td>${metalInput}</td>
         <td>${purityInput}</td>
         <td>${unitInput} ${weightInput}</td>
-        <td>${sellAEDInput}</td> 
-        <td>${buyAEDInput}</td>
+        <td id="sellAED">0</td>
+        <td id="buyAED">0</td>
         <td>${sellPremiumInputAED}</td>
         <td>${buyPremiumInputAED}</td>
         <td>
@@ -357,11 +374,20 @@ async function showTable() {
 
       // Append the new row to the table body
       tableBody.appendChild(newRow);
-    });
+
+      // Update the sellAED and buyAED values for the current row
+      newRow.querySelector("#sellAED").innerHTML = goldValue;
+      newRow.querySelector("#buyAED").innerHTML = goldValue;
+    }
   } catch (error) {
     console.error('Error reading data:', error);
   }
 }
+
+
+// window.onload = function () {
+//   plays();
+// }
 
 
 
