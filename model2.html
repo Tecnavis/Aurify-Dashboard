@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,58 +23,62 @@
   <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
   <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
   <style>
-    .heading-gold, .heading-silver {
-    color: #c88029;
-}
+    .heading-gold,
+    .heading-silver {
+      color: #c88029;
+    }
 
-.input-box {
-    width: 110px;
-    height: 40px;
-}
+    .input-box {
+      width: 110px;
+      height: 40px;
+    }
 
-.label-low, .label-high {
-    margin-right: 15px;
-    padding: 10px;
-}
+    .label-low,
+    .label-high {
+      margin-right: 15px;
+      padding: 10px;
+    }
 
-.label-low {
-    background-color: green;
-}
+    .label-low {
+      background-color: green;
+    }
 
-.label-high {
-    background-color: crimson;
-}
-#datetime-container {
-            background-color: #c88029;
-            color: white;
-            border: none;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            font-size: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+    .label-high {
+      background-color: crimson;
+    }
 
+    #datetime-container {
+      background-color: #c88029;
+      color: white;
+      border: none;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      font-size: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
   </style>
+  
 </head>
 
 <body class="g-sidenav-show  bg-gray-100 virtual-reality">
   <div>
     <!-- Navbar -->
-    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true">
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur"
+      navbar-scroll="true">
       <div class="container-fluid py-1 px-3">
         <img src="./orbixbullion l2.png" width="200px">
       </div>
       <div class="container-fluid py-1 px-3" id="datetime-container">
         <div id="date"></div>
         <div id="time"></div>
-    </div>
+      </div>
     </nav>
     <!-- End Navbar -->
-   
-   
+
+
 
 
 
@@ -83,115 +86,120 @@
 
 
   </div>
-  <div class="border-radius-xl mt-3 mx-3 position-relative" style="background-image: url('./assets/img/14380.png'); background-size: cover; height: 550px;">
-  
+  <div class="border-radius-xl mt-3 mx-3 position-relative"
+    style="background-image: url('./assets/img/14380.png'); background-size: cover; height: 550px;">
+
     <div class="container effectclass">
-        <div class="row" >
+      <div class="row">
 
-            <div class="col-md-3 mb-5 mt-5">
-                <div class="row mb-3">
-                    <div class="col-md-3">
-                        <h4 class="heading-gold">Gold</h4>
-                    </div>
-                    <div class="col-md-4">
-                        <input type="text" class="form-control input-box" id="goldInputLow" placeholder="Low">
-                        <label class="badge badge-success label-low mt-1" id="lowLabelGold">7777</label>
-                    </div>
-                    <div class="col-md-4 ms-3">
-                        <input type="text" class="form-control input-box" id="goldInputHigh" placeholder="High">
-                        <label class="badge badge-warning label-high mt-1" id="highLabelGold">44556</label>
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class="col-md-3">
-                        <h4 class="heading-silver">Silver</h4>
-                    </div>
-                    <div class="col-md-4">
-                        <input type="text" class="form-control input-box" id="silverInputLow" placeholder="Low">
-                        <label class="badge badge-success label-low mt-1" id="lowLabelSilver">7777</label>
-                    </div>
-                    <div class="col-md-4 ms-3">
-                        <input type="text" class="form-control input-box" id="silverInputHigh" placeholder="High">
-                        <label class="badge badge-warning label-high mt-1" id="highLabelSilver">44556</label>
-                    </div>
-                </div>
+        <div class="col-md-3 mb-5 mt-5">
+          <div class="row mb-3">
+            <div class="col-md-3">
+              <h4 class="heading-gold">Gold</h4>
             </div>
-
-
-            <div class="col-md-6 mt-5 mb-5 ms-3" style="border: none; border-radius:25px; background-color:rgb(200, 128, 41, 0.2) ;">
-              <table class="table justify-content-center">
-                <thead>
-                  <tr>
-                    <th>Metal</th>
-                    <th>Purity</th>
-                    <th>Unit</th>
-                    <th>Sell<br>(<span id="currencySymbol">AED</span>)</th>
-                    <th>Buy<br>(<span id="currencySymbol">AED</span>)</th>
-
-                  </tr>
-                </thead>
-                <tbody id="tableBody">
-                  <!-- Table body content will be dynamically updated here -->
-                </tbody>
-              </table>
-
-              </div>
-
-            <div class="col-md-2 mt-5 mb-5 ms-3">
-            <!-- TradingView Widget BEGIN -->
-            <div class="tradingview-widget-container" style="border: none; border-radius:25px;background-color: rgb(254, 255, 255,0.6);">
-              <!-- <div class="tradingview-widget-container__widget"></div>
-              <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank"><span class="blue-text">Track all markets on TradingView</span></a></div> -->
-              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js" async>
-              {
-              "interval": "1m",
-              "width": "315",
-              "isTransparent": true,
-              "height": "340",
-              "symbol": "COMEX:GC1!",
-              "showIntervalTabs": true,
-              "displayMode": "single",
-              "locale": "in",
-              "colorTheme": "light"
-            }
-              </script>
+            <div class="col-md-4">
+              <input type="text" class="form-control input-box" id="goldInputLow" placeholder="Low">
+              <label class="badge badge-success label-low mt-1" id="lowLabelGold">7777</label>
             </div>
-            <!-- TradingView Widget END -->
-
+            <div class="col-md-4 ms-3">
+              <input type="text" class="form-control input-box" id="goldInputHigh" placeholder="High">
+              <label class="badge badge-warning label-high mt-1" id="highLabelGold">44556</label>
             </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-3">
+              <h4 class="heading-silver">Silver</h4>
+            </div>
+            <div class="col-md-4">
+              <input type="text" class="form-control input-box" id="silverInputLow" placeholder="Low">
+              <label class="badge badge-success label-low mt-1" id="lowLabelSilver">7777</label>
+            </div>
+            <div class="col-md-4 ms-3">
+              <input type="text" class="form-control input-box" id="silverInputHigh" placeholder="High">
+              <label class="badge badge-warning label-high mt-1" id="highLabelSilver">44556</label>
+            </div>
+          </div>
         </div>
+
+
+        <div class="col-md-6 mt-5 mb-5 ms-3"
+          style="border: none; border-radius:25px; background-color:rgb(200, 128, 41, 0.2) ;">
+          <table class="table justify-content-center">
+            <thead>
+              <tr>
+                <th>Metal</th>
+                <th>Purity</th>
+                <th>Unit</th>
+                <th>Sell<br>(<span id="currencySymbol">AED</span>)</th>
+                <th>Buy<br>(<span id="currencySymbol">AED</span>)</th>
+
+              </tr>
+            </thead>
+            <tbody id="tableBodyTV">
+              <!-- Table body content will be dynamically updated here -->
+            </tbody>
+          </table>
+
+        </div>
+
+        <div class="col-md-2 mt-5 mb-5 ms-3">
+          <!-- TradingView Widget BEGIN -->
+          <div class="tradingview-widget-container"
+            style="border: none; border-radius:25px;background-color: rgb(254, 255, 255,0.6);">
+            <!-- <div class="tradingview-widget-container__widget"></div>
+              <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank"><span class="blue-text">Track all markets on TradingView</span></a></div> -->
+            <script type="text/javascript"
+              src="https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js" async>
+                {
+                  "interval": "1m",
+                    "width": "315",
+                      "isTransparent": true,
+                        "height": "340",
+                          "symbol": "COMEX:GC1!",
+                            "showIntervalTabs": true,
+                              "displayMode": "single",
+                                "locale": "in",
+                                  "colorTheme": "light"
+                }
+              </script>
+          </div>
+          <!-- TradingView Widget END -->
+
+        </div>
+      </div>
     </div>
-</div>
-<div class="col-md-12">
-  <!-- TradingView Widget BEGIN -->
-<div class="tradingview-widget-container">
-<script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
-{
-"symbols": [
-{
-  "description": "",
-  "proName": "TVC:GOLD"
-},
-{
-  "description": "",
-  "proName": "TVC:SILVER"
-},
-{
-  "description": "",
-  "proName": "BIST:XAUUSD1!"
-}
-],
-"showSymbolLogo": true,
-"colorTheme": "light",
-"isTransparent": true,
-"displayMode": "regular",
-"locale": "in"
-}
-</script>
-</div>
-<!-- TradingView Widget END -->
-</div>
+  </div>
+  <div class="col-md-12">
+    <!-- TradingView Widget BEGIN -->
+    <div class="tradingview-widget-container">
+      <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js"
+        async>
+          {
+            "symbols": [
+              {
+                "description": "",
+                "proName": "TVC:GOLD"
+              },
+              {
+                "description": "",
+                "proName": "TVC:SILVER"
+              },
+              {
+                "description": "",
+                "proName": "BIST:XAUUSD1!"
+              }
+            ],
+              "showSymbolLogo": true,
+                "colorTheme": "light",
+                  "isTransparent": true,
+                    "displayMode": "regular",
+                      "locale": "in"
+          }
+        </script>
+    </div>
+    <!-- TradingView Widget END -->
+  </div>
 
 
   <!--   Core JS Files   -->
@@ -215,22 +223,41 @@
   <script>
     'use strict';
     function refreshDateTime() {
-        const dateDisplay = document.getElementById('date');
-        const timeDisplay = document.getElementById('time');
+      const dateDisplay = document.getElementById('date');
+      const timeDisplay = document.getElementById('time');
 
-        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        const date = new Date().toLocaleDateString(undefined, options);
-        const time = new Date().toLocaleTimeString();
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      const date = new Date().toLocaleDateString(undefined, options);
+      const time = new Date().toLocaleTimeString();
 
-        dateDisplay.textContent = date;
-        timeDisplay.textContent = time;
+      dateDisplay.textContent = date;
+      timeDisplay.textContent = time;
     }
     setInterval(refreshDateTime, 1000);
-</script>
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Check if the user is authenticated
+      const uid = sessionStorage.getItem('uid');
+
+      if (!uid) {
+        // If not authenticated, redirect to the login page
+        window.location.href = '../pages/sign-in.html'; // Change to your login page
+      }
+    });
+  </script>
+
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/soft-ui-dashboard.min.js?v=1.0.7"></script>
+
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database.js"></script>
+  <script type="module" src="./config/db.js"></script>
+  <script type="module" src="./assets/js/core/spotrateDB.js"></script>
+  <script type="module" defer src="./assets/js/core/tvView.js"></script>
 </body>
 
 </html>
