@@ -329,22 +329,9 @@ async function showTable() {
 
     const tableBody = document.getElementById('tableBody'); // Replace with your actual table body ID
 
-    // Define a function to get the gold value asynchronously
-    const getGoldValue = async () => {
-      return new Promise((resolve) => {
-        setInterval(() => {
-          const goldValue = document.getElementById("GoldAEDresult").textContent;
-          console.log('Refreshed goldValue:', goldValue);
-          resolve(goldValue);
-        }, 1000);
-      });
-    };
 
     // Loop through the tableData
     for (const data of tableData) {
-      // Call the function to get the gold value
-      var goldValue = await getGoldValue();
-      console.log(goldValue); 
 
       // Assign values from data to variables
       const metalInput = data.data.metal;
@@ -375,9 +362,36 @@ async function showTable() {
       // Append the new row to the table body
       tableBody.appendChild(newRow);
 
-      // Update the sellAED and buyAED values for the current row
-      newRow.querySelector("#sellAED").innerHTML = goldValue;
-      newRow.querySelector("#buyAED").innerHTML = goldValue;
+      let goldValue;
+
+      setInterval(() => {
+        goldValue = document.getElementById("GoldAEDresult").textContent;
+        const bidSpread = document.getElementById("goldSpread").textContent;
+        const askSpread = document.getElementById("goldAskSpread").textContent;
+
+        let weight = weightInput;
+        let unitMultiplier = 1;
+
+        // Adjust unit multiplier based on the selected unit
+        if (weight === "GM") {
+          unitMultiplier = 1;
+        } else if (weight === "KG") {
+          unitMultiplier = 1000;
+        } else if (weight === "TTB") {
+          unitMultiplier = 116.6400;
+        } else if (weight === "TOLA") {
+          unitMultiplier = 11.664;
+        } else if (weight === "OZ") {
+          unitMultiplier = 31.1034768;
+        }
+
+        console.log(unitMultiplier);
+        console.log(parseFloat(goldValue));
+        // Update the sellAED and buyAED values for the current 
+        newRow.querySelector("#sellAED").innerText = ((parseFloat(goldValue) + parseFloat(sellPremiumInputAED) + parseFloat(askSpread)) * unitInput * unitMultiplier * (purityInput / Math.pow(10, purityInput.length))).toFixed(4);
+        newRow.querySelector("#buyAED").innerText = ((parseFloat(goldValue) + parseFloat(buyPremiumInputAED) + parseFloat(bidSpread)) * unitInput * unitMultiplier * (purityInput / Math.pow(10, purityInput.length))).toFixed(4);
+      }, 1000)
+
     }
   } catch (error) {
     console.error('Error reading data:', error);
