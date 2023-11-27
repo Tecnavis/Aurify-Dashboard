@@ -65,28 +65,18 @@ async function fetchData() {
   };
 
   try {
-    // const responseGold = await fetch("https://www.goldapi.io/api/XAU/USD", requestOptions);
-    // const responseSilver = await fetch("https://www.goldapi.io/api/XAG/USD", requestOptions);
+    const responseGold = await fetch("https://www.goldapi.io/api/XAU/USD", requestOptions);
+    const responseSilver = await fetch("https://www.goldapi.io/api/XAG/USD", requestOptions);
 
-    // if (!responseGold.ok && !responseSilver.ok) {
-    //   throw new Error('One or more network responses were not OK');
-    // }
-
-    // const resultGold = await responseGold.json();
-    // const resultSilver = await responseSilver.json();
-
-    const responseGoldSample = await fetch("http://localhost:3000/random-number");
-    if (responseGoldSample.ok) {
-      const data = await responseGoldSample.json();
-      const randomNumber = data.random_number;
-      console.log("Random Number:", randomNumber);
-      setGoldValue(randomNumber);
-    } else {
-      console.error("Error fetching random number:", responseGoldSample.status);
+    if (!responseGold.ok && !responseSilver.ok) {
+      throw new Error('One or more network responses were not OK');
     }
 
+    const resultGold = await responseGold.json();
+    const resultSilver = await responseSilver.json();
+
     // Adjust based on the actual API response structure
-    var goldValue = parseFloat(randomNumber);
+    var goldValue = parseFloat(resultGold.price);
     var silverValue = parseFloat(resultSilver.price);
 
     var goldLowValue = parseFloat(resultGold.low_price);
@@ -96,6 +86,7 @@ async function fetchData() {
 
     // Make sure setGoldValue and setSilverValue are defined and do what you expect
 
+    setGoldValue(goldValue)
     setSilverValue(silverValue);
     setGoldLowMarginValue(goldLowValue)
     setGoldHighMarginValue(goldHighValue)

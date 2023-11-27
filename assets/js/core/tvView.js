@@ -1,7 +1,65 @@
 import { readData, readSpreadValues } from '../core/spotrateDB.js';
-showTable();
 
-let askSpread, bidSpread;
+
+document.addEventListener('DOMContentLoaded', function () {
+    setInterval(() => {
+        fetchData()
+    }, 1000)
+
+    showTable();
+});
+
+
+let askSpread, bidSpread, goldValue;
+
+// Gold API KEY
+const API_KEY = 'goldapi-fbqpmirloto20zi-io'
+
+// Function to Fetch Gold API Data
+async function fetchData() {
+    var myHeaders = new Headers();
+    myHeaders.append("x-access-token", API_KEY);
+    myHeaders.append("Content-Type", "application/json");
+
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
+
+    try {
+        const responseGold = await fetch("https://www.goldapi.io/api/XAU/USD", requestOptions);
+        const responseSilver = await fetch("https://www.goldapi.io/api/XAG/USD", requestOptions);
+
+        if (!responseGold.ok && !responseSilver.ok) {
+            throw new Error('One or more network responses were not OK');
+        }
+
+        const resultGold = await responseGold.json();
+        const resultSilver = await responseSilver.json();
+
+        // Adjust based on the actual API response structure
+        var goldValueUSD = parseFloat(resultGold.price);
+        var GoldUSDResult = (goldValueUSD / 31.1035).toFixed(4);
+        goldValue = (GoldUSDResult * 3.67).toFixed(4);
+
+        var goldLowValue = parseFloat(resultGold.low_price);
+        var goldHighValue = parseFloat(resultGold.high_price);
+        var silverLowValue = parseFloat(resultSilver.low_price);
+        var silverHighValue = parseFloat(resultSilver.high_price);
+
+        console.log(goldLowValue);
+
+        document.getElementById("goldInputLow").innerHTML = goldLowValue;
+        document.getElementById("goldInputHigh").innerHTML = goldHighValue;
+        document.getElementById("silverInputLow").innerHTML = silverLowValue;
+        document.getElementById("silverInputHigh").innerHTML = silverHighValue;
+
+
+    } catch (error) {
+        console.error('Error fetching gold and silver values:', error);
+    }
+}
 
 // Function to Display Spread Values from Firebase
 function displaySpreadValues() {
@@ -53,22 +111,9 @@ async function showTable() {
             // Append the new row to the table body
             tableBody.appendChild(newRow);
 
-            let GoldAEDResult;
             displaySpreadValues();
 
             setInterval(async () => {
-                const responseGoldSample = await fetch("http://localhost:3000/random-number");
-                if (responseGoldSample.ok) {
-                    const data = await responseGoldSample.json();
-                    var goldValue = data.random_number;
-                    var goldValuegm = goldValue
-                    var GoldUSDResult = (goldValuegm / 31.1035).toFixed(4);
-                    GoldAEDResult = (GoldUSDResult * 3.67).toFixed(4)
-                } else {
-                    console.error("Error fetching random number:", responseGoldSample.status);
-                }
-
-
                 let weight = weightInput;
                 let unitMultiplier = 1;
 
@@ -87,8 +132,8 @@ async function showTable() {
 
 
                 // Update the sellAED and buyAED values for the current 
-                newRow.querySelector("#sellAED").innerText = ((parseFloat(GoldAEDResult) + parseFloat(sellPremiumInputAED) + parseFloat(askSpread)) * unitInput * unitMultiplier * (purityInput / Math.pow(10, purityInput.length))).toFixed(4);
-                newRow.querySelector("#buyAED").innerText = ((parseFloat(GoldAEDResult) + parseFloat(buyPremiumInputAED) + parseFloat(bidSpread)) * unitInput * unitMultiplier * (purityInput / Math.pow(10, purityInput.length))).toFixed(4);
+                newRow.querySelector("#sellAED").innerText = ((parseFloat(goldValue) + parseFloat(sellPremiumInputAED) + parseFloat(askSpread)) * unitInput * unitMultiplier * (purityInput / Math.pow(10, purityInput.length))).toFixed(4);
+                newRow.querySelector("#buyAED").innerText = ((parseFloat(goldValue) + parseFloat(buyPremiumInputAED) + parseFloat(bidSpread)) * unitInput * unitMultiplier * (purityInput / Math.pow(10, purityInput.length))).toFixed(4);
             }, 1000)
         }
     } catch (error) {
