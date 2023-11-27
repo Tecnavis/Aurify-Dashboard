@@ -15,7 +15,7 @@
   <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
   <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
   <!-- Font Awesome Icons -->
-  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/0e1fa7c1a3.js" crossorigin="anonymous"></script>
   <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
   <!-- CSS Files -->
   <link id="pagestyle" href="../assets/css/soft-ui-dashboard.css?v=1.0.7" rel="stylesheet" />
@@ -68,12 +68,12 @@
     <!-- Navbar -->
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur"
       navbar-scroll="true">
-      <div class="container-fluid py-1 px-3">
-        <img src="./orbixbullion l2.png" width="200px">
+      <div class="container-fluid py-1" style="margin-left:120px;">
+        <img src="./orbixbullion l2.png" width="200px;">
       </div>
       <div class="container-fluid py-1 px-3" id="datetime-container">
         <div id="date"></div>
-        <div id="time"></div>
+        <div id="time" style="font-size: 3rem;font-weight: 600;"></div>
       </div>
     </nav>
     <!-- End Navbar -->
@@ -98,12 +98,20 @@
               <h4 class="heading-gold">Gold</h4>
             </div>
             <div class="col-md-4">
+              <div class="d-flex">
+                <div style="background-color: #c88029;height: 22px;width: 22px;display: flex;justify-content: center;align-items: center;"><i class="fa-solid fa-dollar-sign" style="color: white;"></i></div>
+                <div><p>&nbsp;BUY oz</p></div>
+              </div>
               <div class="form-control input-box" id="goldInputLow"></div>
-              <label class="badge badge-success label-low mt-1" id="lowLabelGold">7777</label>
+              <!-- <label class="badge badge-success label-low mt-1" id="lowLabelGold">7777</label> -->
             </div>
             <div class="col-md-4 ms-3">
+              <div class="d-flex">
+                <div style="background-color: #c88029;height: 22px;width: 22px;display: flex;justify-content: center;align-items: center;"><i class="fa-solid fa-dollar-sign" style="color: white;"></i></div>
+                <div><p>&nbsp;SELL oz</p></div>
+              </div>
               <div class="form-control input-box" id="goldInputHigh"></div>
-              <label class="badge badge-warning label-high mt-1" id="highLabelGold">44556</label>
+              <!-- <label class="badge badge-warning label-high mt-1" id="highLabelGold">44556</label> -->
             </div>
           </div>
 
@@ -112,12 +120,20 @@
               <h4 class="heading-silver">Silver</h4>
             </div>
             <div class="col-md-4">
+              <div class="d-flex">
+                <div style="background-color: #c88029;height: 22px;width: 22px;display: flex;justify-content: center;align-items: center;"><i class="fa-solid fa-dollar-sign" style="color: white;"></i></div>
+                <div><p>&nbsp;BUY oz</p></div>
+              </div>
               <div class="form-control input-box" id="silverInputLow"></div>
-              <label class="badge badge-success label-low mt-1" id="lowLabelSilver">7777</label>
+              <!-- <label class="badge badge-success label-low mt-1" id="lowLabelSilver">7777</label> -->
             </div>
             <div class="col-md-4 ms-3">
+              <div class="d-flex">
+                <div style="background-color: #c88029;height: 22px;width: 22px;display: flex;justify-content: center;align-items: center;"><i class="fa-solid fa-dollar-sign" style="color: white;"></i></div>
+                <div><p>&nbsp;SELL oz</p></div>
+              </div>
               <div class="form-control input-box" id="silverInputHigh"></div>
-              <label class="badge badge-warning label-high mt-1" id="highLabelSilver">44556</label>
+              <!-- <label class="badge badge-warning label-high mt-1" id="highLabelSilver">44556</label> -->
             </div>
           </div>
         </div>
