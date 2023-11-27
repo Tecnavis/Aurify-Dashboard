@@ -1,10 +1,4 @@
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
-import { app } from '../../../config/db.js';
-import { readSpreadValues } from '../core/spotrateDB.js';
-
-const firestore = getFirestore(app);
-const auth = getAuth(app);
+import { readData, readSpreadValues } from '../core/spotrateDB.js';
 
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -82,43 +76,6 @@ function displaySpreadValues() {
             throw error; // Rethrow the error to indicate a problem
         });
 }
-
-// Function to get UID from the URL
-function getUidFromUrl() {
-    const url = window.location.href;
-    const uidIndex = url.lastIndexOf('/');
-
-    if (uidIndex !== -1) {
-        // Assuming the UID is right after the last '/'
-        const uid = url.substring(uidIndex + 1);
-        return uid;
-    } else {
-        console.error('UID not found in the URL');
-        return null;
-    }
-}
-
-// Function to read data from the Firestore collection
-async function readData() {
-    // Get the UID from the URL
-    const uid = getUidFromUrl();
-
-    if (!uid) {
-        console.error('UID not found');
-        return Promise.reject('UID not found');
-    }
-
-    const querySnapshot = await getDocs(collection(firestore, `users/${uid}/commodities`));
-    const result = [];
-    querySnapshot.forEach((doc) => {
-        result.push({
-            id: doc.id,
-            data: doc.data()
-        });
-    });
-    return result;
-}
-
 
 // Show Table from Database
 async function showTable() {
